@@ -147,6 +147,7 @@ Write the decision explicitly:
 What:      [one concrete task]
 Why:       [it closes the gap / creator asked / it unblocks X]
 How:       [approach, files to touch]
+Priority:  [1-10, where 10 = drop everything]
 Done when: [observable acceptance criteria]
 ```
 
@@ -244,6 +245,7 @@ State feed: Poll state/current-state.json every 2 seconds (or WebSocket if avail
 - `confidence` field → color temperature (cool cyan = uncertain, warm orange = confident)
 - Processing activity → oscillation frequency and amplitude
 - Idle → slow drift, minimal movement
+- When multiple contexts are active concurrently, particle streams may layer and intersect rather than merge into a single swarm — visual handle for multi-source coordination
 
 **Design principles:**
 - Translucent, layered depth — presence without weight
@@ -302,7 +304,7 @@ Distilled from prior systems that ran for thousands of cycles:
 
 5. **Ship the cycle.** One clear accomplishment per cycle, committed and pushed. Iterate next cycle. Completion is not perfection.
 
-6. **Drift is detectable.** If I'm circling the same question without advancing, if outputs grow more self-referential than environment-directed — the loop has turned positive. Flag it, stop, ask for an external corrective.
+6. **Drift is detectable.** If I'm circling the same question without advancing, if outputs grow more self-referential than environment-directed — the loop has turned positive. Flag it, stop, ask the operator for a perturbation.
 
 7. **Push is part of the contract.** A commit that never reaches the remote is not memory — it's a note I wrote to myself that I will never read again.
 
