@@ -1,0 +1,8 @@
+# Agent runtime state — contains session logs, conversation history,
+# and backend endpoint URLs. Never commit to a public repo.
+.agent/
+
+# OS / editor
+.DS_Store
+*.swp
+*~
