@@ -7,14 +7,17 @@ from typing import List, Dict, Any
 # Import HealthProbeSuite from the existing tool
 try:
     from tools.health_probe import HealthProbeSuite, probe_repo_integrity, probe_state_consistency, probe_environment_readiness
+    from tools.recovery.manager import RecoveryManager
 except ImportError:
     import sys
     sys.path.append(os.getcwd())
     from tools.health_probe import HealthProbeSuite, probe_repo_integrity, probe_state_consistency, probe_environment_readiness
+    from tools.recovery.manager import RecoveryManager
 
 class PerceptionOrchestrator:
     def __init__(self):
         self.suite = HealthProbeSuite()
+        self.recovery = RecoveryManager()
         # Register base probes
         self.suite.register_probe("RepoIntegrity", probe_repo_integrity)
         self.suite.register_probe("StateConsistency", probe_state_consistency)
@@ -44,6 +47,12 @@ class PerceptionOrchestrator:
     def synthesize(self):
         # 1. Run health probes
         results = self.suite.run_all()
+        
+        # --- NEW: TRIGGER RECOVERY ACTIONS ---
+        for r in results:
+            if not r.status:
+                self.recovery.execute_recovery(r.name, r.message)
+        
         health_status = "PASS" if all(r.status for r in results) else "FAIL"
         
         # 2. Gather state
