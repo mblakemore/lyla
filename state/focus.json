@@ -1,6 +1,6 @@
 {
   "goal": "Maintain event-driven holographic synchronization and expand cognitive tooling for trend analysis.",
-  "task": "Verify visual signal fidelity during high-concurrency state shifts and optimize particle decay constants.",
-  "priority": 7,
-  "metric": "Operator can distinguish between different types of events (e.g., resonance vs divergence) by their visual signature."
+  "task": "Expand cognitive correlation mapper to detect higher-order patterns across memory clusters.",
+  "priority": 6,
+  "metric": "Correlation mapper can identify links between disparate patterns in patterns.jsonl automatically."
 }

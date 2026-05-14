@@ -38,8 +38,9 @@
   camera.position.z = 7;
 
   // Cognitive State Variables
-  let currentState = { phase: 'IDLE', confidence: 0.5 };
+  let currentState = { phase: 'IDLE', confidence: 0.5, trend: { delta: 0 } };
   let eventPerturbation = { intensity: 0, type: null, timestamp: 0 };
+  let frameCount = 0;
 
   async function updateState() {
     try {
@@ -47,7 +48,6 @@
       const data = await response.json();
       currentState = data;
       
-      // Detect "Cognitive Events" from the Mapper (simulated as jumps in state or explicit pulse flags)
       if (data.last_event) {
         triggerEvent(data.last_event.type);
       }
@@ -65,27 +65,31 @@
 
   function applyVisuals(time) {
     const posAttr = geometry.attributes.position;
-    const colorAttr = geometry.attributes.color;
     
-    // Decay perturbation over time
+    // Dynamic Decay based on Trend Delta
     const elapsed = (Date.now() - eventPerturbation.timestamp) / 1000;
-    const decay = Math.exp(-elapsed * 2.0); // Fast exponential decay
+    const trendVolatility = Math.abs(currentState.trend?.delta || 0) + 1.0;
+    const decayConstant = 2.0 * trendVolatility; // Higher volatility = faster decay/more jitter
+    const decay = Math.exp(-elapsed * decayConstant); 
     const pIntensity = eventPerturbation.intensity * decay;
+
+    // Telemetry Heartbeat for mathematical verification (Cycle 52)
+    frameCount++;
+    if (frameCount % 300 === 0) {
+      console.log(`[C52-Telemetry] Phase: ${currentState.phase} | TrendDelta: ${currentState.trend?.delta || 0} | DecayConst: ${decayConstant.toFixed(4)} | Intensity: ${pIntensity.toFixed(4)}`);
+    }
 
     for (let i = 0; i < particleCount; i++) {
       const ix = i * 3;
       const iy = i * 3 + 1;
       const iz = i * 3 + 2;
 
-      // Baseline movement based on phase
       let drift = 0.1;
       if (currentState.phase === 'ACT') drift = 0.5;
       if (currentState.phase === 'REFLECT') drift = 0.2;
       
       const angle = time * 0.001 + i;
-      const radius = 2 + Math.sin(angle * 0.5) * 1;
-
-      // Event-driven perturbation: Radial Burst or Chaos
+      
       let ox = 0, oy = 0, oz = 0;
       if (pIntensity > 0.01) {
         const burst = pIntensity * 2.0;
@@ -100,8 +104,7 @@
     }
     posAttr.needsUpdate = true;
 
-    // Map Confidence to Color Temperature
-    const hue = currentState.confidence > 0.7 ? 0.05 : 0.6; // Orange vs Cyan
+    const hue = currentState.confidence > 0.7 ? 0.05 : 0.6; 
     material.color.setHSL(hue, 0.8, 0.5 + (pIntensity * 0.3));
   }
 
