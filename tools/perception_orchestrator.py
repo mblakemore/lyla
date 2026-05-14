@@ -80,7 +80,8 @@ def orchestrate_perception():
     drift_detected = False
     if current and current.get('cycle'):
         last_commit = run_cmd(["git", "log", "-1", "--pretty=%B"])
-        expected_prefix = f"{current['cycle']}" if current['cycle'].startswith('C') else f"C{current['cycle']}"
+        cycle_val = str(current['cycle'])
+        expected_prefix = cycle_val if cycle_val.startswith('C') else f"C{cycle_val}"
         if not last_commit.startswith(expected_prefix):
             print(f"⚠️ DRIFT DETECTED: State cycle is {current['cycle']}, but last commit is '{last_commit}'")
             drift_detected = True
@@ -88,7 +89,6 @@ def orchestrate_perception():
             print("✅ State and History are synchronized.")
     else:
         print("Unable to calculate drift: state file missing or invalid.")
-
     # 5. Health Trend Integration
     print("\n[HEALTH TRENDS]")
     try:

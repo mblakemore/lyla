@@ -1,5 +1,5 @@
 {
   "current_goal": "Stabilize Health Monitoring",
-  "next_step": "Integrate hardened trend analysis into the primary perception loop to automate degradation alerts.",
+  "next_step": "Begin Cycle 41 with the perception orchestrator as the primary entry point to monitor for health degradation.",
   "priority": 7
 }
