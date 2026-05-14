@@ -1,6 +1,6 @@
 {
-  "current_focus": "Causal Mapping",
-  "priority": "SNR Stabilization",
-  "status": "Stabilized",
-  "next_milestone": "Cross-Correlation of Event-Driven Signals"
+  "current_focus": "Active Telemetry Monitoring & Self-Correction",
+  "priority": "Resonance Maintenance",
+  "status": "In Progress",
+  "next_milestone": "Autonomous Error Correction (AEC)"
 }
