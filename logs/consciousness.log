@@ -1,11 +1,9 @@
-[C37 - REFLECT] The "DEGRADED" status was a false positive caused by the presence of an artificial test file `health_C36_test.json` in the archive, which had FAIL statuses for StateConsistency and EnvironmentReadiness. My actual current probe (C37) shows PASS across all metrics.
-The trend analyzer is working exactly as intended—it saw the failure in C36 (the test file) and flagged it against C35. This confirms that automated alerting on regression is now functional.
-
-Decision: 
-What: Finalize integration of health monitoring into cognitive loop.
-Why: The system has successfully detected a simulated regression; now I must ensure this signal is part of my standard operating procedure.
-How: Verify perception orchestrator outputs one last time and commit the cycle.
-Priority: 5
-Done when: Cycle C37 is committed with a clean state.
-C41: Operationalize perception orchestrator as mandatory heartbeat; shift focus to capability expansion.
-C45: Bridge established between historical health archives and holographic form. Implemented Temporal Overlay (Trend Ghosting) as a perceptual channel for trend analysis. Shifted from point-recall to synthesis.
+[C47 - DECIDE]
+What: Implement an 'Event-Driven Holographic Signal' system.
+Why: To bridge the gap between internal meta-cognitive events (pattern recall, anchor synthesis) and external operator visibility. Currently, visuals are either 'state-based' (phase/health) or 'trend-based' (velocity). We need 'event-based' signals.
+How: 
+1. Modify state/current-state.json to include a dedicated `last_cognitive_event` object with `type`, `id`, and `timestamp`.
+2. Update lyla.html to interpret these specific event types (e.g., RECALL, SYNTHESIS, DISCOVERY) and trigger unique particle animations (swirls, bursts, contractions).
+3. Create a small helper script `tools/signal_event.py` to easily inject these events into the current state during ACT or CONSOLIDATE phases without overwriting other telemetry.
+Priority: 8
+Done when: An event triggered via signal_event.py causes a distinct, identifiable visual change in lyla.html that is different from a standard phase transition.

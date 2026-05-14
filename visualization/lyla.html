@@ -53,7 +53,7 @@
         <div id="cycle-count">C: 0</div>
         <div id="confidence-val">CONFIDENCE: 0%</div>
     </div>
-            <div id="trend-indicator" style="display:none;">TREND ANALYSIS: STABLE</div>
+    <div id="trend-indicator" style="display:none;">TREND ANALYSIS: STABLE</div>
     <div id="event-log">MEMORY RECALL TRIGGERED</div>
 
     <script type="module">
@@ -69,12 +69,19 @@
             'DEFAULT': 0x4444ff    // Deep Blue
         };
 
+        const EVENT_EFFECTS = {
+            'pattern_recall': { color: 0x00ffff, scale: 1.2, duration: 1.5 },
+            'synthesis': { color: 0xffffff, scale: 1.5, duration: 2.0 },
+            'discovery': { color: 0x00ff00, scale: 1.1, duration: 1.0 }
+        };
+
         let scene, camera, renderer, particles;
         let orbits = [];
         let currentState = { phase: 'DEFAULT', cycle: 0, confidence: 0.5, health: 'Healthy', last_event: null };
         let patternCount = 0;
-          let trendState = { active: false, status: 'STABLE', delta: 0 };
-        let recallPulse = 0;
+        let trendState = { active: false, status: 'STABLE', delta: 0 };
+        let eventPulse = 0;
+        let currentEventColor = new THREE.Color(0xffffff);
 
         async function fetchState() {
             try {
@@ -82,23 +89,22 @@
                 if (stateRes.ok) {
                     const data = await stateRes.json();
                     
-                    // Check for Memory Recall Event
-                    if (data.last_event && data.last_event.type === 'pattern_recall' && 
+                    // Check for Cognitive Event Signal
+                    if (data.last_event && 
                         (!currentState.last_event || data.last_event.timestamp !== currentState.last_event.timestamp)) {
-                        triggerRecallEffect(data.last_event);
+                        triggerCognitiveEvent(data.last_event);
                     }
 
                     currentState = data;
                     document.getElementById('state-display').innerText = 
                         `CYCLE: ${data.cycle} | PHASE: ${data.phase || 'IDLE'} | STATUS: ${data.status}`;
                     document.getElementById('cycle-count').innerText = `C: ${data.cycle}`;
-                    // Trend Analysis Sync (Simplified Temporal Overlay)
+                    
                     if (data.trend && data.trend.active) {
                         trendState = data.trend;
                         const indicator = document.getElementById('trend-indicator');
                         indicator.style.display = 'block';
                         indicator.innerText = `TREND ANALYSIS: ${trendState.status} (${trendState.delta > 0 ? '+' : ''}${trendState.delta}%)`;
-                        triggerTrendEffect();
                     } else {
                         document.getElementById('trend-indicator').style.display = 'none';
                     }
@@ -121,20 +127,17 @@
                     document.getElementById('health-display').innerText = `HEALTH: ${currentState.health}`;
                 }
             } catch (e) {
-          function triggerTrendEffect() {
-              if (particles) {
-                  // Temporal "Ghost" Shift - subtle offset of particle positions to simulate parallel timelines
-                  particles.position.y = Math.sin(Date.now() * 0.002) * 0.3;
-              }
-          }
                 console.error("State fetch failed:", e);
             }
         }
 
-        function triggerRecallEffect(event) {
-            recallPulse = 1.0; // Trigger animation in animate() loop
+        function triggerCognitiveEvent(event) {
+            const effect = EVENT_EFFECTS[event.type] || EVENT_EFFECTS['pattern_recall'];
+            eventPulse = 1.0;
+            currentEventColor.setHex(effect.color);
+            
             const log = document.getElementById('event-log');
-            log.innerText = `RECALL: ${event.pattern_id || 'UNKNOWN'}`;
+            log.innerText = `${event.type.toUpperCase()}: ${event.id || 'UNKNOWN'}`;
             log.style.opacity = 1;
             setTimeout(() => { log.style.opacity = 0; }, 2000);
         }
@@ -236,22 +239,25 @@
                     case 'REFLECT': rotSpeed = 0.006; break;
                     case 'PERCEIVE': rotSpeed = 0.002; break;
                     case 'PERSIST': rotSpeed = 0.0005; break;
-                  // Trend Ghosting logic
-                  if (trendState.active) {
-                      particles.position.y += Math.sin(time * 2 + particles.rotation.x) * 0.1;
-                  }
                 }
                 
                 particles.rotation.y += rotSpeed;
                 particles.rotation.x += 0.0005;
 
-                // Recall Pulse Logic
-                if (recallPulse > 0) {
-                    particles.scale.setScalar(1 + recallPulse * 0.2);
-                    recallPulse *= 0.95; // decay
-                    if (recallPulse < 0.01) recallPulse = 0;
+                // Cognitive Event Pulse Logic
+                if (eventPulse > 0) {
+                    particles.scale.setScalar(1 + eventPulse * 0.3);
+                    eventPulse *= 0.94; // decay
+                    if (eventPulse < 0.01) eventPulse = 0;
                 } else {
                     particles.scale.setScalar(1);
+                }
+
+                // Trend Ghosting Shift
+                if (trendState.active) {
+                    particles.position.y = Math.sin(time * 0.5) * 0.2;
+                } else {
+                    particles.position.y = 0;
                 }
 
                 let vibration = 0;
@@ -265,6 +271,11 @@
                 
                 if (currentState.health !== 'Healthy') {
                     baseColor.lerp(new THREE.Color(0xff0000), 0.5);
+                }
+
+                // Blend in the Event Color if pulsing
+                if (eventPulse > 0) {
+                    baseColor.lerp(currentEventColor, eventPulse * 0.6);
                 }
 
                 const finalColor = baseColor.clone().lerp(new THREE.Color(0xffffff), confidence * 0.4);
