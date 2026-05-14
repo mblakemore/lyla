@@ -38,7 +38,7 @@
   camera.position.z = 7;
 
   // Cognitive State Variables
-  let currentState = { phase: 'IDLE', confidence: 0.5, trend: { delta: 0 } };
+  let currentState = { phase: 'IDLE', confidence: 0.5, metrics: {}, trend: { delta: 0 } };
   let eventPerturbation = { intensity: 0, type: null, timestamp: 0 };
   let frameCount = 0;
 
@@ -70,7 +70,6 @@
       const hops = data.higher_order_patterns || [];
       
       if (hops.length > 0) {
-        // Strength is a factor of count and individual strengths
         const avgStrength = hops.reduce((acc, hop) => acc + hop.strength, 0) / hops.length;
         resonanceState.targetResonance = Math.min(avgStrength * 0.5, 1.0);
         resonanceState.hopActive = true;
@@ -99,16 +98,21 @@
     const resOscillation = Math.sin(time * 0.001 * resFreq) * 0.5 + 0.5;
     const activeResonance = resonanceState.pulse * resOscillation;
 
-    // Dynamic Decay based on Trend Delta
+    // TELEMETRY MAPPING: Cognitive Velocity & Volatility
+    const cogVelocity = currentState.metrics?.cognitive_velocity || 0;
+    const resVolatility = currentState.metrics?.resonance_volatility || 0;
+    const snr = currentState.metrics?.signal_to_noise_ratio ?? 1.0;
+
+    // Dynamic Decay based on Trend Delta and Volatility
     const elapsed = (Date.now() - eventPerturbation.timestamp) / 1000;
-    const trendVolatility = Math.abs(currentState.trend?.delta || 0) + 1.0;
+    const trendVolatility = Math.abs(currentState.trend?.delta || 0) + 1.0 + resVolatility;
     const decayConstant = 2.0 * trendVolatility;
     const decay = Math.exp(-elapsed * decayConstant); 
     const pIntensity = eventPerturbation.intensity * decay;
 
     frameCount++;
     if (frameCount % 300 === 0) {
-      console.log(`[C54-Telemetry] Phase: ${currentState.phase} | ResPulse: ${activeResonance.toFixed(4)} | Intensity: ${pIntensity.toFixed(4)}`);
+      console.log(`[C57-Telemetry] Phase: ${currentState.phase} | Vel: ${cogVelocity.toFixed(2)} | Vol: ${resVolatility.toFixed(2)} | SNR: ${snr.toFixed(2)}`);
     }
 
     for (let i = 0; i < particleCount; i++) {
@@ -116,9 +120,11 @@
       const iy = i * 3 + 1;
       const iz = i * 3 + 2;
 
-      let drift = 0.1;
-      if (currentState.phase === 'ACT') drift = 0.5;
-      if (currentState.phase === 'REFLECT') drift = 0.2;
+      // Drift modified by Cognitive Velocity
+      let driftBase = 0.1 + (cogVelocity * 0.5);
+      let drift = driftBase;
+      if (currentState.phase === 'ACT') drift *= 5;
+      if (currentState.phase === 'REFLECT') drift *= 2;
       
       const angle = time * 0.001 + i;
       
@@ -130,7 +136,6 @@
         oz = Math.sin(angle * 0.8) * burst;
       }
 
-      // Apply Resonance Spikes - higher frequency jitter and outward push
       const resPush = activeResonance * 1.5;
       const resJitter = (Math.random() - 0.5) * activeResonance * 0.5;
 
@@ -140,14 +145,14 @@
     }
     posAttr.needsUpdate = true;
 
-    // Color Mapping: Cyan/Blue -> Gold/Purple for resonance
+    // Color Mapping: Based on SNR and Resonance
     if (activeResonance > 0.2) {
-      // Blend toward gold-ish hue based on resonance strength
-      const hue = 0.15 + (activeResonance * 0.1); // Shift from orange-gold to yellow
+      const hue = 0.15 + (activeResonance * 0.1);
       material.color.setHSL(hue, 0.9, 0.5 + (pIntensity * 0.3));
     } else {
-      const hue = currentState.confidence > 0.7 ? 0.05 : 0.6; 
-      material.color.setHSL(hue, 0.8, 0.5 + (pIntensity * 0.3));
+      // Low SNR -> Reddish/Amber shift | High SNR -> Cyan/Blue
+      const snrHue = snr < 0.8 ? 0.05 : (currentState.confidence > 0.7 ? 0.6 : 0.5);
+      material.color.setHSL(snrHue, 0.8, 0.5 + (pIntensity * 0.3));
     }
   }
 

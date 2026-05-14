@@ -21,10 +21,10 @@ def log_event(message):
         f.write(f"[{timestamp}] [GOVERNOR_EVENT] {message}\n")
 
 def monitor_telemetry():
-    \"\"\"
+    """
     Reads current state metrics and compares them against governance thresholds.
     Triggers domain shifts or focus recalibration if thresholds are breached.
-    \"\"\"
+    """
     current_state = load_json("current-state.json")
     thresholds_data = load_json("governance-thresholds.json")
     focus = load_json("focus.json")
@@ -66,5 +66,5 @@ def monitor_telemetry():
     else:
         print("Telemetry within nominal parameters.")
 
-if __name__ == \"__main__\":
+if __name__ == "__main__":
     monitor_telemetry()
