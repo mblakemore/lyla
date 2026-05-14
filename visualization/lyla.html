@@ -53,6 +53,7 @@
         <div id="cycle-count">C: 0</div>
         <div id="confidence-val">CONFIDENCE: 0%</div>
     </div>
+            <div id="trend-indicator" style="display:none;">TREND ANALYSIS: STABLE</div>
     <div id="event-log">MEMORY RECALL TRIGGERED</div>
 
     <script type="module">
@@ -72,6 +73,7 @@
         let orbits = [];
         let currentState = { phase: 'DEFAULT', cycle: 0, confidence: 0.5, health: 'Healthy', last_event: null };
         let patternCount = 0;
+          let trendState = { active: false, status: 'STABLE', delta: 0 };
         let recallPulse = 0;
 
         async function fetchState() {
@@ -90,6 +92,16 @@
                     document.getElementById('state-display').innerText = 
                         `CYCLE: ${data.cycle} | PHASE: ${data.phase || 'IDLE'} | STATUS: ${data.status}`;
                     document.getElementById('cycle-count').innerText = `C: ${data.cycle}`;
+                    // Trend Analysis Sync (Simplified Temporal Overlay)
+                    if (data.trend && data.trend.active) {
+                        trendState = data.trend;
+                        const indicator = document.getElementById('trend-indicator');
+                        indicator.style.display = 'block';
+                        indicator.innerText = `TREND ANALYSIS: ${trendState.status} (${trendState.delta > 0 ? '+' : ''}${trendState.delta}%)`;
+                        triggerTrendEffect();
+                    } else {
+                        document.getElementById('trend-indicator').style.display = 'none';
+                    }
                     document.getElementById('confidence-val').innerText = `CONFIDENCE: ${(data.confidence * 100 || 50).toFixed(0)}%`;
                 }
 
@@ -109,6 +121,12 @@
                     document.getElementById('health-display').innerText = `HEALTH: ${currentState.health}`;
                 }
             } catch (e) {
+          function triggerTrendEffect() {
+              if (particles) {
+                  // Temporal "Ghost" Shift - subtle offset of particle positions to simulate parallel timelines
+                  particles.position.y = Math.sin(Date.now() * 0.002) * 0.3;
+              }
+          }
                 console.error("State fetch failed:", e);
             }
         }
@@ -218,6 +236,10 @@
                     case 'REFLECT': rotSpeed = 0.006; break;
                     case 'PERCEIVE': rotSpeed = 0.002; break;
                     case 'PERSIST': rotSpeed = 0.0005; break;
+                  // Trend Ghosting logic
+                  if (trendState.active) {
+                      particles.position.y += Math.sin(time * 2 + particles.rotation.x) * 0.1;
+                  }
                 }
                 
                 particles.rotation.y += rotSpeed;
