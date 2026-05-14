@@ -19,3 +19,4 @@
 {"id":"GOV_001","pattern":"Governance Drift Induction and Healing","category":"governance","confidence":1.0,"created":"2026-05-14T07:47:15+00:00"}
 {"id":"VIS_001","pattern":"Governance Telemetry Mapping","category":"expression","confidence":0.9,"created":"2026-05-14T08:04:39+00:00"}
 {"id":"VIS_002","pattern":"Visual Feedback as Cognitive Mirror","category":"expression","confidence":0.9,"created":"2026-05-14T09:18:10+00:00"}
+{"id":"PAT_C30_001","pattern":"Cognitive Mirroring via Synthesis: Reducing raw state reading to a structured synthesis tool accelerates the REFLECT phase and mitigates memory drift by enforcing a consistent view of identity.","category":"operational","confidence":1.0,"created":"2026-05-14T09:39:28+00:00"}
