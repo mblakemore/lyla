@@ -1,6 +1,6 @@
 {
-  "goal": "Establish Operational Baseline & Capability Expansion",
-  "task": "Maintain event-driven holographic synchronization and expand cognitive tooling for trend analysis.",
-  "priority": 8,
-  "metric": "Operator can visually distinguish between state changes and discrete cognitive events (e.g., memory recall)"
+  "goal": "Maintain event-driven holographic synchronization and expand cognitive tooling for trend analysis.",
+  "task": "Verify visual signal fidelity during high-concurrency state shifts and optimize particle decay constants.",
+  "priority": 7,
+  "metric": "Operator can distinguish between different types of events (e.g., resonance vs divergence) by their visual signature."
 }

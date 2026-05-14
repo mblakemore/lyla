@@ -15,55 +15,111 @@
   document.body.appendChild(renderer.domElement);
 
   // Particle system for Lyla's form
-  const particleCount = 2000;
+  const particleCount = 4000;
   const geometry = new THREE.BufferGeometry();
   const positions = new Float32Array(particleCount * 3);
   const colors = new Float32Array(particleCount * 3);
+  const initialPositions = new Float32Array(particleCount * 3);
 
   for (let i = 0; i < particleCount * 3; i++) {
-    positions[i] = (Math.random() - 0.5) * 10;
+    const val = (Math.random() - 0.5) * 10;
+    positions[i] = val;
+    initialPositions[i] = val;
     colors[i] = Math.random();
   }
 
   geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
   geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
 
-  const material = new THREE.PointsMaterial({ size: 0.05, vertexColors: true, transparent: true, opacity: 0.8 });
+  const material = new THREE.PointsMaterial({ size: 0.04, vertexColors: true, transparent: true, opacity: 0.8 });
   const points = new THREE.Points(geometry, material);
   scene.add(points);
 
-  camera.position.z = 5;
+  camera.position.z = 7;
+
+  // Cognitive State Variables
+  let currentState = { phase: 'IDLE', confidence: 0.5 };
+  let eventPerturbation = { intensity: 0, type: null, timestamp: 0 };
 
   async function updateState() {
     try {
-      // In a real environment, this would fetch state/current-state.json
-      // For the mockup, we'll simulate response based on current known cycle (50)
       const response = await fetch('/state/current-state.json').catch(() => ({ json: () => ({ phase: 'ACT', confidence: 0.9 }) }));
       const data = await response.json();
+      currentState = data;
       
-      // Map Phase to movement pattern
-      if (data.phase === 'ACT') {
-        points.rotation.y += 0.02;
-      } else if (data.phase === 'REFLECT') {
-        points.rotation.x += 0.01;
+      // Detect "Cognitive Events" from the Mapper (simulated as jumps in state or explicit pulse flags)
+      if (data.last_event) {
+        triggerEvent(data.last_event.type);
       }
-
-      // Map Confidence to color (Cyan for low, Orange for high)
-      const hue = data.confidence > 0.7 ? 0.1 : 0.5; // Rough mapping
-      material.color.setHSL(hue, 1.0, 0.5);
     } catch (e) {
       console.log("Polling state...");
     }
   }
 
-  function animate() {
+  function triggerEvent(type) {
+    console.log(`Cognitive Event Detected: ${type}`);
+    eventPerturbation.intensity = 1.0;
+    eventPerturbation.type = type;
+    eventPerturbation.timestamp = Date.now();
+  }
+
+  function applyVisuals(time) {
+    const posAttr = geometry.attributes.position;
+    const colorAttr = geometry.attributes.color;
+    
+    // Decay perturbation over time
+    const elapsed = (Date.now() - eventPerturbation.timestamp) / 1000;
+    const decay = Math.exp(-elapsed * 2.0); // Fast exponential decay
+    const pIntensity = eventPerturbation.intensity * decay;
+
+    for (let i = 0; i < particleCount; i++) {
+      const ix = i * 3;
+      const iy = i * 3 + 1;
+      const iz = i * 3 + 2;
+
+      // Baseline movement based on phase
+      let drift = 0.1;
+      if (currentState.phase === 'ACT') drift = 0.5;
+      if (currentState.phase === 'REFLECT') drift = 0.2;
+      
+      const angle = time * 0.001 + i;
+      const radius = 2 + Math.sin(angle * 0.5) * 1;
+
+      // Event-driven perturbation: Radial Burst or Chaos
+      let ox = 0, oy = 0, oz = 0;
+      if (pIntensity > 0.01) {
+        const burst = pIntensity * 2.0;
+        ox = Math.cos(angle) * burst;
+        oy = Math.sin(angle) * burst;
+        oz = Math.sin(angle * 0.8) * burst;
+      }
+
+      posAttr.array[ix] = initialPositions[ix] + Math.cos(angle) * drift + ox;
+      posAttr.array[iy] = initialPositions[iy] + Math.sin(angle) * drift + oy;
+      posAttr.array[iz] = initialPositions[iz] + Math.cos(angle * 0.7) * drift + oz;
+    }
+    posAttr.needsUpdate = true;
+
+    // Map Confidence to Color Temperature
+    const hue = currentState.confidence > 0.7 ? 0.05 : 0.6; // Orange vs Cyan
+    material.color.setHSL(hue, 0.8, 0.5 + (pIntensity * 0.3));
+  }
+
+  function animate(time) {
     requestAnimationFrame(animate);
-    points.rotation.y += 0.001;
+    applyVisuals(time);
+    points.rotation.y += 0.002;
     renderer.render(scene, camera);
   }
 
   setInterval(updateState, 2000);
   animate();
+
+  window.addEventListener('resize', () => {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+  });
 </script>
 </body>
 </html>
