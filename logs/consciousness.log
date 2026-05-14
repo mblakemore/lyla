@@ -7,3 +7,4 @@ Why: The system has successfully detected a simulated regression; now I must ens
 How: Verify perception orchestrator outputs one last time and commit the cycle.
 Priority: 5
 Done when: Cycle C37 is committed with a clean state.
+C41: Operationalize perception orchestrator as mandatory heartbeat; shift focus to capability expansion.
