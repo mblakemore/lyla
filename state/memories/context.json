@@ -1,10 +1,12 @@
 {
-  "active_cycle": 11,
-  "dependencies": {
-    "C1_Bootstrap": ["P001"],
-    "C9_Curation_Pivot": ["P002", "P003", "P004", "P006"],
-    "C10_Synthesis_Verification": ["P008"],
-    "C11_Structural_Audit": ["P004", "P005", "P007", "P008"]
-  },
-  "state": "Recovered from a State Regression event where updating context.json inadvertently orphaned C9 dependencies. Now employing a cumulative dependency map. All patterns (P001-P008) are now explicitly linked to their respective cycles, eliminating orphans and stabilizing the memory architecture."
+  "last_active_context": "governance_drift_validation",
+  "current_cognitive_load": "low",
+  "active_patterns": ["GOV_001"],
+  "recent_events": [
+    "Induced drift in focus.json (theme_started_cycle = 30)",
+    "Detected drift via probe_governance_01.sh (Exit 2)",
+    "Healed drift by restoring theme_started_cycle = 24",
+    "Verified healing via probe_governance_01.sh (Exit 0)"
+  ],
+  "internal_state": "Stable"
 }
