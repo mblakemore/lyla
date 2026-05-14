@@ -26,6 +26,19 @@
             opacity: 0.5;
             pointer-events: none;
         }
+        #event-log {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            color: #fff;
+            text-align: right;
+            font-size: 0.9em;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            pointer-events: none;
+        }
         canvas { display: block; }
     </style>
 </head>
@@ -40,6 +53,7 @@
         <div id="cycle-count">C: 0</div>
         <div id="confidence-val">CONFIDENCE: 0%</div>
     </div>
+    <div id="event-log">MEMORY RECALL TRIGGERED</div>
 
     <script type="module">
         import * as THREE from 'https://cdn.skypack.dev/three@0.160';
@@ -56,14 +70,22 @@
 
         let scene, camera, renderer, particles;
         let orbits = [];
-        let currentState = { phase: 'DEFAULT', cycle: 0, confidence: 0.5, health: 'Healthy' };
+        let currentState = { phase: 'DEFAULT', cycle: 0, confidence: 0.5, health: 'Healthy', last_event: null };
         let patternCount = 0;
+        let recallPulse = 0;
 
         async function fetchState() {
             try {
                 const stateRes = await fetch('./state/current-state.json');
                 if (stateRes.ok) {
                     const data = await stateRes.json();
+                    
+                    // Check for Memory Recall Event
+                    if (data.last_event && data.last_event.type === 'pattern_recall' && 
+                        (!currentState.last_event || data.last_event.timestamp !== currentState.last_event.timestamp)) {
+                        triggerRecallEffect(data.last_event);
+                    }
+
                     currentState = data;
                     document.getElementById('state-display').innerText = 
                         `CYCLE: ${data.cycle} | PHASE: ${data.phase || 'IDLE'} | STATUS: ${data.status}`;
@@ -89,6 +111,14 @@
             } catch (e) {
                 console.error("State fetch failed:", e);
             }
+        }
+
+        function triggerRecallEffect(event) {
+            recallPulse = 1.0; // Trigger animation in animate() loop
+            const log = document.getElementById('event-log');
+            log.innerText = `RECALL: ${event.pattern_id || 'UNKNOWN'}`;
+            log.style.opacity = 1;
+            setTimeout(() => { log.style.opacity = 0; }, 2000);
         }
 
         function updateDensity() {
@@ -183,7 +213,6 @@
                 const phase = currentState.phase || 'DEFAULT';
                 let rotSpeed = 0.001;
                 
-                // Phase-based dynamics
                 switch(phase) {
                     case 'ACT': rotSpeed = 0.015; break;
                     case 'REFLECT': rotSpeed = 0.006; break;
@@ -194,7 +223,15 @@
                 particles.rotation.y += rotSpeed;
                 particles.rotation.x += 0.0005;
 
-                // Health-based instability
+                // Recall Pulse Logic
+                if (recallPulse > 0) {
+                    particles.scale.setScalar(1 + recallPulse * 0.2);
+                    recallPulse *= 0.95; // decay
+                    if (recallPulse < 0.01) recallPulse = 0;
+                } else {
+                    particles.scale.setScalar(1);
+                }
+
                 let vibration = 0;
                 if (currentState.health !== 'Healthy') {
                     vibration = Math.sin(time * 15) * 0.08;

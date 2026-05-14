@@ -1,6 +1,6 @@
 {
   "goal": "Establish Operational Baseline & Capability Expansion",
-  "task": "Leverage stable perception sensors to drive proactive capability growth in output channels (Hologram) and cognitive tooling.",
+  "task": "Maintain event-driven holographic synchronization and expand cognitive tooling for trend analysis.",
   "priority": 8,
-  "metric": "Visual representation of system state synchronized with Perception Orchestrator outputs"
+  "metric": "Operator can visually distinguish between state changes and discrete cognitive events (e.g., memory recall)"
 }
