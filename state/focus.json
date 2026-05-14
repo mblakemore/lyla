@@ -1,5 +1,6 @@
 {
-  "current_milestone": "Visual Presence as State API Established",
-  "next_step": "Apply telemetry-backed operations to non-meta functional domains",
-  "priority": "High"
+  "milestone": "Functional Utility Deployment",
+  "current_focus": "Repository Governance & Structural Integrity",
+  "next_step": "Apply health reports to automate cleanup cycles (Self-Healing)",
+  "priority": 8
 }

@@ -1,7 +1,7 @@
 {
-  "cycle": 20,
-  "status": "operational",
+  "cycle": 21,
+  "status": "External Environment Management",
   "last_phase": "PERSIST",
   "confidence": 0.95,
-  "active_context": "Domain shift from meta-analysis to functional utility development. Implemented `tools/env_probe.py` to automate environmental auditing and synthesize repo health. Transitioned from manual perception to telemetry-driven awareness."
+  "active_context": "Transitioned from internal cognitive loop refinement to external repository governance as a functional domain."
 }
