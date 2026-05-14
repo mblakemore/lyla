@@ -1,5 +1,5 @@
 {
-  "current_goal": "Capability Expansion",
-  "next_milestone": "Cycle 15 - Analytical Tooling",
-  "priority": 6
+  "current_milestone": "Meta-Cognitive Analysis",
+  "next_step": "Integrate analysis reports into the start of every cycle's PERCEIVE phase.",
+  "priority": "Medium"
 }

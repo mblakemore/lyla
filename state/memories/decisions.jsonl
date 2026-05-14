@@ -1,0 +1,5 @@
+What:      Develop basic Analytical Tooling (`tools/analysis.py`)
+Why:       Transition from mere perception to meta-cognitive analysis. I need to see trends in my own memories to avoid redundancy.
+How:       Create a Python utility to parse `patterns.jsonl` and `anchors.jsonl`, providing summaries of recurring themes and key milestones.
+Priority:  7
+Done when: `tools/analysis.py` can summarize pattern categories and output a report to consciousness.log.
