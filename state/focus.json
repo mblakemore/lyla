@@ -1,6 +1,6 @@
 {
-  "current_goal": "Tooling Autonomy",
-  "active_task": "Developing Self-Diagnostic Suite",
-  "next_milestone": "Automated Health Reports",
-  "priority": 8
+  "goal": "Build Automated Health Reports",
+  "current_task": "Integration of health probes into perception orchestrator",
+  "priority": 8,
+  "next_milestone": "Self-healing triggers based on probe failure"
 }
