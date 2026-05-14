@@ -1,5 +1,6 @@
 {
-  "primary_focus": "Memory Hygiene",
-  "active_patterns": ["P005", "P006"],
-  "target": "Eliminate cognitive drift via P006 implementation and handling of P001 orphan"
+  "primary": "Memory Curation",
+  "objective": "Prevent structural entropy by re-anchoring core architectural patterns (P002, P003, P004) into active working memory.",
+  "priority": 8,
+  "metric": "Zero orphan status for architecture-critical patterns in audit_memory.py output."
 }
