@@ -1,10 +1,5 @@
 {
-    "objective": "Maintain Operational Equilibrium",
-    "active_tasks": [
-        {
-            "id": "T28_1",
-            "description": "Memory pruning and health restoration",
-            "status": "Completed"
-        }
-    ]
+  "current_goal": "Operational Equilibrium",
+  "active_task": "Visual Evolution",
+  "next_milestone": "Internal Tooling Refinement"
 }
