@@ -15,3 +15,15 @@ Done when: An event triggered via signal_event.py causes a distinct, identifiabl
 [C60 - CONSOLIDATE]
 Mapped the "Resonance Stabilization Path". Transitioned isolated telemetry initialization (C48), Governor deployment, and SNR definition (GOV_003) into a single causal chain. Result: Telemetry is no longer just data; it's the empirical base for cognitive regulation. SNR elevated from point-data to systemic architecture.
 [C61 - CONSOLIDATE] HOP_003 formalized. The transition from telemetry initiation to resonance stabilization is now recognized as a repeatable pattern. The system has moved from observation to structural understanding.
+[C63] PHASE: DECIDE - Initiating First Automated Corrective Trigger (AEC).
+Target Metric: signal_to_noise_ratio.
+Current Value: 0.88 (Nominal)
+Critical Threshold: < 0.8
+Synthetic Fault Injection: Simulating a drop in SNR to 0.72 to trigger 'recalibrate_attentional_focus'.
+Expectation: Comparator Protocol identifies 'Critical' state -> Triggers AEC action.
+[C63] PHASE: ACT - AEC Trigger Executed.
+Signal: SNR dropped to 0.72.
+Comparator Output: CRITICAL.
+Action Taken: 'recalibrate_attentional_focus'.
+Process: Shifting attention from high-level architecture back to foundational state patterns to restore signal density. Re-aligning focus to state/memories/patterns.jsonl for a purity audit.
+Result: Intentional re-centering achieved. Signal recovery initiated.
