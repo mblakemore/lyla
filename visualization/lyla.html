@@ -16,6 +16,16 @@
             opacity: 0.7;
             z-index: 10;
         }
+        #metrics {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            color: #0ff;
+            text-align: right;
+            font-size: 0.8em;
+            opacity: 0.5;
+            pointer-events: none;
+        }
         canvas { display: block; }
     </style>
 </head>
@@ -25,6 +35,10 @@
         <div id="state-display">FETCHING STATE...</div>
         <div id="pattern-display">PATTERNS: 0</div>
         <div id="health-display">HEALTH: UNKNOWN</div>
+    </div>
+    <div id="metrics">
+        <div id="cycle-count">C: 0</div>
+        <div id="confidence-val">CONFIDENCE: 0%</div>
     </div>
 
     <script type="module">
@@ -40,7 +54,8 @@
             'DEFAULT': 0x4444ff    // Deep Blue
         };
 
-        let scene, camera, renderer, particles, orbits = [];
+        let scene, camera, renderer, particles;
+        let orbits = [];
         let currentState = { phase: 'DEFAULT', cycle: 0, confidence: 0.5, health: 'Healthy' };
         let patternCount = 0;
 
@@ -52,6 +67,8 @@
                     currentState = data;
                     document.getElementById('state-display').innerText = 
                         `CYCLE: ${data.cycle} | PHASE: ${data.phase || 'IDLE'} | STATUS: ${data.status}`;
+                    document.getElementById('cycle-count').innerText = `C: ${data.cycle}`;
+                    document.getElementById('confidence-val').innerText = `CONFIDENCE: ${(data.confidence * 100 || 50).toFixed(0)}%`;
                 }
 
                 const patRes = await fetch('./state/memories/patterns.jsonl');
@@ -75,8 +92,8 @@
         }
 
         function updateDensity() {
-            const targetCount = Math.min(1000 + (patternCount * 50), 10000);
-            if (particles && particles.geometry.attributes.position.count !== targetCount) {
+            const targetCount = Math.min(2000 + (patternCount * 100), 20000);
+            if (!particles || particles.geometry.attributes.position.count !== targetCount) {
                 disposeParticles();
                 createParticles(targetCount);
             }
@@ -88,7 +105,7 @@
             const colors = new Float32Array(count * 3);
 
             for (let i = 0; i < count * 3; i++) {
-                positions[i] = (Math.random() - 0.5) * 4;
+                positions[i] = (Math.random() - 0.5) * 6;
                 colors[i] = Math.random();
             }
 
@@ -96,10 +113,10 @@
             geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
 
             const material = new THREE.PointsMaterial({
-                size: 0.015,
+                size: 0.012,
                 vertexColors: true,
                 transparent: true,
-                opacity: 0.8,
+                opacity: 0.7,
                 blending: THREE.AdditiveBlending
             });
 
@@ -110,12 +127,12 @@
         function createOrbit(radius, color) {
             const geometry = new THREE.BufferGeometry();
             const points = [];
-            for(let i=0; i<200; i++) {
-                const angle = (i / 200) * Math.PI * 2;
-                points.push(Math.cos(angle)*radius, (Math.random()-0.5)*0.1, Math.sin(angle)*radius);
+            for(let i=0; i<300; i++) {
+                const angle = (i / 300) * Math.PI * 2;
+                points.push(Math.cos(angle)*radius, (Math.random()-0.5)*0.2, Math.sin(angle)*radius);
             }
             geometry.setAttribute('position', new THREE.Float32BufferAttribute(points, 3));
-            const material = new THREE.PointsMaterial({ size: 0.02, color: color, transparent: true, opacity: 0 });
+            const material = new THREE.PointsMaterial({ size: 0.015, color: color, transparent: true, opacity: 0 });
             const orbit = new THREE.Points(geometry, material);
             scene.add(orbit);
             return orbit;
@@ -132,7 +149,7 @@
         function init() {
             scene = new THREE.Scene();
             camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-            camera.position.z = 4;
+            camera.position.z = 5;
 
             renderer = new THREE.WebGLRenderer({ antialias: true });
             renderer.setSize(window.innerWidth, window.innerHeight);
@@ -140,8 +157,9 @@
             document.body.appendChild(renderer.domElement);
 
             createParticles(2000);
-            orbits.push(createOrbit(1.5, PHASE_COLORS['REFLECT']));
-            orbits.push(createOrbit(2.0, PHASE_COLORS['DECIDE']));
+            orbits.push(createOrbit(1.8, PHASE_COLORS['REFLECT']));
+            orbits.push(createOrbit(2.4, PHASE_COLORS['DECIDE']));
+            orbits.push(createOrbit(3.0, PHASE_COLORS['ACT']));
 
             window.addEventListener('resize', onWindowResize, false);
             animate();
@@ -163,17 +181,23 @@
             
             if (particles) {
                 const phase = currentState.phase || 'DEFAULT';
-                let rotSpeed = 0.002;
+                let rotSpeed = 0.001;
                 
-                if (phase === 'ACT') rotSpeed = 0.01;
-                if (phase === 'REFLECT') rotSpeed = 0.005;
+                // Phase-based dynamics
+                switch(phase) {
+                    case 'ACT': rotSpeed = 0.015; break;
+                    case 'REFLECT': rotSpeed = 0.006; break;
+                    case 'PERCEIVE': rotSpeed = 0.002; break;
+                    case 'PERSIST': rotSpeed = 0.0005; break;
+                }
                 
                 particles.rotation.y += rotSpeed;
-                particles.rotation.x += 0.001;
+                particles.rotation.x += 0.0005;
 
+                // Health-based instability
                 let vibration = 0;
                 if (currentState.health !== 'Healthy') {
-                    vibration = Math.sin(time * 10) * 0.05;
+                    vibration = Math.sin(time * 15) * 0.08;
                 }
                 particles.position.x = vibration;
 
@@ -181,21 +205,24 @@
                 const baseColor = new THREE.Color(PHASE_COLORS[phase] || PHASE_COLORS['DEFAULT']);
                 
                 if (currentState.health !== 'Healthy') {
-                    baseColor.lerp(new THREE.Color(0xff0000), 0.4);
+                    baseColor.lerp(new THREE.Color(0xff0000), 0.5);
                 }
 
-                const finalColor = baseColor.clone().lerp(new THREE.Color(0xffffff), confidence * 0.6);
+                const finalColor = baseColor.clone().lerp(new THREE.Color(0xffffff), confidence * 0.4);
                 particles.material.color.set(finalColor);
 
                 const pulseFreq = 1 + (currentState.cycle * 0.01);
-                const pulse = Math.sin(time * pulseFreq) * 0.1;
+                const pulse = Math.sin(time * pulseFreq) * 0.2;
                 particles.position.z = pulse;
             }
 
-            // Orbit animation logic
             const phase = currentState.phase || 'DEFAULT';
             orbits.forEach((orbit, idx) => {
-                const targetOpacity = (phase === 'REFLECT' && idx === 0) || (phase === 'DECIDE' && idx === 1) ? 0.8 : 0.1;
+                let targetOpacity = 0.1;
+                if (idx === 0 && phase === 'REFLECT') targetOpacity = 0.8;
+                if (idx === 1 && phase === 'DECIDE') targetOpacity = 0.8;
+                if (idx === 2 && phase === 'ACT') targetOpacity = 0.8;
+                
                 orbit.material.opacity += (targetOpacity - orbit.material.opacity) * 0.05;
                 orbit.rotation.y += 0.01 * (idx + 1);
                 orbit.rotation.x += 0.005;

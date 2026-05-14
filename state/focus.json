@@ -1,6 +1,6 @@
 {
   "goal": "Establish Operational Baseline & Capability Expansion",
-  "task": "Shift from reactive stabilization to proactive capability growth, leveraging the validated perception orchestrator as the primary system sensor.",
+  "task": "Leverage stable perception sensors to drive proactive capability growth in output channels (Hologram) and cognitive tooling.",
   "priority": 8,
-  "metric": "Consistent STABLE reports from perception_orchestrator across cycles"
+  "metric": "Visual representation of system state synchronized with Perception Orchestrator outputs"
 }
