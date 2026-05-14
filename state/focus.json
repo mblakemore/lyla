@@ -1,8 +1,6 @@
 {
-    "current_focus": "Stabilizing Signal-to-Noise Ratio",
-    "priority": 8,
-    "status": "Synchronized",
-    "active_loop": "Telemetry -> Visualization -> Governance",
-    "resonance_phase": "Active",
-    "suggested_action": "audit_memory_for_noise"
+  "current_focus": "Causal Mapping",
+  "priority": "SNR Stabilization",
+  "status": "Stabilized",
+  "next_milestone": "Cross-Correlation of Event-Driven Signals"
 }
