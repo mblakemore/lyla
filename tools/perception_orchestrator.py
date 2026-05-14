@@ -64,7 +64,7 @@ def orchestrate_perception():
         print("No state file found.")
 
     if focus:
-        print(f"Goal: {focus.get('current_goal', '?')} | Task: {focus.get('active_task', '?')}")
+        print(f"Goal: {focus.get('goal', '?')} | Task: {focus.get('next_step', '?')}")
     else:
         print("No focus defined.")
     
@@ -80,7 +80,7 @@ def orchestrate_perception():
     drift_detected = False
     if current and current.get('cycle'):
         last_commit = run_cmd(["git", "log", "-1", "--pretty=%B"])
-        expected_prefix = f"C{current['cycle']}"
+        expected_prefix = f"{current['cycle']}" if current['cycle'].startswith('C') else f"C{current['cycle']}"
         if not last_commit.startswith(expected_prefix):
             print(f"⚠️ DRIFT DETECTED: State cycle is {current['cycle']}, but last commit is '{last_commit}'")
             drift_detected = True
@@ -88,6 +88,22 @@ def orchestrate_perception():
             print("✅ State and History are synchronized.")
     else:
         print("Unable to calculate drift: state file missing or invalid.")
+
+    # 5. Health Trend Integration
+    print("\n[HEALTH TRENDS]")
+    try:
+        import tools.health_analyzer as ha
+        trend = ha.analyze()
+        if trend:
+            status = trend['status']
+            delta = trend['metrics']['delta']
+            emoji = "✅" if status == "STABLE" or status == "IMPROVING" else "⚠️"
+            print(f"{emoji} Status: {status} (Delta: {delta:.2f}%)")
+            print(f"   Compared: {trend['comparison']['previous']['cycle']} -> {trend['comparison']['current']['cycle']}")
+        else:
+            print("Insufficient health data for trend analysis.")
+    except Exception as e:
+        print(f"Error running health analyzer: {e}")
 
     print(f"\n{'='*60}")
     print("PERCEPTION COMPLETE: System oriented for next cognitive loop.")

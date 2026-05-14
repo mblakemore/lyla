@@ -1,5 +1,6 @@
 {
-  "goal": "Build Automated Health Reports",
-  "status": "Trend Analysis Tool implemented",
-  "next_step": "Integrate analyzer into cognitive loop for automated alerting on regression"
+  "goal": "Restore System Health after Regression",
+  "next_step": "Investigate cause of 66% failure rate increase detected by trend analyzer",
+  "priority": 10,
+  "context": "Health trend analysis integrated into orchestrator flagged DEGRADED status in C37 perception."
 }

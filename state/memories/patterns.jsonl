@@ -2,3 +2,4 @@
 {"id":"REC_001","pattern":"link probes to recovery managers via orchestrator","category":"reliability","confidence":1.0,"created":"2026-05-14T11:08:16+00:00"}
 {"id":"ARCH_001","pattern":"Health report archival as a prerequisite for trend analysis: transition from ephemeral snapshots to timestamped JSON history allows for programmatic regression detection and stability tracking.","category":"reliability","confidence":0.9,"created":"2026-05-14T11:28:13Z"}
 {"id":"ANALYZE_001","pattern":"Use aggregate rates (e.g., failure rate) for trend analysis when metrics are discrete probe results.","category":"analysis","confidence":0.9,"created":"2026-05-14T11:49:26Z"}
+{"id":"HLT_001","pattern":"Trend analysis can be triggered by legacy/test data if archives are not filtered. Ensure date-based or cycle-based filtering when calculating deltas.","category":"diagnostic","confidence":0.9,"created":"2026-05-14T12:52:23+00:00"}

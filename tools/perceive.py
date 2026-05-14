@@ -8,11 +8,13 @@ from typing import List, Dict, Any
 try:
     from tools.health_probe import HealthProbeSuite, probe_repo_integrity, probe_state_consistency, probe_environment_readiness
     from tools.recovery.manager import RecoveryManager
+    from tools.health_analyzer import analyze as health_analyze
 except ImportError:
     import sys
     sys.path.append(os.getcwd())
     from tools.health_probe import HealthProbeSuite, probe_repo_integrity, probe_state_consistency, probe_environment_readiness
     from tools.recovery.manager import RecoveryManager
+    from tools.health_analyzer import analyze as health_analyze
 
 class PerceptionOrchestrator:
     def __init__(self):
@@ -59,13 +61,21 @@ class PerceptionOrchestrator:
         state = self.get_current_state()
         focus = self.get_focus()
         history = self.get_recent_logs()
+        
+        # --- NEW: INTEGRATE TREND ANALYSIS ---
+        trend_data = None
+        try:
+            trend_data = health_analyze()
+        except Exception as e:
+            print(f"Warning: Health analysis failed with error: {e}")
 
         # 3. Construct perception summary
         summary = {
             "timestamp": datetime.now().isoformat(),
             "system_health": {
                 "overall": health_status,
-                "details": [r.to_dict() for r in results]
+                "details": [r.to_dict() for r in results],
+                "trend": trend_data
             },
             "internal_context": {
                 "current_cycle": state.get("cycle"),
@@ -85,6 +95,19 @@ if __name__ == "__main__":
     
     print("\n=== LYLA PERCEPTION SUMMARY ===")
     print(f"Health: {perception['system_health']['overall']}")
+    
+    # Display Trend Analysis if available
+    trend = perception['system_health']['trend']
+    if trend:
+        status = trend['status']
+        delta = trend['metrics']['delta']
+        if status == "DEGRADED":
+            print(f"⚠️  ALERT: System Regression Detected! (Delta: {delta:+.2f}%)")
+        elif status == "IMPROVING":
+            print(f"✅  Trend: Improving (Delta: {delta:+.2f}%)")
+        else:
+            print(f"ℹ️  Trend: Stable (Delta: {delta:+.2f}%)")
+    
     for detail in perception['system_health']['details']:
         status_mark = "✓" if detail['status'] == "PASS" else "✗"
         print(f" [{status_mark}] {detail['name']}: {detail['message']}")
