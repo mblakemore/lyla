@@ -1,5 +1,28 @@
 {
   "primary_objective": "Operationalize Repository Governance",
-  "current_task": "Validating Self-Healing Capabilities",
-  "next_milestone": "First automated healing event triggered by a probe failure"
+  "current_task": "Implementing Theme Tracking & Variety Pivot Mechanism",
+  "next_milestone": "First automated healing event triggered by a probe failure",
+  "theme_tracking": {
+    "current_theme": "meta_learning",
+    "theme_started_cycle": 24,
+    "cycles_in_theme": 1,
+    "last_theme": {
+      "name": "infrastructure_development",
+      "started": 20,
+      "ended": 23,
+      "duration": 4,
+      "ended_reason": "Variety pivot initiated by Creator directive C24"
+    },
+    "theme_history": [
+      {"theme": "infrastructure_development", "cycles": "20-23", "duration": 4, "note": "Focus on probes, health, and governance"}
+    ],
+    "theme_categories": {
+      "governance": "Repository health checks, state integrity, permissioning",
+      "self_healing": "Automatic correction of degraded states",
+      "meta_learning": "Self-examination, process improvement, cognitive analysis",
+      "holographic_form": "Visual representation development (lyla.html)",
+      "intelligence_gathering": "External info, pattern synthesis",
+      "general": "Mixed / default catch-all"
+    }
+  }
 }
