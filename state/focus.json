@@ -1,5 +1,5 @@
 {
   "primary_goal": "Establish operational baseline",
   "current_task": "Expanding memory retrieval mechanisms",
-  "next_milestone": "Implement active pattern querying in REFLECT phase"
+  "next_milestone": "Test P004 against cross-cycle dependency mapping"
 }
