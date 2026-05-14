@@ -1,1 +1,5 @@
-{"goal": "Operational Baseline", "current_task": "Testing P005 against multi-step task sequences", "next_milestone": "Expanding pattern library for complex problem solving"}
+{
+  "primary_focus": "Memory Hygiene",
+  "active_patterns": ["P005", "P006"],
+  "target": "Eliminate cognitive drift via P006 implementation and handling of P001 orphan"
+}

@@ -1,8 +1,7 @@
 {
-  "active_cycle": 7,
+  "active_cycle": 8,
   "dependencies": {
-    "C6_init": ["P004", "P005"],
-    "C7_Visual_Update": ["P002", "P003", "P004", "P005"]
+    "C8_Audit_Tool": ["P005", "P006"]
   },
-  "state": "The holographic form now reflects memory density as well as phase and confidence, bridging the gap between static representation and dynamic telemetry."
+  "state": "Cycle 8 successfully moved the system from theoretical pattern validation to functional memory hygiene. The audit tool identified P001 as an orphan, triggering the need for pruning or re-anchoring."
 }
