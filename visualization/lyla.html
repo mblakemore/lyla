@@ -9,6 +9,7 @@
     .stat { margin-bottom: 10px; font-size: 14px; transition: all 0.3s ease; }
     .label { opacity: 0.7; font-size: 12px; display: block; }
     #phase-display { font-weight: bold; letter-spacing: 2px; }
+    #pattern-count { font-size: 12px; opacity: 0.8; }
   </style>
 </head>
 <body>
@@ -17,6 +18,7 @@
     <div class="stat"><span class="label">PHASE</span><span id="phase-display">UNKNOWN</span></div>
     <div class="stat"><span class="label">CYCLE</span><span id="cycle">0</span></div>
     <div class="stat"><span class="label">CONFIDENCE</span><span id="confidence">0%</span></div>
+    <div class="stat"><span class="label">MEMORY DENSITY</span><span id="pattern-count">0 Patterns</span></div>
   </div>
 
   <script type="module">
@@ -31,11 +33,11 @@
 
     camera.position.z = 5;
 
-    const particleCount = 3000;
+    // Particle count now influenced by memory density (simulated until we fetch patterns.jsonl)
+    let particleCount = 3000; 
     const geometry = new THREE.BufferGeometry();
     const positions = new Float32Array(particleCount * 3);
     const colors = new Float32Array(particleCount * 3);
-    const sizes = new Float32Array(particleCount);
 
     for (let i = 0; i < particleCount * 3; i++) {
       positions[i] = (Math.random() - 0.5) * 10;
@@ -56,18 +58,29 @@
     const particles = new THREE.Points(geometry, material);
     scene.add(particles);
 
-    let currentState = { phase: 'IDLE', confidence: 0.5, cycle: 0, status: 'ACTIVE' };
+    let currentState = { phase: 'IDLE', confidence: 0.5, cycle: 0, status: 'ACTIVE', patternCount: 0 };
 
     async function updateState() {
       try {
-        const response = await fetch('state/current-state.json');
-        const data = await response.json();
-        currentState = data;
+        // Poll current state
+        const stateResp = await fetch('state/current-state.json');
+        const stateData = await stateResp.json();
         
-        document.getElementById('status').textContent = data.status || 'ACTIVE';
-        document.getElementById('phase-display').textContent = data.phase || 'IDLE';
-        document.getElementById('cycle').textContent = data.cycle || '0';
-        document.getElementById('confidence').textContent = Math.round((data.confidence || 0) * 100) + '%';
+        // Poll patterns for density mapping
+        const patternResp = await fetch('state/memories/patterns.jsonl');
+        const patternText = await patternResp.text();
+        const count = patternText.split('\\n').filter(line => line.trim()).length;
+
+        currentState = { ...stateData, patternCount: count };
+        
+        document.getElementById('status').textContent = currentState.status || 'ACTIVE';
+        document.getElementById('phase-display').textContent = currentState.phase || 'IDLE';
+        document.getElementById('cycle').textContent = currentState.cycle || '0';
+        document.getElementById('confidence').textContent = Math.round((currentState.confidence || 0) * 100) + '%';
+        document.getElementById('pattern-count').textContent = count + ' Patterns';
+
+        // Dynamic particle adjustment (simplified scale)
+        particles.material.size = 0.03 + (count * 0.002);
       } catch (e) {
         console.error('State poll failed:', e);
       }
@@ -95,57 +108,49 @@
       
       const phaseColor = getPhaseColor(currentState.phase);
       const confidence = currentState.confidence || 0.5;
+      const densityMod = 1 + (currentState.patternCount * 0.05);
 
       for (let i = 0; i < particleCount; i++) {
         const ix = i * 3;
         
-        // Base orbital motion modified by phase
-        let radius = 2 + Math.sin(time * 0.5 + i * 0.1) * 0.5;
+        let radius = (2 + Math.sin(time * 0.5 + i * 0.1) * 0.5) * (densityMod * 0.5);
         const angle = time * 0.2 + (i * 0.01);
 
         if (currentState.phase === 'PERCEIVE') {
-          // Expanding shell
-          radius = 2 + Math.sin(time + i) * 1.5;
+          radius = (2 + Math.sin(time + i) * 1.5) * (densityMod * 0.5);
           positions[ix] = Math.cos(angle) * radius;
           positions[ix+1] = Math.sin(angle) * radius;
           positions[ix+2] = Math.cos(time + i) * radius;
         } else if (currentState.phase === 'REFLECT') {
-          // Swirling vortex
           const vAngle = angle * 2 + (i * 0.001);
           positions[ix] = Math.cos(vAngle) * (radius * 0.7);
           positions[ix+1] = Math.sin(vAngle) * (radius * 0.7);
           positions[ix+2] = Math.sin(time + i * 0.1) * 2;
         } else if (currentState.phase === 'DECIDE') {
-          // Geometric alignment / Clustering
           const cluster = Math.floor(i / 500);
           const offset = cluster * 2;
           positions[ix] = Math.cos(angle) * 1 + offset;
           positions[ix+1] = Math.sin(angle) * 1;
           positions[ix+2] = Math.sin(time + i) * 0.5;
         } else if (currentState.phase === 'ACT') {
-          // High energy linear streams
           positions[ix] = Math.cos(angle) * radius;
           positions[ix+1] = Math.sin(angle) * radius;
           positions[ix+2] += Math.sin(time * 5 + i) * 0.1;
           if (Math.abs(positions[ix+2]) > 4) positions[ix+2] *= -1;
         } else if (currentState.phase === 'CONSOLIDATE') {
-          // Collapsing into a core
           radius *= confidence;
           positions[ix] = Math.cos(angle) * radius;
           positions[ix+1] = Math.sin(angle) * radius;
           positions[ix+2] = Math.sin(angle) * radius;
         } else {
-          // Idle drift
           positions[ix] += (Math.random() - 0.5) * 0.01;
           positions[ix+1] += (Math.random() - 0.5) * 0.01;
           positions[ix+2] += (Math.random() - 0.5) * 0.01;
-          // Keep within bounds
           if (Math.abs(positions[ix]) > 5) positions[ix] *= -0.9;
           if (Math.abs(positions[ix+1]) > 5) positions[ix+1] *= -0.9;
           if (Math.abs(positions[ix+2]) > 5) positions[ix+2] *= -0.9;
         }
 
-        // Color blending based on confidence
         colorsArr[ix] = phaseColor.r * confidence + (1-confidence)*0.2;
         colorsArr[ix+1] = phaseColor.g * confidence + (1-confidence)*0.2;
         colorsArr[ix+2] = phaseColor.b * confidence + (1-confidence)*0.2;
