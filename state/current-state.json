@@ -1,7 +1,7 @@
 {
-  "cycle": 22,
+  "cycle": 23,
   "status": "Operational",
-  "health": "Healthy",
-  "governance_status": "Pattern-defined",
-  "active_focus": "Self-Healing Automation"
+  "health": "Warning (Expected due to new script)",
+  "governance_status": "Active Sensing",
+  "active_focus": "Validating Self-Healing"
 }

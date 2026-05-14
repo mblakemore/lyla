@@ -1,5 +1,5 @@
 {
   "primary_objective": "Operationalize Repository Governance",
-  "current_task": "Monitoring and Reacting to Health Reports",
-  "next_milestone": "First automated healing event"
+  "current_task": "Validating Self-Healing Capabilities",
+  "next_milestone": "First automated healing event triggered by a probe failure"
 }
