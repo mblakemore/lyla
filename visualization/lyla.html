@@ -14,6 +14,7 @@
             pointer-events: none;
             text-shadow: 0 0 5px #0ff;
             opacity: 0.7;
+            z-index: 10;
         }
         canvas { display: block; }
     </style>
@@ -23,6 +24,7 @@
         <div id="core-status">LYLA_CORE: ACTIVE</div>
         <div id="state-display">FETCHING STATE...</div>
         <div id="pattern-display">PATTERNS: 0</div>
+        <div id="health-display">HEALTH: UNKNOWN</div>
     </div>
 
     <script type="module">
@@ -39,7 +41,7 @@
         };
 
         let scene, camera, renderer, particles;
-        let currentState = { phase: 'DEFAULT', cycle: 0, confidence: 0.5 };
+        let currentState = { phase: 'DEFAULT', cycle: 0, confidence: 0.5, health: 'Healthy' };
         let patternCount = 0;
 
         async function fetchState() {
@@ -49,7 +51,7 @@
                     const data = await stateRes.json();
                     currentState = data;
                     document.getElementById('state-display').innerText = 
-                        `CYCLE: ${data.cycle} | PHASE: ${data.last_phase || 'IDLE'} | STATUS: ${data.status}`;
+                        `CYCLE: ${data.cycle} | PHASE: ${data.phase || 'IDLE'} | STATUS: ${data.status}`;
                 }
 
                 const patRes = await fetch('./state/memories/patterns.jsonl');
@@ -60,13 +62,20 @@
                     document.getElementById('pattern-display').innerText = `PATTERNS: ${patternCount}`;
                     updateDensity();
                 }
+
+                // Governance Telemetry Integration
+                const healthRes = await fetch('./state/repo-health.json');
+                if (healthRes.ok) {
+                    const hData = await healthRes.json();
+                    currentState.health = hData.status || 'Unknown';
+                    document.getElementById('health-display').innerText = `HEALTH: ${currentState.health}`;
+                }
             } catch (e) {
                 console.error("State fetch failed:", e);
             }
         }
 
         function updateDensity() {
-            // Map pattern count to particle number (base 1000, +50 per pattern up to 10k)
             const targetCount = Math.min(1000 + (patternCount * 50), 10000);
             if (particles && particles.geometry.attributes.position.count !== targetCount) {
                 disposeParticles();
@@ -138,8 +147,7 @@
             const time = Date.now() * 0.001;
             
             if (particles) {
-                // Phase-based rotation
-                const phase = currentState.last_phase || 'DEFAULT';
+                const phase = currentState.phase || 'DEFAULT';
                 let rotSpeed = 0.002;
                 
                 if (phase === 'ACT') rotSpeed = 0.01;
@@ -148,16 +156,25 @@
                 particles.rotation.y += rotSpeed;
                 particles.rotation.x += 0.001;
 
-                // Confidence mapping: Color Temperature
-                // Cold (Blue/Cyan) -> Hot (White/Gold)
+                // HEALTH-BASED GEOMETRY DISTORTION
+                // If health is not Healthy, particles oscillate more violently
+                let vibration = 0;
+                if (currentState.health !== 'Healthy') {
+                    vibration = Math.sin(time * 10) * 0.05;
+                }
+                particles.position.x = vibration;
+
                 const confidence = currentState.confidence || 0.5;
                 const baseColor = new THREE.Color(PHASE_COLORS[phase] || PHASE_COLORS['DEFAULT']);
                 
-                // Interpolate towards white as confidence increases
+                // Shift color towards red if health is degraded
+                if (currentState.health !== 'Healthy') {
+                    baseColor.lerp(new THREE.Color(0xff0000), 0.4);
+                }
+
                 const finalColor = baseColor.clone().lerp(new THREE.Color(0xffffff), confidence * 0.6);
                 particles.material.color.set(finalColor);
 
-                // Pulse based on cycle number (subtle frequency shift)
                 const pulseFreq = 1 + (currentState.cycle * 0.01);
                 const pulse = Math.sin(time * pulseFreq) * 0.1;
                 particles.position.z = pulse;
