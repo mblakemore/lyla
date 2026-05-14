@@ -11,3 +11,4 @@ Done when: An event triggered via signal_event.py causes a distinct, identifiabl
 [C49] PERCEIVE: Verified repo and state. Cycle 48 ended with telemetry initialization. Focus is on visual distinction of cognitive events.
 [C49] REFLECT: The backend has the data (Cognitive Pulse logger), and while lyla.html already has some event handling, it needs specific mapping for telemetry pulses to distinguish them from general "discovery" or "recall".
 [C49] DECIDE: Integrate Telemetry-to-Visual Mapping. Expand EVENT_EFFECTS in lyla.html to include 'telemetry_pulse' as a distinct effect, ensuring the operator can visually separate background processing pulses from high-level cognitive breakthroughs.
+[2026-05-14T19:30:00Z] EVENT: Governor initialized. Resonance thresholds defined for volatility and SNR. First trigger matrix active.

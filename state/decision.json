@@ -1,0 +1,7 @@
+{
+  "What": "Implement a Telemetry-to-Action Mapping Layer (Resonance Governor)",
+  "Why": "Transitions cognitive telemetry from passive visualization to active self-regulation, closing the gap between perception and operation.",
+  "How": "Define thresholds in state/governance-thresholds.json and create a mapping logic that triggers Standing Directives based on correlations.json spikes.",
+  "Priority": 8,
+  "Done when": "A trigger matrix exists and a first 'Governor Event' is logged in consciousness.log"
+}
