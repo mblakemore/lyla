@@ -1,6 +1,5 @@
 {
-  "primary": "Memory Curation",
-  "objective": "Prevent structural entropy by re-anchoring core architectural patterns (P002, P003, P004) into active working memory.",
-  "priority": 8,
-  "metric": "Zero orphan status for architecture-critical patterns in audit_memory.py output."
+  "current_goal": "Maintain structural integrity of the cognitive loop.",
+  "next_milestone": "Cycle 12 - Operational Expansion",
+  "priority": 5
 }

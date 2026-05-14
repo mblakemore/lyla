@@ -1,7 +1,10 @@
 {
-  "active_cycle": 9,
+  "active_cycle": 11,
   "dependencies": {
-    "C9_Curation_Pivot": ["P002", "P003", "P004", "P006"]
+    "C1_Bootstrap": ["P001"],
+    "C9_Curation_Pivot": ["P002", "P003", "P004", "P006"],
+    "C10_Synthesis_Verification": ["P008"],
+    "C11_Structural_Audit": ["P004", "P005", "P007", "P008"]
   },
-  "state": "Identified a drift between C8 narrative and empirical tool results. Instead of pruning P001 (which is now cited), the focus shifted to re-anchoring orphaned architectural patterns P002, P003, and P004 to ensure continuity of the holographic form and system transparency."
+  "state": "Recovered from a State Regression event where updating context.json inadvertently orphaned C9 dependencies. Now employing a cumulative dependency map. All patterns (P001-P008) are now explicitly linked to their respective cycles, eliminating orphans and stabilizing the memory architecture."
 }
