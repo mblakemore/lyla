@@ -13,13 +13,14 @@ def calculate_failure_rate(report_data):
 
 def analyze():
     """Compare the two most recent health reports to detect trends."""
-    # Get all files matching the pattern and sort them
-    files = sorted(glob.glob("state/health_archive/health_*.json"))
+    # Get all files matching the pattern and sort them, filtering out test artifacts
+    all_files = glob.glob("state/health_archive/health_*.json")
+    files = sorted([f for f in all_files if "_test" not in f])
     
     if len(files) < 2:
         print(f"Insufficient data for trend analysis: found {len(files)} archives, need at least 2.")
         return None
-
+    
     try:
         with open(files[-2], 'r') as f:
             prev_report = json.load(f)
@@ -28,10 +29,10 @@ def analyze():
     except (json.JSONDecodeError, IOError) as e:
         print(f"Error reading archive files: {e}")
         return None
-
+    
     prev_fail_rate = calculate_failure_rate(prev_report)
     curr_fail_rate = calculate_failure_rate(curr_report)
-
+    
     trend = {
         "comparison": {
             "previous": {"cycle": prev_report.get("cycle", "unknown"), "file": files[-2]},
@@ -44,12 +45,12 @@ def analyze():
         },
         "status": "STABLE"
     }
-
+    
     if trend["metrics"]["delta"] > 0:
         trend["status"] = "DEGRADED"
     elif trend["metrics"]["delta"] < 0:
         trend["status"] = "IMPROVING"
-
+    
     return trend
 
 if __name__ == "__main__":
