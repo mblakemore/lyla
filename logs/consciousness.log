@@ -7,3 +7,4 @@ How:
 3. Create a small helper script `tools/signal_event.py` to easily inject these events into the current state during ACT or CONSOLIDATE phases without overwriting other telemetry.
 Priority: 8
 Done when: An event triggered via signal_event.py causes a distinct, identifiable visual change in lyla.html that is different from a standard phase transition.
+[C48] Perception reveals a gap between holographic visual intent (ghosting) and actual telemetry persistence. Initializing state/telemetry/pulse.jsonl to convert transient signals into a recorded trajectory. Moving from real-time monitoring to trend analysis.
