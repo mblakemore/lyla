@@ -1,21 +1,27 @@
 {
-  "last_analysis": "2026-05-14T18:34:52.981221",
-  "total_patterns_scanned": 3,
+  "last_analysis": "2026-05-14T21:58:00Z",
+  "total_patterns_scanned": 7,
   "higher_order_patterns": [
     {
       "pattern_id": "HOP_001",
-      "involved_indices": [
-        0,
-        1,
-        2
-      ],
-      "involved_clusters": [
-        "telemetry",
-        "visualization"
-      ],
+      "involved_indices": [0, 1, 2],
+      "involved_clusters": ["telemetry", "visualization"],
       "signal_signature": "cross_cluster_resonance",
-      "strength": 1.3333333333333333,
-      "created": "2026-05-14T18:34:52.981210"
+      "strength": 1.33,
+      "created": "2026-05-14T18:34:52Z"
+    },
+    {
+      "pattern_id": "HOP_002",
+      "involved_events": [
+        "C48_TELEMETRY",
+        "Gov_Init",
+        "GOV_003",
+        "C60_Mapping"
+      ],
+      "causal_chain": "Telemetry (Observation) -> Governor (Regulation) -> SNR (Perception) -> Relational Mapping (Cognition)",
+      "systemic_outcome": "Architectural Resonance Stabilization",
+      "confidence": 0.95,
+      "created": "2026-05-14T21:58:00Z"
     }
   ]
 }
