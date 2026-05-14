@@ -1,6 +1,6 @@
 {
-    "timestamp": "2026-05-14T08:24:03.905273",
-    "overall_status": "Critical",
+    "timestamp": "2026-05-14T08:55:59.603569",
+    "overall_status": "Warning",
     "metrics": {
         "structural_integrity": 1.0,
         "data_consistency": 0.7,
@@ -11,15 +11,6 @@
         "git_status": "DRIFT"
     },
     "issues": [
-        "Git drift detected: ?? scripts/\n"
-    ],
-    "governance_metrics": {
-        "state_integrity": 0,
-        "orphan_patterns": 21,
-        "cycle_stagnation_days": 0.01
-    },
-    "governance_issues": [
-        "Some mandatory files missing: []",
-        "Pattern density exceeds critical threshold."
+        "Git drift detected:  M logs/consciousness.log\n M state/current-state.json\n M state/memories/patterns.jsonl\n M state/repo-health.json\n"
     ]
 }
