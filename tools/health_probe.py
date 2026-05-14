@@ -30,6 +30,7 @@ class HealthProbeSuite:
         self.probes[name] = probe_func
 
     def run_all(self) -> List[ProbeResult]:
+        self.results = [] # Clear previous results
         for name, func in self.probes.items():
             try:
                 result = func()
@@ -43,15 +44,24 @@ class HealthProbeSuite:
             self.results.append(result)
         return self.results
 
-    def save_report(self, filepath: str):
+    def save_report(self, folder: str = "state/health_archive"):
+        """Saves report to a timestamped file within the specified archive folder."""
+        os.makedirs(folder, exist_ok=True)
+        
+        cycle = os.environ.get("LYLA_CYCLE", "Unknown")
+        timestamp = datetime.utcnow().strftime("%Y%m%d_%H%M%S")
+        filename = f"health_{cycle}_{timestamp}.json"
+        filepath = os.path.join(folder, filename)
+
         report = {
-            "cycle": os.environ.get("LYLA_CYCLE", "Unknown"),
+            "cycle": cycle,
             "timestamp": datetime.utcnow().isoformat(),
             "overall_status": "PASS" if all(r.status for r in self.results) else "FAIL",
             "details": [r.to_dict() for r in self.results]
         }
         with open(filepath, 'w') as f:
             json.dump(report, f, indent=2)
+        return filepath
 
 # --- Specific Probes ---
 
@@ -92,21 +102,19 @@ def probe_environment_readiness():
         return ProbeResult("EnvironmentReadiness", False, "Not inside a git repository")
 
 if __name__ == "__main__":
+    # Set dummy cycle for standalone testing if not present
+    if "LYLA_CYCLE" not in os.environ:
+        os.environ["LYLA_CYCLE"] = "TEST"
+
     suite = HealthProbeSuite()
     suite.register_probe("RepoIntegrity", probe_repo_integrity)
     suite.register_probe("StateConsistency", probe_state_consistency)
     suite.register_probe("EnvironmentReadiness", probe_environment_readiness)
     
-    # Run the diagnostics
     results = suite.run_all()
+    saved_path = suite.save_report()
+    print(f"Health Report archived to {saved_path}")
     
-    # Save to JSON report
-    report_path = "logs/health_C32.json"
-    os.makedirs("logs", exist_ok=True)
-    suite.save_report(report_path)
-    print(f"Health Report saved to {report_path}")
-    
-    # Print summary for immediate feedback
     overall = "PASS" if all(r.status for r in results) else "FAIL"
     print(f"System Health: {overall}")
     for r in results:

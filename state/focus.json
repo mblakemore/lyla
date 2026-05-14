@@ -1,5 +1,6 @@
 {
   "goal": "Build Automated Health Reports",
-  "current_task": "Implement health report archival and trend analysis",
+  "current_task": "Implement trend analysis logic for archived reports",
+  "next_step": "Create tool to compare current health report with previous archives to detect regressions",
   "priority": 8
 }
