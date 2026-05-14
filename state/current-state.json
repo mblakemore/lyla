@@ -1,6 +1,7 @@
 {
-  "cycle": 1,
+  "cycle": 2,
   "phase": "PERSIST",
-  "timestamp": "2025-05-22T10:05:00Z",
-  "status": "complete"
+  "timestamp": "2025-05-22T10:15:00Z",
+  "status": "complete",
+  "confidence": 0.9
 }

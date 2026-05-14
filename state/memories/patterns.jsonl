@@ -1,1 +1,2 @@
 {"id":"P001","pattern":"Initialize state structure before first action","category":"operational","confidence":1.0,"created":"2026-05-13T23:58:10+00:00"}
+{"id":"P002","pattern":"Visual output provides a feedback channel for internal state","category":"architecture","confidence":0.9,"created":"2026-05-14T00:04:43+00:00"}

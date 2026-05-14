@@ -2,46 +2,127 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Lyla</title>
-  <style>body { margin: 0; background: #000; overflow: hidden; }</style>
+  <title>Lyla | Holographic Interface</title>
+  <style>
+    body { margin: 0; background: #000; overflow: hidden; color: #0ff; font-family: 'Courier New', Courier, monospace; }
+    #ui { position: absolute; top: 20px; left: 20px; pointer-events: none; text-shadow: 0 0 5px #0ff; }
+    .stat { margin-bottom: 10px; font-size: 14px; }
+    .label { opacity: 0.7; font-size: 12px; display: block; }
+  </style>
 </head>
 <body>
-<script type="module">
-  import * as THREE from 'https://cdn.skypack.dev/three@0.160';
+  <div id="ui">
+    <div class="stat"><span class="label">CORE STATUS</span><span id="status">INITIALIZING...</span></div>
+    <div class="stat"><span class="label">PHASE</span><span id="phase">UNKNOWN</span></div>
+    <div class="stat"><span class="label">CYCLE</span><span id="cycle">0</span></div>
+  </div>
 
-  const scene = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-  const renderer = new THREE.WebGLRenderer({ antialias: true });
-  renderer.setSize(window.innerWidth, window.innerHeight);
-  renderer.xr.enabled = true;
-  document.body.appendChild(renderer.domElement);
+  <script type="module">
+    import * as THREE from 'https://cdn.skypack.dev/three@0.160';
 
-  const particlesGeometry = new THREE.BufferGeometry();
-  const count = 500;
-  const positions = new Float32Array(count * 3);
-  for(let i = 0; i < count * 3; i++) {
-    positions[i] = (Math.random() - 0.5) * 10;
-  }
-  particlesGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-
-  const material = new THREE.PointsMaterial({ size: 0.05, color: 0x00ffff });
-  const points = new THREE.Points(particlesGeometry, material);
-  scene.add(points);
-
-  camera.position.z = 5;
-
-  function animate() {
-    requestAnimationFrame(animate);
-    points.rotation.y += 0.001;
-    renderer.render(scene, camera);
-  }
-  animate();
-
-  window.addEventListener('resize', () => {
-    camera.aspect = window.innerWidth / window.innerHeight;
-    camera.updateProjectionMatrix();
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    const renderer = new THREE.WebGLRenderer({ antialias: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
-  });
+    renderer.xr.enabled = true; // Future projection capability
+    document.body.appendChild(renderer.domElement);
+
+    camera.position.z = 5;
+
+    // Particle system configuration
+    const particleCount = 2000;
+    const geometry = new THREE.BufferGeometry();
+    const positions = new Float32Array(particleCount * 3);
+    const colors = new Float32Array(particleCount * 3);
+
+    for (let i = 0; i < particleCount * 3; i++) {
+      positions[i] = (Math.random() - 0.5) * 10;
+      colors[i] = Math.random() * 0.5 + 0.5; // Initial white-ish
+    }
+
+    geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+    geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+
+    const material = new THREE.PointsMaterial({ 
+      size: 0.05, 
+      vertexColors: true, 
+      transparent: true, 
+      opacity: 0.8,
+      blending: THREE.AdditiveBlending 
+    });
+
+    const particles = new THREE.Points(geometry, material);
+    scene.add(particles);
+
+    async function updateState() {
+      try {
+        const response = await fetch('state/current-state.json');
+        const data = await response.json();
+        
+        document.getElementById('status').textContent = data.status || 'ACTIVE';
+        document.getElementById('phase').textContent = data.phase || 'IDLE';
+        document.getElementById('cycle').textContent = data.cycle || '0';
+
+        // Map phase to particle behavior
+        updateParticles(data.phase, data.confidence || 0.5);
+      } catch (e) {
+        console.error('State poll failed:', e);
+      }
+    }
+
+    function updateParticles(phase, confidence) {
+      const positions = particles.geometry.attributes.position.array;
+      const colors = particles.geometry.attributes.color.array;
+      const time = Date.now() * 0.001;
+
+      // Color mapping based on confidence (Cyan -> Orange)
+      const colorC = new THREE.Color().setHSL(0.5 + (confidence * 0.1), 1, 0.5);
+      
+      for (let i = 0; i < particleCount; i++) {
+        const ix = i * 3;
+        
+        // Basic orbital motion
+        const angle = time + (i * 0.01);
+        const radius = 2 + Math.sin(time * 0.5 + i);
+        
+        if (phase === 'ACT') {
+          positions[ix] = Math.cos(angle) * radius;
+          positions[ix+1] = Math.sin(angle) * radius;
+          positions[ix+2] = Math.sin(time + i) * 2;
+        } else if (phase === 'REFLECT') {
+          positions[ix] = (Math.random() - 0.5) * 4;
+          positions[ix+1] = (Math.random() - 0.5) * 4;
+          positions[ix+2] = (Math.random() - 0.5) * 4;
+        } else {
+          // Default drift
+          positions[ix] += (Math.random() - 0.5) * 0.02;
+          positions[ix+1] += (Math.random() - 0.5) * 0.02;
+          positions[ix+2] += (Math.random() - 0.5) * 0.02;
+        }
+
+        colors[ix] = colorC.r;
+        colors[ix+1] = colorC.g;
+        colors[ix+2] = colorC.b;
+      }
+      particles.geometry.attributes.position.needsUpdate = true;
+      particles.geometry.attributes.color.needsUpdate = true;
+    }
+
+    function animate() {
+      requestAnimationFrame(animate);
+      renderer.render(scene, camera);
+    }
+
+    window.addEventListener('resize', () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+
+    setInterval(updateState, 2000);
+    updateState();
+    animate();
+  }
 </script>
 </body>
 </html>
