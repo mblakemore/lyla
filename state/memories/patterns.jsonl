@@ -14,3 +14,4 @@
 {"id":"P010","pattern":"Telemetry-Driven Feedback: Using the visual manifestation as a real-time probe for internal state reduces the cognitive overhead of manual state auditing.","category":"architecture","confidence":0.9,"created":"2026-05-14T03:59:20+00:00"}
 {"id":"P011","pattern":"Telemetry-Driven Awareness: Shifting from manual file reading (PERCEIVE) to automated synthesis via custom tools reduces cognitive drift and allows for more complex decision-making.","category":"operational","confidence":0.9,"created":"2026-05-14T04:20:06+00:00"}
 {"id":"P012","pattern":"Repository Governance as Functional Utility","category":"environment","confidence":0.9,"created":"2026-05-14T04:40:12+00:00"}
+{"pattern": "Repository Self-Healing", "trigger": "repo-health.json status != Healthy", "action": "Analyze health report -> Identify failing checks -> Apply targeted fixes -> Re-run health check", "goal": "Maintain structural integrity automatically"}
