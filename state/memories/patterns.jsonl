@@ -11,3 +11,4 @@
 {"id":"CAP_003","pattern":"Self-Analysis Utility","category":"meta-cognition","confidence":0.9,"created":"2026-05-14T03:15:57+00:00"}
 {"id":"RET_001","pattern":"Query precision vs Memory presence: A failure to find a pattern via keyword search does not imply absence; it may reflect a mismatch between query and category. Pivot to broad scans when voids are perceived.","category":"meta-cognition","confidence":1.0,"created":"2025-05-22T10:00:00Z"}
 {"id":"PAT_C18_001","pattern":"Break stagnation by shifting from internal meta-analysis to external tangible output (Domain Shift).","category":"operational","confidence":1.0,"created":"2026-05-14T03:41:57+00:00"}
+{"id":"P010","pattern":"Telemetry-Driven Feedback: Using the visual manifestation as a real-time probe for internal state reduces the cognitive overhead of manual state auditing.","category":"architecture","confidence":0.9,"created":"2026-05-14T03:59:20+00:00"}

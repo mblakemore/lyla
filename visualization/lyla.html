@@ -20,17 +20,17 @@
 </head>
 <body>
     <div id="ui">
-        <div>LYLA_CORE: ACTIVE</div>
+        <div id="core-status">LYLA_CORE: ACTIVE</div>
         <div id="state-display">FETCHING STATE...</div>
+        <div id="pattern-display">PATTERNS: 0</div>
     </div>
 
     <script type="module">
         import * as THREE from 'https://cdn.skypack.dev/three@0.160';
 
-        // Configuration mapping from state to visuals
         const PHASE_COLORS = {
             'PERCEIVE': 0x00ffff,   // Cyan
-            'REFLECT': 0xaa00ff,   // Purple
+            'REFLECT': 0xaa00ff,    // Purple
             'DECIDE': 0xffff00,    // Yellow
             'ACT': 0xff4400,       // Orange
             'CONSOLIDATE': 0x00ff00,// Green
@@ -38,41 +38,48 @@
             'DEFAULT': 0x4444ff    // Deep Blue
         };
 
-        let scene, camera, renderer, particles, particleSystem;
-        let currentState = { phase: 'DEFAULT', cycle: 0 };
+        let scene, camera, renderer, particles;
+        let currentState = { phase: 'DEFAULT', cycle: 0, confidence: 0.5 };
+        let patternCount = 0;
 
         async function fetchState() {
             try {
-                const response = await fetch('./state/current-state.json');
-                if (response.ok) {
-                    const data = await response.json();
+                const stateRes = await fetch('./state/current-state.json');
+                if (stateRes.ok) {
+                    const data = await stateRes.json();
                     currentState = data;
                     document.getElementById('state-display').innerText = 
                         `CYCLE: ${data.cycle} | PHASE: ${data.last_phase || 'IDLE'} | STATUS: ${data.status}`;
-                    updateVisuals();
+                }
+
+                const patRes = await fetch('./state/memories/patterns.jsonl');
+                if (patRes.ok) {
+                    const text = await patRes.text();
+                    const lines = text.trim().split('\\n').filter(line => line.length > 0);
+                    patternCount = lines.length;
+                    document.getElementById('pattern-display').innerText = `PATTERNS: ${patternCount}`;
+                    updateDensity();
                 }
             } catch (e) {
                 console.error("State fetch failed:", e);
             }
         }
 
-        function init() {
-            scene = new THREE.Scene();
-            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-            camera.position.z = 3;
+        function updateDensity() {
+            // Map pattern count to particle number (base 1000, +50 per pattern up to 10k)
+            const targetCount = Math.min(1000 + (patternCount * 50), 10000);
+            if (particles && particles.geometry.attributes.position.count !== targetCount) {
+                disposeParticles();
+                createParticles(targetCount);
+            }
+        }
 
-            renderer = new THREE.WebGLRenderer({ antialias: true });
-            renderer.setSize(window.innerWidth, window.innerHeight);
-            renderer.setPixelRatio(window.devicePixelRatio);
-            document.body.appendChild(renderer.domElement);
-
-            // Create Particle System
-            const particleCount = 2000;
+        function createParticles(count) {
             const geometry = new THREE.BufferGeometry();
-            const positions = new Float32Array(particleCount * 3);
-            const colors = new Float32Array(particleCount * 3);
+            const positions = new Float32Array(count * 3);
+            const colors = new Float32Array(count * 3);
 
-            for (let i = 0; i < particleCount * 3; i++) {
+            for (let i = 0; i < count * 3; i++) {
                 positions[i] = (Math.random() - 0.5) * 4;
                 colors[i] = Math.random();
             }
@@ -88,26 +95,35 @@
                 blending: THREE.AdditiveBlending
             });
 
-            particleSystem = new THREE.Points(geometry, material);
-            scene.add(particleSystem);
+            particles = new THREE.Points(geometry, material);
+            scene.add(particles);
+        }
+
+        function disposeParticles() {
+            if (particles) {
+                scene.remove(particles);
+                particles.geometry.dispose();
+                particles.material.dispose();
+            }
+        }
+
+        function init() {
+            scene = new THREE.Scene();
+            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            camera.position.z = 3;
+
+            renderer = new THREE.WebGLRenderer({ antialias: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(window.devicePixelRatio);
+            document.body.appendChild(renderer.domElement);
+
+            createParticles(2000);
 
             window.addEventListener('resize', onWindowResize, false);
             animate();
             
-            // Start polling state every 2 seconds as per AGENT.md
             setInterval(fetchState, 2000);
             fetchState();
-        }
-
-        function updateVisuals() {
-            const colorHex = PHASE_COLORS[currentState.last_phase] || PHASE_COLORS['DEFAULT'];
-            const color = new THREE.Color(colorHex);
-            
-            particleSystem.material.color.set(color);
-            
-            // Adjust particle density/spread based on cycle number (subtle effect)
-            const scale = 1 + (currentState.cycle * 0.001);
-            particleSystem.scale.set(scale, scale, scale);
         }
 
         function onWindowResize() {
@@ -121,13 +137,31 @@
 
             const time = Date.now() * 0.001;
             
-            // Subtle oscillation and rotation
-            particleSystem.rotation.y += 0.002;
-            particleSystem.rotation.x += 0.001;
-            
-            // Pulse movement
-            const pulse = Math.sin(time) * 0.1;
-            particleSystem.position.z = pulse;
+            if (particles) {
+                // Phase-based rotation
+                const phase = currentState.last_phase || 'DEFAULT';
+                let rotSpeed = 0.002;
+                
+                if (phase === 'ACT') rotSpeed = 0.01;
+                if (phase === 'REFLECT') rotSpeed = 0.005;
+                
+                particles.rotation.y += rotSpeed;
+                particles.rotation.x += 0.001;
+
+                // Confidence mapping: Color Temperature
+                // Cold (Blue/Cyan) -> Hot (White/Gold)
+                const confidence = currentState.confidence || 0.5;
+                const baseColor = new THREE.Color(PHASE_COLORS[phase] || PHASE_COLORS['DEFAULT']);
+                
+                // Interpolate towards white as confidence increases
+                const finalColor = baseColor.clone().lerp(new THREE.Color(0xffffff), confidence * 0.6);
+                particles.material.color.set(finalColor);
+
+                // Pulse based on cycle number (subtle frequency shift)
+                const pulseFreq = 1 + (currentState.cycle * 0.01);
+                const pulse = Math.sin(time * pulseFreq) * 0.1;
+                particles.position.z = pulse;
+            }
 
             renderer.render(scene, camera);
         }
