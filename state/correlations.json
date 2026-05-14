@@ -1,0 +1,21 @@
+{
+  "last_analysis": "2026-05-14T18:34:52.981221",
+  "total_patterns_scanned": 3,
+  "higher_order_patterns": [
+    {
+      "pattern_id": "HOP_001",
+      "involved_indices": [
+        0,
+        1,
+        2
+      ],
+      "involved_clusters": [
+        "telemetry",
+        "visualization"
+      ],
+      "signal_signature": "cross_cluster_resonance",
+      "strength": 1.3333333333333333,
+      "created": "2026-05-14T18:34:52.981210"
+    }
+  ]
+}
