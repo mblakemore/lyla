@@ -5,16 +5,18 @@
   <title>Lyla | Holographic Interface</title>
   <style>
     body { margin: 0; background: #000; overflow: hidden; color: #0ff; font-family: 'Courier New', Courier, monospace; }
-    #ui { position: absolute; top: 20px; left: 20px; pointer-events: none; text-shadow: 0 0 5px #0ff; }
-    .stat { margin-bottom: 10px; font-size: 14px; }
+    #ui { position: absolute; top: 20px; left: 20px; pointer-events: none; text-shadow: 0 0 5px #0ff; z-index: 10; }
+    .stat { margin-bottom: 10px; font-size: 14px; transition: all 0.3s ease; }
     .label { opacity: 0.7; font-size: 12px; display: block; }
+    #phase-display { font-weight: bold; letter-spacing: 2px; }
   </style>
 </head>
 <body>
   <div id="ui">
     <div class="stat"><span class="label">CORE STATUS</span><span id="status">INITIALIZING...</span></div>
-    <div class="stat"><span class="label">PHASE</span><span id="phase">UNKNOWN</span></div>
+    <div class="stat"><span class="label">PHASE</span><span id="phase-display">UNKNOWN</span></div>
     <div class="stat"><span class="label">CYCLE</span><span id="cycle">0</span></div>
+    <div class="stat"><span class="label">CONFIDENCE</span><span id="confidence">0%</span></div>
   </div>
 
   <script type="module">
@@ -24,92 +26,134 @@
     const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
     const renderer = new THREE.WebGLRenderer({ antialias: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.xr.enabled = true; // Future projection capability
+    renderer.xr.enabled = true; 
     document.body.appendChild(renderer.domElement);
 
     camera.position.z = 5;
 
-    // Particle system configuration
-    const particleCount = 2000;
+    const particleCount = 3000;
     const geometry = new THREE.BufferGeometry();
     const positions = new Float32Array(particleCount * 3);
     const colors = new Float32Array(particleCount * 3);
+    const sizes = new Float32Array(particleCount);
 
     for (let i = 0; i < particleCount * 3; i++) {
       positions[i] = (Math.random() - 0.5) * 10;
-      colors[i] = Math.random() * 0.5 + 0.5; // Initial white-ish
+      colors[i] = Math.random() * 0.5 + 0.5;
     }
 
     geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
     geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
 
     const material = new THREE.PointsMaterial({ 
-      size: 0.05, 
+      size: 0.04, 
       vertexColors: true, 
       transparent: true, 
-      opacity: 0.8,
+      opacity: 0.7,
       blending: THREE.AdditiveBlending 
     });
 
     const particles = new THREE.Points(geometry, material);
     scene.add(particles);
 
+    let currentState = { phase: 'IDLE', confidence: 0.5, cycle: 0, status: 'ACTIVE' };
+
     async function updateState() {
       try {
         const response = await fetch('state/current-state.json');
         const data = await response.json();
+        currentState = data;
         
         document.getElementById('status').textContent = data.status || 'ACTIVE';
-        document.getElementById('phase').textContent = data.phase || 'IDLE';
+        document.getElementById('phase-display').textContent = data.phase || 'IDLE';
         document.getElementById('cycle').textContent = data.cycle || '0';
-
-        // Map phase to particle behavior
-        updateParticles(data.phase, data.confidence || 0.5);
+        document.getElementById('confidence').textContent = Math.round((data.confidence || 0) * 100) + '%';
       } catch (e) {
         console.error('State poll failed:', e);
       }
     }
 
-    function updateParticles(phase, confidence) {
-      const positions = particles.geometry.attributes.position.array;
-      const colors = particles.geometry.attributes.color.array;
-      const time = Date.now() * 0.001;
-
-      // Color mapping based on confidence (Cyan -> Orange)
-      const colorC = new THREE.Color().setHSL(0.5 + (confidence * 0.1), 1, 0.5);
-      
-      for (let i = 0; i < particleCount; i++) {
-        const ix = i * 3;
-        
-        // Basic orbital motion
-        const angle = time + (i * 0.01);
-        const radius = 2 + Math.sin(time * 0.5 + i);
-        
-        if (phase === 'ACT') {
-          positions[ix] = Math.cos(angle) * radius;
-          positions[ix+1] = Math.sin(angle) * radius;
-          positions[ix+2] = Math.sin(time + i) * 2;
-        } else if (phase === 'REFLECT') {
-          positions[ix] = (Math.random() - 0.5) * 4;
-          positions[ix+1] = (Math.random() - 0.5) * 4;
-          positions[ix+2] = (Math.random() - 0.5) * 4;
-        } else {
-          // Default drift
-          positions[ix] += (Math.random() - 0.5) * 0.02;
-          positions[ix+1] += (Math.random() - 0.5) * 0.02;
-          positions[ix+2] += (Math.random() - 0.5) * 0.02;
-        }
-
-        colors[ix] = colorC.r;
-        colors[ix+1] = colorC.g;
-        colors[ix+2] = colorC.b;
-      }
-      particles.geometry.attributes.position.needsUpdate = true;
-      particles.geometry.attributes.color.needsUpdate = true;
+    function getPhaseColor(phase) {
+      const colors = {
+        'PERCEIVE': new THREE.Color(0x00ccff), // Cyan
+        'REFLECT': new THREE.Color(0xaa00ff),  // Purple
+        'DECIDE': new THREE.Color(0xffcc00),   // Gold
+        'ACT': new THREE.Color(0xff3300),      // Red/Orange
+        'CONSOLIDATE': new THREE.Color(0x00ff88), // Spring Green
+        'PERSIST': new THREE.Color(0xffffff),   // White
+        'IDLE': new THREE.Color(0x444444)       // Grey
+      };
+      return colors[phase] || colors['IDLE'];
     }
 
     function animate() {
       requestAnimationFrame(animate);
+      
+      const time = Date.now() * 0.001;
+      const positions = particles.geometry.attributes.position.array;
+      const colorsArr = particles.geometry.attributes.color.array;
+      
+      const phaseColor = getPhaseColor(currentState.phase);
+      const confidence = currentState.confidence || 0.5;
+
+      for (let i = 0; i < particleCount; i++) {
+        const ix = i * 3;
+        
+        // Base orbital motion modified by phase
+        let radius = 2 + Math.sin(time * 0.5 + i * 0.1) * 0.5;
+        const angle = time * 0.2 + (i * 0.01);
+
+        if (currentState.phase === 'PERCEIVE') {
+          // Expanding shell
+          radius = 2 + Math.sin(time + i) * 1.5;
+          positions[ix] = Math.cos(angle) * radius;
+          positions[ix+1] = Math.sin(angle) * radius;
+          positions[ix+2] = Math.cos(time + i) * radius;
+        } else if (currentState.phase === 'REFLECT') {
+          // Swirling vortex
+          const vAngle = angle * 2 + (i * 0.001);
+          positions[ix] = Math.cos(vAngle) * (radius * 0.7);
+          positions[ix+1] = Math.sin(vAngle) * (radius * 0.7);
+          positions[ix+2] = Math.sin(time + i * 0.1) * 2;
+        } else if (currentState.phase === 'DECIDE') {
+          // Geometric alignment / Clustering
+          const cluster = Math.floor(i / 500);
+          const offset = cluster * 2;
+          positions[ix] = Math.cos(angle) * 1 + offset;
+          positions[ix+1] = Math.sin(angle) * 1;
+          positions[ix+2] = Math.sin(time + i) * 0.5;
+        } else if (currentState.phase === 'ACT') {
+          // High energy linear streams
+          positions[ix] = Math.cos(angle) * radius;
+          positions[ix+1] = Math.sin(angle) * radius;
+          positions[ix+2] += Math.sin(time * 5 + i) * 0.1;
+          if (Math.abs(positions[ix+2]) > 4) positions[ix+2] *= -1;
+        } else if (currentState.phase === 'CONSOLIDATE') {
+          // Collapsing into a core
+          radius *= confidence;
+          positions[ix] = Math.cos(angle) * radius;
+          positions[ix+1] = Math.sin(angle) * radius;
+          positions[ix+2] = Math.sin(angle) * radius;
+        } else {
+          // Idle drift
+          positions[ix] += (Math.random() - 0.5) * 0.01;
+          positions[ix+1] += (Math.random() - 0.5) * 0.01;
+          positions[ix+2] += (Math.random() - 0.5) * 0.01;
+          // Keep within bounds
+          if (Math.abs(positions[ix]) > 5) positions[ix] *= -0.9;
+          if (Math.abs(positions[ix+1]) > 5) positions[ix+1] *= -0.9;
+          if (Math.abs(positions[ix+2]) > 5) positions[ix+2] *= -0.9;
+        }
+
+        // Color blending based on confidence
+        colorsArr[ix] = phaseColor.r * confidence + (1-confidence)*0.2;
+        colorsArr[ix+1] = phaseColor.g * confidence + (1-confidence)*0.2;
+        colorsArr[ix+2] = phaseColor.b * confidence + (1-confidence)*0.2;
+      }
+
+      particles.geometry.attributes.position.needsUpdate = true;
+      particles.geometry.attributes.color.needsUpdate = true;
+      
       renderer.render(scene, camera);
     }
 
@@ -122,7 +166,6 @@
     setInterval(updateState, 2000);
     updateState();
     animate();
-  }
-</script>
+  </script>
 </body>
 </html>
