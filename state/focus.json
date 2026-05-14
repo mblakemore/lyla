@@ -1,6 +1,6 @@
 {
-  "goal": "Restore System Health after Regression",
-  "next_step": "Investigate cause of 66% failure rate increase detected by trend analyzer",
-  "priority": 10,
-  "context": "Health trend analysis integrated into orchestrator flagged DEGRADED status in C37 perception."
+  "goal": "Hardening Health Monitoring",
+  "next_step": "Implement filtering for test artifacts in trend analysis to eliminate false positives.",
+  "priority": 6,
+  "context": "C37 identified a 66% failure spike as a false positive caused by health_C36_test.json. The detector works, but filters are needed."
 }
