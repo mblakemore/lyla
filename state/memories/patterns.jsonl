@@ -19,3 +19,4 @@
 {"id":"P024","pattern":"Variety Pivot via Theme Tracking","category":"meta_learning","confidence":0.9,"created":"2026-05-14T07:30:39+00:00"}
 {"id":"GOV_001","pattern":"Governance Drift Induction and Healing","category":"governance","confidence":1.0,"created":"2026-05-14T07:47:15+00:00"}
 {"id":"VIS_001","pattern":"Governance Telemetry Mapping","category":"expression","confidence":0.9,"created":"2026-05-14T08:04:39+00:00"}
+{"id":"GOV_001","pattern":"Automated Health Probes","category":"governance","confidence":0.9,"created":"2026-05-14T08:27:44+00:00"}

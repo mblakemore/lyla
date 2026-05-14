@@ -1,0 +1,31 @@
+{
+  "metrics": {
+    "orphan_patterns": {
+      "warning": 10,
+      "critical": 20,
+      "description": "Number of patterns in patterns.jsonl not cited in recent context files",
+      "action": "prune_memory"
+    },
+    "state_integrity": {
+      "warning": 0,
+      "critical": 1,
+      "description": "Number of missing mandatory state files",
+      "action": "restore_structure"
+    },
+    "cycle_stagnation_days": {
+      "warning": 3,
+      "critical": 7,
+      "description": "Days since last cycle commit",
+      "action": "operator_alert"
+    }
+  },
+  "mandatory_files": [
+    "state/current-state.json",
+    "state/focus.json",
+    "state/repo-health.json",
+    "state/memories/patterns.jsonl",
+    "state/memories/anchors.jsonl",
+    "messages/to-creator.md",
+    "visualization/lyla.html"
+  ]
+}
