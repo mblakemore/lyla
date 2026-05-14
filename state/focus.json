@@ -1,6 +1,6 @@
 {
   "goal": "Build Automated Health Reports",
-  "current_task": "Integration of health probes into perception orchestrator",
+  "current_task": "Establish self-healing triggers based on probe failure",
   "priority": 8,
-  "next_milestone": "Self-healing triggers based on probe failure"
+  "next_milestone": "Automated recovery scripts for common failures"
 }
