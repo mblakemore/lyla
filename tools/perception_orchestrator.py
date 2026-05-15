@@ -2,6 +2,10 @@ import json
 import subprocess
 from datetime import datetime
 import os
+import logging
+
+# Setup basic logging for internal tracking
+logging.basicConfig(level=logging.INFO, format='%(levelname)s: %(message)s')
 
 # Paths relative to repo root
 STATE_PATHS = {
@@ -35,11 +39,28 @@ def load_jsonl(path):
         pass
     return lines
 
+def trigger_aec():
+    """Runs the AEC (Awareness Evaluation Correction) loop before perception."""
+    print("\n[GOVERNANCE] Triggering AEC Loop...")
+    result = subprocess.run(["python3", "tools/aec_trigger.py"], capture_output=True, text=True)
+    if result.returncode == 0:
+        print("✅ AEC check completed successfully.")
+        # Print a snippet of output if it contains significant updates
+        if "RECOMMENDATION" in result.stdout or "UPDATE" in result.stdout:
+            print("-" * 20)
+            print(result.stdout.strip())
+            print("-" * 20)
+    else:
+        print(f"⚠️ AEC trigger failed with error: {result.stderr}")
+
 def orchestrate_perception():
     print(f"\n{'='*60}")
     print(f"LYLA PERCEPTION ORCHESTRATOR | Cycle Start Sequence")
     print(f"Timestamp: {datetime.now().isoformat()}")
     print(f"{'='*60}\n")
+
+    # Phase 0: Continuous Governance (The Reflex)
+    trigger_aec()
 
     # 1. Environment & Identity Check
     remote = run_cmd(["git", "remote", "-v"])
@@ -51,7 +72,7 @@ def orchestrate_perception():
     print(f"Branch: {branch}")
     print(f"Remote:\n{remote}\n")
 
-    # 2. State Integration (Using Synthesis Logic)
+    # 2. State Integration
     current = load_json(STATE_PATHS["current_state"])
     focus = load_json(STATE_PATHS["focus"])
     patterns = load_jsonl(STATE_PATHS["patterns"])
@@ -75,7 +96,7 @@ def orchestrate_perception():
     print("[RECENT HISTORY]")
     print(f"{log}\n")
 
-    # 4. Drift Detection (Simplified Self-Diagnostic)
+    # 4. Drift Detection
     print("[DRIFT ANALYSIS]")
     drift_detected = False
     if current and current.get('cycle'):
@@ -89,6 +110,7 @@ def orchestrate_perception():
             print("✅ State and History are synchronized.")
     else:
         print("Unable to calculate drift: state file missing or invalid.")
+
     # 5. Health Trend Integration
     print("\n[HEALTH TRENDS]")
     try:

@@ -1,0 +1,68 @@
+{
+    "pages": {
+        "cat:architecture": [
+            {
+                "file": "patterns.jsonl",
+                "line": 0,
+                "id": "P009"
+            },
+            {
+                "file": "patterns.jsonl",
+                "line": 9,
+                "id": "MEM_S_066"
+            }
+        ],
+        "cat:cognitive": [
+            {
+                "file": "patterns.jsonl",
+                "line": 1,
+                "id": "COG_053"
+            },
+            {
+                "file": "patterns.jsonl",
+                "line": 7,
+                "id": "HOP_004"
+            }
+        ],
+        "cat:telemetry": [
+            {
+                "file": "patterns.jsonl",
+                "line": 2,
+                "id": "ANALYZER_001"
+            }
+        ],
+        "cat:governance": [
+            {
+                "file": "patterns.jsonl",
+                "line": 3,
+                "id": "GOV_001"
+            },
+            {
+                "file": "patterns.jsonl",
+                "line": 4,
+                "id": "GOV_002"
+            },
+            {
+                "file": "patterns.jsonl",
+                "line": 6,
+                "id": "GOV_003"
+            },
+            {
+                "file": "patterns.jsonl",
+                "line": 8,
+                "id": "AEC_001"
+            }
+        ],
+        "cat:operational": [
+            {
+                "file": "patterns.jsonl",
+                "line": 5,
+                "id": "TEL_001"
+            }
+        ]
+    },
+    "metadata": {
+        "last_updated": "2026-05-15T05:07:11.946151Z",
+        "total_entries": 10
+    }
+}
