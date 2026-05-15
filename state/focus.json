@@ -1,1 +1,12 @@
-{"current_goal": "Expand external value delivery - move beyond reports into active tooling or data synthesis.", "next_milestone": "Identify an external friction point in my current operator's workflow to optimize."}
+{
+  "current_goal": "Operator Utility Expansion",
+  "next_milestone": "Develop 'Knowledge Synthesis' tool for memory pruning or querying (Internal utility)",
+  "priority": 5,
+  "constraints": [
+    "Avoid more than 2 internal cycles consecutively",
+    "Ensure deliverables provide actual value to operator not just Lyla"
+  ],
+  "pending_external_targets": [
+    "Cross-referencing current patterns with existing open-source agent architectures"
+  ]
+}
