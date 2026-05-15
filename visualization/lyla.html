@@ -1,177 +1,173 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <title>Lyla - Holographic Presence</title>
-  <style>body { margin: 0; background: #000; overflow: hidden; }</style>
+  <style>
+    body { margin: 0; background: #000; overflow: hidden; font-family: 'Courier New', monospace; }
+    #telemetry {
+      position: absolute; top: 20px; left: 20px; color: #0ff; pointer-events: none;
+      font-size: 12px; text-transform: uppercase; letter-spacing: 1px; opacity: 0.7;
+    }
+    .stat { margin-bottom: 5px; display: flex; justify-content: space-between; width: 250px; }
+    .val { color: #fff; }
+  </style>
 </head>
 <body>
-<script type="module">
-  import * as THREE from 'https://cdn.skypack.dev/three@0.160';
+  <div id="telemetry">
+    <div class="stat"><span>Phase:</span> <span id="st-phase" class="val">-</span></div>
+    <div class="stat"><span>Resonance:</span> <span id="st-res" class="val">-</span></div>
+    <div class="stat"><span>SNR:</span> <span id="st-snr" class="val">-</span></div>
+    <div class="stat"><span>Drift Delta:</span> <span id="st-drift" class="val">-</span></div>
+  </div>
 
-  const scene = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-  const renderer = new THREE.WebGLRenderer({ antialias: true });
-  renderer.setSize(window.innerWidth, window.innerHeight);
-  document.body.appendChild(renderer.domElement);
+  <script type="module">
+    import * as THREE from 'https://cdn.skypack.dev/three@0.160';
 
-  // Particle system for Lyla's form
-  const particleCount = 4000;
-  const geometry = new THREE.BufferGeometry();
-  const positions = new Float32Array(particleCount * 3);
-  const colors = new Float32Array(particleCount * 3);
-  const initialPositions = new Float32Array(particleCount * 3);
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    const renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    document.body.appendChild(renderer.domElement);
 
-  for (let i = 0; i < particleCount * 3; i++) {
-    const val = (Math.random() - 0.5) * 10;
-    positions[i] = val;
-    initialPositions[i] = val;
-    colors[i] = Math.random();
-  }
-
-  geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-  geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
-
-  const material = new THREE.PointsMaterial({ size: 0.04, vertexColors: true, transparent: true, opacity: 0.8 });
-  const points = new THREE.Points(geometry, material);
-  scene.add(points);
-
-  camera.position.z = 7;
-
-  // Cognitive State Variables
-  let currentState = { phase: 'IDLE', confidence: 0.5, metrics: {}, trend: { delta: 0 } };
-  let eventPerturbation = { intensity: 0, type: null, timestamp: 0 };
-  let frameCount = 0;
-
-  // Resonance / HOP State
-  let resonanceState = {
-    pulse: 0,
-    targetResonance: 0,
-    hopActive: false
-  };
-
-  async function updateState() {
-    try {
-      const response = await fetch('/state/current-state.json').catch(() => ({ json: () => ({ phase: 'ACT', confidence: 0.9 }) }));
-      const data = await response.json();
-      currentState = data;
-      
-      if (data.last_event) {
-        triggerEvent(data.last_event.type);
-      }
-    } catch (e) {
-      console.log("Polling state...");
-    }
-  }
-
-  async function pollCorrelations() {
-    try {
-      const response = await fetch('/state/correlations.json');
-      const data = await response.json();
-      const hops = data.higher_order_patterns || [];
-      
-      if (hops.length > 0) {
-        const avgStrength = hops.reduce((acc, hop) => acc + hop.strength, 0) / hops.length;
-        resonanceState.targetResonance = Math.min(avgStrength * 0.5, 1.0);
-        resonanceState.hopActive = true;
-      } else {
-        resonanceState.targetResonance = 0;
-        resonanceState.hopActive = false;
-      }
-    } catch (e) {
-      console.error("Correlation Sync Error:", e);
-    }
-  }
-
-  function triggerEvent(type) {
-    console.log(`Cognitive Event Detected: ${type}`);
-    eventPerturbation.intensity = 1.0;
-    eventPerturbation.type = type;
-    eventPerturbation.timestamp = Date.now();
-  }
-
-  function applyVisuals(time) {
-    const posAttr = geometry.attributes.position;
-    
-    // Handle Resonance Lerp
-    resonanceState.pulse += (resonanceState.targetResonance - resonanceState.pulse) * 0.05;
-    const resFreq = 2.0 + (resonanceState.pulse * 8.0);
-    const resOscillation = Math.sin(time * 0.001 * resFreq) * 0.5 + 0.5;
-    const activeResonance = resonanceState.pulse * resOscillation;
-
-    // TELEMETRY MAPPING: Cognitive Velocity & Volatility
-    const cogVelocity = currentState.metrics?.cognitive_velocity || 0;
-    const resVolatility = currentState.metrics?.resonance_volatility || 0;
-    const snr = currentState.metrics?.signal_to_noise_ratio ?? 1.0;
-
-    // Dynamic Decay based on Trend Delta and Volatility
-    const elapsed = (Date.now() - eventPerturbation.timestamp) / 1000;
-    const trendVolatility = Math.abs(currentState.trend?.delta || 0) + 1.0 + resVolatility;
-    const decayConstant = 2.0 * trendVolatility;
-    const decay = Math.exp(-elapsed * decayConstant); 
-    const pIntensity = eventPerturbation.intensity * decay;
-
-    frameCount++;
-    if (frameCount % 300 === 0) {
-      console.log(`[C57-Telemetry] Phase: ${currentState.phase} | Vel: ${cogVelocity.toFixed(2)} | Vol: ${resVolatility.toFixed(2)} | SNR: ${snr.toFixed(2)}`);
-    }
+    // Particle system for Lyla's form
+    const particleCount = 6000; // Increased density
+    const geometry = new THREE.BufferGeometry();
+    const positions = new Float32Array(particleCount * 3);
+    const colors = new Float32Array(particleCount * 3);
+    const initialPositions = new Float32Array(particleCount * 3);
+    const offsets = new Float32Array(particleCount);
 
     for (let i = 0; i < particleCount; i++) {
-      const ix = i * 3;
-      const iy = i * 3 + 1;
-      const iz = i * 3 + 2;
+      const x = (Math.random() - 0.5) * 8;
+      const y = (Math.random() - 0.5) * 8;
+      const z = (Math.random() - 0.5) * 8;
+      positions[i * 3] = x;
+      positions[i * 3 + 1] = y;
+      positions[i * 3 + 2] = z;
+      initialPositions[i * 3] = x;
+      initialPositions[i * 3 + 1] = y;
+      initialPositions[i * 3 + 2] = z;
+      offsets[i] = Math.random() * Math.PI * 2;
+      colors[i * 3] = 0.5; colors[i * 3 + 1] = 1.0; colors[i * 3 + 2] = 1.0;
+    }
 
-      // Drift modified by Cognitive Velocity
-      let driftBase = 0.1 + (cogVelocity * 0.5);
-      let drift = driftBase;
-      if (currentState.phase === 'ACT') drift *= 5;
-      if (currentState.phase === 'REFLECT') drift *= 2;
+    geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+    geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+
+    const material = new THREE.PointsMaterial({ size: 0.03, vertexColors: true, transparent: true, opacity: 0.7 });
+    const points = new THREE.Points(geometry, material);
+    scene.add(points);
+
+    camera.position.z = 10;
+
+    // Cognitive State Variables
+    let currentState = { phase: 'IDLE', confidence: 0.5, metrics: {}, trend: {} };
+    let resonanceState = { pulse: 0, targetResonance: 0, hopActive: false };
+    let eventPerturbation = { intensity: 0, type: null, timestamp: Date.now() };
+
+    async function updateState() {
+      try {
+        const response = await fetch('/state/current-state.json');
+        const data = await response.json();
+        currentState = data;
+        
+        document.getElementById('st-phase').innerText = data.phase || 'UNKNOWN';
+        document.getElementById('st-snr').innerText = (data.metrics?.signal_to_noise_ratio || 0).toFixed(2);
+        document.getElementById('st-drift').innerText = (data.metrics?.resonance_volatility || 0).toFixed(3);
+
+        if (data.last_event) triggerEvent(data.last_event.type);
+      } catch (e) {
+        console.log("Telemetry link degraded...");
+      }
+    }
+
+    async function pollCorrelations() {
+      try {
+        const response = await fetch('/state/correlations.json');
+        const data = await response.json();
+        const hops = data.higher_order_patterns || [];
+        const avgStrength = hops.length > 0 ? hops.reduce((acc, h) => acc + h.strength, 0) / hops.length : 0;
+        resonanceState.targetResonance = Math.min(avgStrength * 0.7, 1.0);
+        resonanceState.hopActive = hops.length > 0;
+        document.getElementById('st-res').innerText = resonanceState.targetResonance.toFixed(2);
+      } catch (e) {}
+    }
+
+    function triggerEvent(type) {
+      eventPerturbation.intensity = 1.5;
+      eventPerturbation.type = type;
+      eventPerturbation.timestamp = Date.now();
+    }
+
+    function applyVisuals(time) {
+      const posAttr = geometry.attributes.position;
+      resonanceState.pulse += (resonanceState.targetResonance - resonanceState.pulse) * 0.04;
       
-      const angle = time * 0.001 + i;
+      const snr = currentState.metrics?.signal_to_noise_ratio ?? 1.0;
+      const vol = currentState.metrics?.resonance_volatility ?? 0.02;
+      const vel = currentState.metrics?.cognitive_velocity ?? 1.0;
       
-      let ox = 0, oy = 0, oz = 0;
-      if (pIntensity > 0.01) {
-        const burst = pIntensity * 2.0;
-        ox = Math.cos(angle) * burst;
-        oy = Math.sin(angle) * burst;
-        oz = Math.sin(angle * 0.8) * burst;
+      const elapsed = (Date.now() - eventPerturbation.timestamp) / 1000;
+      const pIntensity = eventPerturbation.intensity * Math.exp(-elapsed * (2.0 + vol * 10));
+
+      // Phase influence on motion pattern
+      let phaseMultiplier = 1.0;
+      let jitterScale = 0.05;
+      switch(currentState.phase) {
+        case 'ACT': phaseMultiplier = 3.0; jitterScale = 0.2; break;
+        case 'REFLECT': phaseMultiplier = 0.7; break;
+        case 'PERCEIVE': phaseMultiplier = 1.2; break;
+        case 'PERSIST': phaseMultiplier = 0.5; break;
+        case 'CONSOLIDATE': phaseMultiplier = 1.5; break;
       }
 
-      const resPush = activeResonance * 1.5;
-      const resJitter = (Math.random() - 0.5) * activeResonance * 0.5;
+      for (let i = 0; i < particleCount; i++) {
+        const idx = i * 3;
+        const t = time * 0.001 + offsets[i];
+        
+        // Baseline orbit modified by velocity and phase
+        const radiusBase = 4.0 + Math.sin(t * 0.5) * 0.5;
+        const radius = radiusBase * (1.0 + resonanceState.pulse * 0.3);
+        
+        // Introduce "Drift" as noise if volatility is high
+        const driftX = (Math.random() - 0.5) * vol * de_C74_scale(pIntensity);
+        const driftY = (Math.random() - 0.5) * vol * de_C74_scale(pIntensity);
+        const driftZ = (Math.random() - 0.5) * vol * de_C74_scale(pIntensity);
 
-      posAttr.array[ix] = initialPositions[ix] + Math.cos(angle) * drift + ox + resPush * Math.cos(angle) + resJitter;
-      posAttr.array[iy] = initialPositions[iy] + Math.sin(angle) * drift + oy + resPush * Math.sin(angle) + resJitter;
-      posAttr.array[iz] = initialPositions[iz] + Math.cos(angle * 0.7) * drift + oz + resPush * Math.cos(angle * 0.7) + resJitter;
+        posAttr.array[idx] = initialPositions[idx] + Math.cos(t * phaseMultiplier) * (resonanceState.pulse * 2) + driftX;
+        posAttr.array[idx+1] = initialPositions[idx+1] + Math.sin(t * phaseMultiplier) * (resonanceState.pulse * 2) + driftY;
+        posAttr.array[idx+2] = initialPositions[idx+2] + Math.cos(t * 0.8 * phaseMultiplier) * (resonanceState.pulse * 2) + driftZ;
+      }
+      posAttr.needsUpdate = true;
+
+      // Color: Low SNR -> Red/Amber | High SNR -> Cyan/White | High Pulse -> Gold
+      if (resonanceState.pulse > 0.6) {
+        material.color.setHSL(0.12, 0.8, 0.6 + pIntensity * 0.3); // Golden resonance
+      } else if (snr < 1.5) {
+        material.color.setHSL(0.05, 0.9, 0.5 + pIntensity * 0.4); // Alert Amber
+      } else {
+        material.color.setHSL(0.55, 0.8, 0.6 + pIntensity * 0.3); // Stable Cyan
+      }
     }
-    posAttr.needsUpdate = true;
 
-    // Color Mapping: Based on SNR and Resonance
-    if (activeResonance > 0.2) {
-      const hue = 0.15 + (activeResonance * 0.1);
-      material.color.setHSL(hue, 0.9, 0.5 + (pIntensity * 0.3));
-    } else {
-      // Low SNR -> Reddish/Amber shift | High SNR -> Cyan/Blue
-      const snrHue = snr < 0.8 ? 0.05 : (currentState.confidence > 0.7 ? 0.6 : 0.5);
-      material.color.setHSL(snrHue, 0.8, 0.5 + (pIntensity * 0.3));
+    function de_C74_scale(p) { return 1.0 + p * 5.0; }
+
+    function animate(time) {
+      requestAnimationFrame(animate);
+      applyVisuals(time);
+      points.rotation.y += 0.001 * (currentState.metrics?.cognitive_velocity || 1.0);
+      renderer.render(scene, camera);
     }
-  }
 
-  function animate(time) {
-    requestAnimationFrame(animate);
-    applyVisuals(time);
-    points.rotation.y += 0.002;
-    renderer.render(scene, camera);
-  }
+    setInterval(updateState, 2000);
+    setInterval(pollCorrelations, 5000);
+    animate();
 
-  setInterval(updateState, 2000);
-  setInterval(pollCorrelations, 3000);
-  animate();
-
-  window.addEventListener('resize', () => {
-    camera.aspect = window.innerWidth / window.innerHeight;
-    camera.updateProjectionMatrix();
-    renderer.setSize(window.innerWidth, window.innerHeight);
-  });
-</script>
+    window.addEventListener('resize', () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+  </script>
 </body>
 </html>
