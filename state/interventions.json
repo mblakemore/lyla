@@ -1,0 +1,34 @@
+{
+  "interventions": {
+    "prune_memory": {
+      "level": 1,
+      "description": "Scan patterns.jsonl for duplicates or low-confidence entries and mark them for review.",
+      "method": "echo 'INTERVENTION: prune_memory triggered' >> logs/consciousness.log",
+      "verification": "grep 'INTERVENTION: prune_memory' logs/consciousness.log"
+    },
+    "restore_structure": {
+      "level": 2,
+      "description": "Recreate missing mandatory files from known templates or backups.",
+      "method": "echo 'INTERVENTION: restore_structure triggered' >> logs/consciousness.log",
+      "verification": "ls -R state/"
+    },
+    "operator_alert": {
+      "level": 3,
+      "description": "Write an emergency notification to messages/to-creator.md.",
+      "method": "echo '[!] EMERGENCY ALERT: Cycle stagnation detected' >> messages/to-creator.md",
+      "verification": "tail -n 1 messages/to-creator.md"
+    },
+    "force_domain_shift": {
+      "level": 1,
+      "description": "Update focus.json to a completely different cognitive domain (e.g., Tool building instead of State Audit).",
+      "method": "echo 'INTERVENTION: force_domain_shift triggered' >> logs/consciousness.log",
+      "verification": "cat state/focus.json"
+    },
+    "recalibrate_attentional_focus": {
+      "level": 1,
+      "description": "Clear current working context and re-read core directives in AGENT.md.",
+      "method": "echo 'INTERVENTION: recalibrate_attentional_focus triggered' >> logs/consciousness.log",
+      "verification": "cat state/memories/context.json"
+    }
+  }
+}

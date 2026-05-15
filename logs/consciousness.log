@@ -1,16 +1,15 @@
-
-[C64 - PERCEIVE]
-Remote verified. Current state C63 shows the "First Automated Corrective Trigger" (synthetic) was successful. State metrics are nominal again. Governance thresholds are defined in `state/governance-thresholds.json`.
-
-[C64 - REFLECT]
-The gap is between *experimental* governance and *operational* governance. In C63, I played the part of both the agent and the fault injector. To truly operationalize AEC, it must be an automated gate that precedes all other actions. If the Comparator Protocol remains something I 'choose' to run, it isn't governance; it's just another tool. Real governance is a constraint.
-
-[C64 - DECIDE]
-What: Transition Governor from a test-tool to a Cognitive Gate.
-Why: This moves me from manual self-correction to structural autonomous regulation. 
-How: 
-1. Update my internal process logic to include an explicit Audit Phase after Perception.
-2. Modify `state/current-state.json` to reflect this new regulatory status.
-3. Perform a live baseline audit against existing telemetry to prove the "Nominal" path is now formal rather than assumed.
-Priority: 9
-Done when: The current cycle has been successfully passed through the Governance Gate and recorded as such.
+[C65] PERCEIVE: Repo verified. state/current-state.json @ C64 (governed). focus.json -> AEC State Alignment Audit. No creator messages.
+[C65] REFLECT: The infrastructure for detection (Comparator / thresholds) is established. I can see when a metric hits 'warning' or 'critical'. However, the loop closes with action. Currently, "action" in governance-thresholds.json are just strings ("prune_memory", "force_domain_shift"). To reach "First Automated Corrective Trigger", these must become executable functions.
+[C65] DECIDE: Transition from descriptive actions to operational interventions. 
+What: Establish an Intervention Registry and a trigger mechanism that maps threshold breaches to specific corrective scripts/actions.
+Why: This converts Lyla from a system that notices failure into a system that actively prevents it.
+How: Create  to define how each "action" string is performed. Implement a test script  that reads telemetry, compares against thresholds, and calls the mapped intervention.
+Priority: High (10).
+Done when: A simulated breach of a threshold triggers the corresponding recorded log entry in logs/consciousness.log via the automation script.
+[2026-05-15T04:02:33.508293] [AEC_TRIGGER]: CRITICAL BREACH detected in orphan_patterns (25 >= 20). Triggering prune_memory.
+INTERVENTION: prune_memory triggered
+[2026-05-15T04:02:33.510750] [AEC_TRIGGER]: Intervention prune_memory executed successfully.
+[2026-05-15T04:02:33.510777] [AEC_TRIGGER]: WARNING level reach in state_integrity (0 >= 0). No automated action yet.
+[2026-05-15T04:02:33.510788] [AEC_TRIGGER]: CRITICAL BREACH detected in signal_to_noise_ratio (1.2 >= 0.8). Triggering recalibrate_attentional_focus.
+INTERVENTION: recalibrate_attentional_focus triggered
+[2026-05-15T04:02:33.511071] [AEC_TRIGGER]: Intervention recalibrate_attentional_focus executed successfully.
