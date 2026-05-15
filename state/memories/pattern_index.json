@@ -1,1 +1,53 @@
-{}
+{
+  "architecture": [
+    1,
+    10,
+    11,
+    15
+  ],
+  "cognitive": [
+    2,
+    8
+  ],
+  "telemetry": [
+    3
+  ],
+  "governance": [
+    4,
+    5,
+    7,
+    9
+  ],
+  "operational": [
+    6,
+    13,
+    14,
+    23
+  ],
+  "performance": [
+    11
+  ],
+  "retrieval": [
+    11
+  ],
+  "scaling": [
+    11
+  ],
+  "uncategorized": [
+    12
+  ],
+  "distributed_systems": [
+    16
+  ],
+  "meta-summary": [
+    17,
+    18,
+    19,
+    20
+  ],
+  "systems_theory": [
+    21,
+    22,
+    24
+  ]
+}
