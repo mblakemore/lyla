@@ -1,12 +1,12 @@
 {
   "current_goal": "Operator Utility Expansion",
-  "next_milestone": "Build and refine the Pattern Indexer based on C85 synthesis recommendations.",
-  "priority": 6,
+  "next_milestone": "Identify and refine a specific external use case or tool for the user based on SRCL patterns.",
+  "priority": 5,
   "constraints": [
-    "Maintain strict External Subject rule balance",
-    "Implement O(1) retrieval in pattern_index.json before adding more volume"
+    "External subject priority high after C86 indexing cleanup",
+    "Continue using the Pattern Indexer in Reflect phases"
   ],
   "pending_external_targets": [
-    "Apply persistence findings to a general design pattern that others can use in autonomous agents."
+    "Determine if the User requires a specialized dashboard or analysis tool leveraging current index capabilities."
   ]
 }
