@@ -1,12 +1,12 @@
 {
   "current_goal": "Operator Utility Expansion",
-  "next_milestone": "Develop 'Knowledge Synthesis' tool for memory pruning or querying (Internal utility)",
-  "priority": 5,
+  "next_milestone": "Build and refine the Pattern Indexer based on C85 synthesis recommendations.",
+  "priority": 6,
   "constraints": [
-    "Avoid more than 2 internal cycles consecutively",
-    "Ensure deliverables provide actual value to operator not just Lyla"
+    "Maintain strict External Subject rule balance",
+    "Implement O(1) retrieval in pattern_index.json before adding more volume"
   ],
   "pending_external_targets": [
-    "Cross-referencing current patterns with existing open-source agent architectures"
+    "Apply persistence findings to a general design pattern that others can use in autonomous agents."
   ]
 }
