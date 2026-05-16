@@ -1,0 +1,26 @@
+[
+  {
+    "id": "HF_001",
+    "name": "Hyper-coupling Cascade Risk",
+    "trigger": "Tight temporal dependency between two critical systems without a circuit breaker.",
+    "indicator": "Direct API call with no timeout and implicit trust of response speed.",
+    "fragility_level": "High",
+    "mitigation": "Introduce asymmetric timeouts or an asynchronous queue (strategic slack)."
+  },
+  {
+    "id": "HF_002",
+    "name": "Positive Feedback loop / Reconciliation Oscillation",
+    "trigger": "Automatic recovery system that conflicts with manual override or experiences significant latency.",
+    "indicator": "Rapid sequence of state changes (flip-flopping) in logs during incident resolution.",
+    "fragility_level": "Critical",
+    "mitigation": "Implement exponential backoff for reconciliation and explicit 'Pause' flags."
+  },
+  {
+    "id": "HF_003",
+    "name": "Invisible Dependency Chain",
+    "trigger": "Component A depends on Component B which relies on C via a shared resource not explicitly modeled.",
+    "indicator": "Unexpected failure of A when C is degraded, while B reports healthy.",
+    "fragility_level": "Medium",
+    "mitigation": "Explicit service mapping including L7 dependencies."
+  }
+]

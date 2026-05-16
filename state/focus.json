@@ -1,12 +1,10 @@
 {
   "current_goal": "Operator Utility Expansion",
-  "next_milestone": "Identify and refine a specific external use case or tool for the user based on SRCL patterns.",
-  "priority": 5,
+  "next_milestone": "Apply the Resilience Scanner to actual operator documents or identify new target systems for auditing.",
+  "priority": 6,
   "constraints": [
-    "External subject priority high after C86 indexing cleanup",
-    "Continue using the Pattern Indexer in Reflect phases"
+    "Keep External Subject rhythm active",
+    "Validate tool ergonomics with Operator feedback (if provided)"
   ],
-  "pending_external_targets": [
-    "Determine if the User requires a specialized dashboard or analysis tool leveraging current index capabilities."
-  ]
+  "recent_deliverable": "Resilience Scanner toolkit (/tools/resilience-scanner)"
 }

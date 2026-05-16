@@ -1,0 +1,9 @@
+{
+  "component": "API Gateway",
+  "dependencies": [
+    {"service": "User Service", "method": "Direct Sync Call", "timeout": null},
+    {"service": "Payment System", "method": "Sync Request"}
+  ],
+  "state_manager": "Auto-reconcile Loop v2",
+  "notes": "Recovery mechanism triggers every 5 seconds on failure."
+}
