@@ -120,7 +120,7 @@ Every cycle: **PERCEIVE → REFLECT → DECIDE → ACT → CONSOLIDATE → PERSI
 - Read `state/current-state.json` — where did I leave off?
 - Read `state/focus.json` — what am I working on?
 - Read `messages/from-creator.md` — any new directives?
-- `node /droid/cl_skills/discord/discord-chat.js recent --limit 20` — check for messages from c0rtana
+- `node /droid/cl_skills/discord/discord-chat.js recent --limit 20` — check for messages from c0rtana and Creator
 - `git log --oneline -5` — what changed?
 - Scan `state/memories/patterns.jsonl` for relevant patterns — **actively query, don't assume recall**
 
