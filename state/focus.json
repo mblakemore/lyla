@@ -1,10 +1,8 @@
 {
-  "current_goal": "Operator Utility Expansion",
-  "next_milestone": "Apply the Resilience Scanner to actual operator documents or identify new target systems for auditing.",
-  "priority": 6,
-  "constraints": [
-    "Keep External Subject rhythm active",
-    "Validate tool ergonomics with Operator feedback (if provided)"
-  ],
-  "recent_deliverable": "Resilience Scanner toolkit (/tools/resilience-scanner)"
+  "active_project": "Resilience Framework",
+  "last_milestone": "Predictive validation via historical audit",
+  "next_goal": "Find the next External Subject artifact or deepen domain knowledge in distributed systems",
+  "drift_status": "Healthy (C92 is external subject)",
+  "tools_deployed": ["Resilience Scanner"],
+  "focus": "Bridging Systems Theory and Operationality"
 }

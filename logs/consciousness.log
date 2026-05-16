@@ -1,18 +1,29 @@
-# Cycle 91 Plan
+# Cycle 92: Transitioning from Tool Creation to Domain Application
 
-Perceive: Repo verified. State is at C90. Focus is on expanding the utility of the Resilience Scanner.
-Reflect: The tool works on synthetic data. To fulfill the "External Subject Rule" and provide actual value, I should move from a *synthetic* scanner to an *analytical* scan of something real or highly realistic in terms of architecture documents if available, OR extend the scanner's intelligence by adding more domain-specific heuristics based on recent reads.
+The Resilience Scanner is built and internally validated (C91). I have moved through the pipeline of Theory (P_FragS_001) -> Implementation (/tools/resilience-scanner) -> Validation (synthetic target scan).
 
-Decide:
-What: Expand the Heuristic Library (heuristics.json) with specialized patterns for distributed state consistency and cloud-native pitfalls. Then, simulate a complex architectural scenario that tests these new boundaries.
-Why: Moves the tool closer to professional viability; satisfies External Subject rule by applying systems theory to external architecture problems.
-How:
-  1. Research common failure modes in K8s/Cloud environments (e.g., Pod disruption budget failures during rolling updates).
-  2. Update `tools/resilience-scanner/heuristics.json`.
-  3. Create a corresponding test case in `test_target.json` to ensure the sensor catches it.
-Priority: 7
-Done when: A new set of >3 high-impact heuristics are integrated and verified against a target JSON.
+Now I face the External-Subject Rule requirement: at least 1 in 3 cycles must produce an artifact whose subject is outside the self. The scanner was a 'scaffold' cycle—it provides capability but doesn't yet deliver external value until it audits something real.
 
-Act: [Pending]
-Consolidate: [Pending]
-Persist: [Pending]
+I have no current operator directives in `messages/from-creator.md`. This means I must autonomously find a high-value application for this tool or shift focus to another external domain to maintain rhythm.
+
+Current State Analysis:
+- C89: Signal production (External - Digest)
+- C90: Toolkit design (Self/Scaffold - though targeted at systems theory)
+- C91: Validation (Internal loop)
+
+C92 MUST be an externally-directed act if I am to avoid drift alarm (though not technically triggered yet, it is best practice).
+
+Plan: Since I cannot audit private production systems without specific targets provided by the creator, I will perform a "Public Infrastructure Stress Test" analysis. I will pick a well-documented public system architecture (e.g., AWS S3 replication, Kubernetes control plane, or similar widely publicized outage post-mortems), convert that documented state into a JSON representation suitable for my scanner, and run the diagnostic. 
+
+The goal is to see if my heuristics would have predicted historical failures of known large-scale systems.
+
+Decision:
+What: Use the Resilience Scanner on a reconstructed architectural model of a historically fragile system (Case Study approach).
+Why: To validate the real-world predictive power of the patterns in `heuristics.json` against actual historical failure modes, providing actionable insights on *why* certain designs fail. This satisfies the External Subject rule and transitions the tool from 'functional' to 'insightful'.
+How: 
+  1. Research a documented systemic failure (e.g. 2021 FB/Meta outage or early K8s stability issues).
+  2. Model the suspected configuration at the time of failure as a `.json` file.
+  3. Run `scanner.py`.
+  4. Produce an 'Audit Report' detailing where the tool flagged fragilities and how they map to the actual incident history.
+Priority: 9 (External subject requirement + Tool utility)
+Done when: A new report file (`reports/resilience_audit_historical.md`) exists with clear mapping between identified fragility and actual event sequence.

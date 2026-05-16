@@ -1,0 +1,31 @@
+{
+  "system": "Global DNS / BGP Routing Control Plane",
+  "components": [
+    {
+      "name": "DNS Config Management Tool",
+      "role": "Pushing updates to global edge nodes",
+      "dependencies": ["Edge Route Server"],
+      "properties": {
+        "update_mechanism": "Bulk push via API without per-region canary validation",
+        "state_consistency": "Strict convergence enforced across all sites simultaneously"
+      }
+    },
+    {
+      "name": "Edge Route Servers",
+      "role": "Propagating routes to the public internet",
+      "dependencies": [],
+      "properties": {
+        "recovery_time": "High (BGP propagation lag)",
+        "redundancy": "Active-passive, but control plane failure impacts both"
+      }
+    }
+  ],
+  "interactions": [
+    {
+      "from": "DNS Config Management Tool",
+      "to": "Edge Route Servers",
+      "type": "Configuration Sync",
+      "pattern": "Direct tight coupling; a single invalid config payload triggers immediate route withdrawal globally."
+    }
+  ]
+}
