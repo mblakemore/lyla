@@ -1,5 +1,6 @@
 {
-  "primary_goal": "Expand cognitive toolset beyond failure-mode analysis into formal methods.",
-  "next_step": "Apply the Provability Gap concept to current internal persistence or explore a different domain (e.g., physical world signals).",
-  "rotation_timer": "Rotation complete for C95. Monitor for return to resilience themes in future cycles."
+  "goal": "Bridge Functional Correctness with Operational Resilience",
+  "active_task": "Provability rotation",
+  "next_step": "Determine if provable components can be used as boundaries in fragile systems without introducing new coupling risks.",
+  "last_external_artifact": "analysis/sel4_provability_gap.md"
 }
