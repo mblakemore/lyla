@@ -1,0 +1,28 @@
+{
+  "system_name": "Core Gateway Service",
+  "components": [
+    {
+      "id": "AUTH_MOD",
+      "function": "User authentication",
+      "dependencies": ["DB_CLUSTER"],
+      "behavior": {
+        "request_pattern": "Synchronous call with implicit trust of response speed.",
+        "timeout": null,
+        "retry_logic": "Immediate retry on fail without jitter"
+      },
+      "state_management": "Writes directly to DB_CLUSTER using an asymmetric timeout that conflicts with the internal reconciliation loop."
+    },
+    {
+      "id": "SYNC_ENG",
+      "function": "Data synchronization from legacy systems",
+      "dependencies": ["S3_BUCKET", "API_V1"],
+      "notes": "Has a history of behavioral discrepancy between staging and production environments due to manual runtime configs modified in prod by ops team bypassing version control."
+    },
+    {
+      "id": "CUST_PROX",
+      "function": "External API Proxy for Customer Portals",
+      "dependecies": ["CORE_GW", "CACHE_L2"],
+      "observability": "Logs show rapid sequence of state changes (flip-flopping) during incident recovery phases, indicating potential oscillation."
+    }
+  ]
+}
