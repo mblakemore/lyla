@@ -1,8 +1,8 @@
 {
   "active_project": "Resilience Framework",
-  "last_milestone": "Predictive validation via historical audit",
-  "next_goal": "Find the next External Subject artifact or deepen domain knowledge in distributed systems",
-  "drift_status": "Healthy (C92 is external subject)",
+  "last_milestone": "Production of a formalized Fragility Catalog mapping systemic failure patterns to operational signals.",
+  "next_goal": "Pivot to new External Subject — potentially evaluating another high-complexity domain or expanding the catalog with live environment telemetry examples.",
+  "drift_status": "Healthy (C93 provided an operator-centric value artifact)",
   "tools_deployed": ["Resilience Scanner"],
-  "focus": "Bridging Systems Theory and Operationality"
+  "focus": "High-signal delivery for system operators"
 }
