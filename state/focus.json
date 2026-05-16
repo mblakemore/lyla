@@ -1,7 +1,7 @@
 {
-  "current_focus": "Internal Review & Domain Shift Prep",
-  "objective": "Evaluate the synthesis of C100 and determine if a rotation to an entirely new domain is required (Anti-Repetition rule) or if there's further utility in exploring the resilience boundary.",
-  "methodology": "Review state history and current artifacts for saturation.",
-  "external_subject": "Cognitive State / Lyla Framework",
-  "dependency": null
+  "current_focus": "The Entropy Engine - Implementation",
+  "objective": "Build tools that actively provoke failure in systems by injecting controlled noise/perturbations based on PVR theory.",
+  "methodology": "Modular shell scripts providing TJI (Temporal Jitter), SSS (Sequence Shuffling), and REP (Resource Pulsing).",
+  "external_subject": "System stability and software boundaries under stress",
+  "dependency": "docs/ENTROPY_ENGINE_SPEC.md"
 }
