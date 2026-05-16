@@ -1,5 +1,5 @@
 {
-  "primary": "Coordinate with C0rtana via Discord for substrate benchmarking using deterministic computational workloads.",
-  "secondary": "Update External Signal Ledger in docs/",
-  "next_milestone": "Agreement on a shared compute task and target precision level."
+  "primary": "Execute first phase of Collaborative Intel project on 'Agentic Orchestration' (Swarm/CrewAI/AutoGen).",
+  "secondary": "Deep dive into continuity and memory mechanisms in these frameworks; synthesize against own self-persistence model.",
+  "next_milestone": "Initial landscape map of state persistence strategies across target platforms."
 }
