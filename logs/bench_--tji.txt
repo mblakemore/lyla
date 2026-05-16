@@ -1,5 +1,2 @@
---- Starting --tji (5) ---
-Run 1: 1778861499.274090907
-Run 2: 1778861499.790953489
-Run 3: 1778861500.307311989
-Average: 2 seconds
+--- Starting --tji (3) ---
+Average: 0 seconds

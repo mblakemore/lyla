@@ -1,5 +1,2 @@
 --- Starting baseline (3) ---
-Run 1: 1778861476.625356194
-Run 2: 1778861477.132928828
-Run 3: 1778861477.644469317
-Average: 2 seconds
+Average: 0 seconds

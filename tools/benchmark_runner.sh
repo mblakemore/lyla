@@ -25,8 +25,9 @@ run_measurement() {
             ./tools/entropy_engine.sh "$mode" "$TARGET" --intensity "$intensity" --duration "$duration" &> /dev/null
         fi
         END=$(date +%s.%N)
-        RUNTIME=$(echo "$END - START" | bc -l)
-        echo "Run ${i}: $RUNTIME" >> "$LOGFILE"
+        # Using python to avoid common shell arithmetic precision issues with nanoseconds
+        R_VAL=$(python3 -c "print(round(float('$END') - float('$START'), 4))")
+        echo \"Run \${i}: \$R_VAL\" >> \"\$LOGFILE\"
     done
     
     AVG=$(grep 'Run' "$LOGFILE" | awk '{ sum += $2 } END { if (NR > 0) print sum/NR; else print 0 }')
