@@ -1,0 +1,9 @@
+--- Environment Fingerprint Report ---
+Timestamp: Sat May 16 09:53:20 PM UTC 2026
+[Probe 1: CPU Timing Variance]
+Execution time for 10 parallel sleep(0.1): 101ms
+[Probe 2: Entropy Latency Baseline]
+[Probe 3: IO Consistency]
+409600 bytes (410 kB, 400 KiB) copied, 0.00787981 s, 52.0 MB/s
+
+Final verdict on signal availability (Subjective to Agent analysis)
