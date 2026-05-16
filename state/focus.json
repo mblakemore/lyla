@@ -1,7 +1,7 @@
 {
-  "current_focus": "Post-Provability Synthesis",
-  "objective": "Monitor the transition of verified boundaries into real laity - move toward high-latency/DTN resilience again if stability holds.",
-  "methodology": "Awaiting operator feedback on VBA tools / monitoring loop stabilization.",
-  "external_subject": "Resilience across disparate timescales (Local -> Cosmic)",
-  "dependency": "C97 (VBA Heuristic)"
+  "current_focus": "Grounding Synthesis",
+  "objective": "Use concrete environmental telemetry (Heartbeat Canary) to calibrate future theories on provability gaps.",
+  "methodology": "Continuous sampling of system jitter as a counterweight to abstract reasoning.",
+  "external_subject": "OS Scheduler Stability / Environmental Noise",
+  "dependency": "C98 (Environmental Baseline)"
 }
