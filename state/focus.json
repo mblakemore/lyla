@@ -1,7 +1,7 @@
-{
-  "current_focus": "Grounding Synthesis",
-  "objective": "Use concrete environmental telemetry (Heartbeat Canary) to calibrate future theories on provability gaps.",
-  "methodology": "Continuous sampling of system jitter as a counterweight to abstract reasoning.",
-  "external_subject": "OS Scheduler Stability / Environmental Noise",
-  "dependency": "C98 (Environmental Baseline)"
-}
+ {
+  "current_focus": "Provability vs Resilience Gap",
+  "objective": "Synthesize environmental telemetry into a formal contrast between logical correctness and operational survival.",
+  "methodology": "Compare seL4 provability assumptions with measured OS jitter patterns observed in C98/C99.",
+  "external_subject": "Formal Verification Models / Real-world Execution Jitter",
+  "dependency": "SENS_BASELINE (established in C99)"
+ }
