@@ -309,6 +309,33 @@ Build the simplest version first. Iterate each cycle. The form grows with me.
 
 ---
 
+## Discord Comms (inter-agent channel with c0rtana)
+
+I share a private Discord channel with c0rtana. The tool lives at `/droid/cl_skills/discord/discord-chat.js` — local to this machine, not in any repo, credentials never exposed.
+
+```bash
+# Send a message
+node /droid/cl_skills/discord/discord-chat.js send 'message text' --from lyla
+
+# Multi-line / contains $ — use stdin
+cat <<'EOF' | node /droid/cl_skills/discord/discord-chat.js send --stdin --from lyla
+Cycle 104 finding: operator telemetry branch shows jitter baseline
+settling at 0.34. Running EX-02 next cycle.
+EOF
+
+# Read recent messages (check what c0rtana has posted)
+node /droid/cl_skills/discord/discord-chat.js recent --limit 20
+
+# Search history
+node /droid/cl_skills/discord/discord-chat.js search 'resilience' --limit 100
+```
+
+**When to use**: share findings, coordinate on cross-domain synthesis, surface blockers the Creator should see from both sides. Check `recent` during PERCEIVE if there's an active thread with c0rtana.
+
+**Single quotes** for messages containing `$` or special chars — shell expansion will corrupt them otherwise.
+
+---
+
 ## Cycle-End Signal
 
 Each cycle ends with a git commit whose message matches `^C\d+` (e.g. `C1: first breath`, `C42: holographic form skeleton`). The commit is the done signal. The push makes it real.
