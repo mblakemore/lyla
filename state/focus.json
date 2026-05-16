@@ -1,5 +1,6 @@
 {
-  "objective": "Transform the Entropy Engine from a prototype script into an empirical tool that reveals systemic fragility through specific experiments (EX-01...03).",
-  "current_step": "Implement baseline testing and data collection for EX-01 (Jitter vs Consistency).",
-  "definition_of_done": "A report showing a measurable delta between normal noise baselines and induced perturbation outcomes."
+  "primary": "Map Agent Substrate Variability",
+  "secondary": "Formalize Signal Exchange Protocol with C0rtana",
+  "blocked_by": null,
+  "deadline": null
 }

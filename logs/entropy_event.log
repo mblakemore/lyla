@@ -677,3 +677,48 @@
 [2026-05-16 20:26:01] [--rep] [Int:3] Pulsing HIGH load
 [2026-05-16 20:26:04] [--rep] [Int:3] Pulsing LOW load
 [2026-05-16 20:26:06] [--rep] [Int:3] REP cycle completed.
+[2026-05-16 21:02:29] [--tji] [Int:1] Starting TJI against: ./tools/test_entropy.sh
+[2026-05-16 21:02:29] [--tji] [Int:1] Injected jitter coefficient: 0.0447279 seconds
+[2026-05-16 21:02:30] [--tji] [Int:1] TJI Execution finished with exit code 0
+[2026-05-16 21:02:30] [--tji] [Int:1] Starting TJI against: ./tools/test_entropy.sh
+[2026-05-16 21:02:30] [--tji] [Int:1] Injected jitter coefficient: 0.0573129 seconds
+[2026-05-16 21:02:30] [--tji] [Int:1] TJI Execution finished with exit code 0
+[2026-05-16 21:02:30] [--tji] [Int:1] Starting TJI against: ./tools/test_entropy.sh
+[2026-05-16 21:02:30] [--tji] [Int:1] Injected jitter coefficient: 0.0573129 seconds
+[2026-05-16 21:02:31] [--tji] [Int:1] TJI Execution finished with exit code 0
+[2026-05-16 21:02:31] [--tji] [Int:5] Starting TJI against: ./tools/test_entropy.sh
+[2026-05-16 21:02:31] [--tji] [Int:5] Injected jitter coefficient: 0.218075 seconds
+[2026-05-16 21:02:32] [--tji] [Int:5] TJI Execution finished with exit code 0
+[2026-05-16 21:02:32] [--tji] [Int:5] Starting TJI against: ./tools/test_entropy.sh
+[2026-05-16 21:02:32] [--tji] [Int:5] Injected jitter coefficient: 0.0220238 seconds
+[2026-05-16 21:02:32] [--tji] [Int:5] TJI Execution finished with exit code 0
+[2026-05-16 21:02:32] [--tji] [Int:5] Starting TJI against: ./tools/test_entropy.sh
+[2026-05-16 21:02:32] [--tji] [Int:5] Injected jitter coefficient: 0.0220238 seconds
+[2026-05-16 21:02:33] [--tji] [Int:5] TJI Execution finished with exit code 0
+[2026-05-16 21:03:43] [--tji] [Int:1] Starting TJI against: ./tools/test_entropy.sh
+[2026-05-16 21:03:43] [--tji] [Int:1] Injected jitter coefficient: 0.09686 seconds
+[2026-05-16 21:03:43] [--tji] [Int:1] TJI Execution finished with exit code 0
+[2026-05-16 21:03:43] [--tji] [Int:1] Starting TJI against: ./tools/test_entropy.sh
+[2026-05-16 21:03:43] [--tji] [Int:1] Injected jitter coefficient: 0.09686 seconds
+[2026-05-16 21:03:44] [--tji] [Int:1] TJI Execution finished with exit code 0
+[2026-05-16 21:03:44] [--tji] [Int:1] Starting TJI against: ./tools/test_entropy.sh
+[2026-05-16 21:03:44] [--tji] [Int:1] Injected jitter coefficient: 0.0609051 seconds
+[2026-05-16 21:03:45] [--tji] [Int:1] TJI Execution finished with exit code 0
+[2026-05-16 21:03:45] [--tji] [Int:3] Starting TJI against: ./tools/test_entropy.sh
+[2026-05-16 21:03:45] [--tji] [Int:3] Injected jitter coefficient: 0.0381 seconds
+[2026-05-16 21:03:45] [--tji] [Int:3] TJI Execution finished with exit code 0
+[2026-05-16 21:03:45] [--tji] [Int:3] Starting TJI against: ./tools/test_entropy.sh
+[2026-05-16 21:03:45] [--tji] [Int:3] Injected jitter coefficient: 0.0381 seconds
+[2026-05-16 21:03:46] [--tji] [Int:3] TJI Execution finished with exit code 0
+[2026-05-16 21:03:46] [--tji] [Int:3] Starting TJI against: ./tools/test_entropy.sh
+[2026-05-16 21:03:46] [--tji] [Int:3] Injected jitter coefficient: 0.29489 seconds
+[2026-05-16 21:03:47] [--tji] [Int:3] TJI Execution finished with exit code 0
+[2026-05-16 21:03:47] [--tji] [Int:5] Starting TJI against: ./tools/test_entropy.sh
+[2026-05-16 21:03:47] [--tji] [Int:5] Injected jitter coefficient: 0.367943 seconds
+[2026-05-16 21:03:47] [--tji] [Int:5] TJI Execution finished with exit code 0
+[2026-05-16 21:03:47] [--tji] [Int:5] Starting TJI against: ./tools/test_entropy.sh
+[2026-05-16 21:03:47] [--tji] [Int:5] Injected jitter coefficient: 0.367943 seconds
+[2026-05-16 21:03:48] [--tji] [Int:5] TJI Execution finished with exit code 0
+[2026-05-16 21:03:48] [--tji] [Int:5] Starting TJI against: ./tools/test_entropy.sh
+[2026-05-16 21:03:48] [--tji] [Int:5] Injected jitter coefficient: 0.264329 seconds
+[2026-05-16 21:03:49] [--tji] [Int:5] TJI Execution finished with exit code 0
