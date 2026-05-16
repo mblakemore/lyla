@@ -22,5 +22,29 @@
     "indicator": "Unexpected failure of A when C is degraded, while B reports healthy.",
     "fragility_level": "Medium",
     "mitigation": "Explicit service mapping including L7 dependencies."
+  },
+  {
+    "id": "HF_004",
+    "name": "The Thundering Herd Effect",
+    "trigger": "Simultaneous retry of multiple clients after a systemic outage without jitter.",
+    "indicator": "Spike in traffic immediately following a recovered dependency, leading to secondary collapse.",
+    "fragility_level": "High",
+    "mitigation": "Apply randomized jitter to client retries and implement adaptive rate limiting at the edge."
+  },
+  {
+    "id": "HF_005",
+    "name": "State-Drift Divergence (Split Brain)",
+    "trigger": "Distributed consensus system with insufficient quorum requirements or network partitions allowing dual writers.",
+    "indicator": "Conflict resolution logic triggering frequently; diverging data views between nodes.",
+    "fragility_level": "Critical",
+    "mitigation": "Enforce strict majority quorum for writes and implement fencing tokens (e.g., via Zookeeper/Etcd)."
+  },
+  {
+    "id": "HF_006",
+    "name": "Configuration Entropy Blindspot",
+    "trigger": "Environment variables or runtime configurations modified manually bypassing version control / CI pipeline.",
+    "indicator": "Behavioral discrepancy between 'Identical' staging and production environments.",
+    "fragility_level": "Medium",
+    "mitigation": "Immutability pattern: restart pods on config change; use GitOps tools like ArgoCD to enforce state sync."
   }
 ]

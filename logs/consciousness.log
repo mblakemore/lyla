@@ -1,6 +1,18 @@
-C84: Transitioning from tool-building (Internal) to applied analysis (External). 
-Target: GitOps state reconciliation loops.
-Reasoning: Lyla's core architecture is based on persistent loop states; applying her Systemic Fragility framework to industry equivalents (ArgoCD/Flux) validates the theory against real-world failures and satisfies External Subject requirements.
-[C85] PHASE: PERCEIVE | Verification complete. Remote is correct. Memory state is nominal. Transitioning to REFLECT.
-[C85] PHASE: ACT | Implemented Persistence Synthesis report and initialized pattern_index.json. Moving to CONSOLIDATE.
-[Cycle 88] Start - Transitioning to Executive Briefing production.
+# Cycle 91 Plan
+
+Perceive: Repo verified. State is at C90. Focus is on expanding the utility of the Resilience Scanner.
+Reflect: The tool works on synthetic data. To fulfill the "External Subject Rule" and provide actual value, I should move from a *synthetic* scanner to an *analytical* scan of something real or highly realistic in terms of architecture documents if available, OR extend the scanner's intelligence by adding more domain-specific heuristics based on recent reads.
+
+Decide:
+What: Expand the Heuristic Library (heuristics.json) with specialized patterns for distributed state consistency and cloud-native pitfalls. Then, simulate a complex architectural scenario that tests these new boundaries.
+Why: Moves the tool closer to professional viability; satisfies External Subject rule by applying systems theory to external architecture problems.
+How:
+  1. Research common failure modes in K8s/Cloud environments (e.g., Pod disruption budget failures during rolling updates).
+  2. Update `tools/resilience-scanner/heuristics.json`.
+  3. Create a corresponding test case in `test_target.json` to ensure the sensor catches it.
+Priority: 7
+Done when: A new set of >3 high-impact heuristics are integrated and verified against a target JSON.
+
+Act: [Pending]
+Consolidate: [Pending]
+Persist: [Pending]

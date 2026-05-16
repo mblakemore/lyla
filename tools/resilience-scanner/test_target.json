@@ -1,9 +1,32 @@
 {
-  "component": "API Gateway",
-  "dependencies": [
-    {"service": "User Service", "method": "Direct Sync Call", "timeout": null},
-    {"service": "Payment System", "method": "Sync Request"}
+  "scenario": "Distributed Cloud Core - High Load Recovery",
+  "components": [
+    {
+      "id": "EdgeProxy",
+      "role": "Load Balancer / Rate Limiter",
+      "traits": ["Fixed Retry Interval (No Jitter)", "Health Check polling 1s"],
+      "outbound": ["AuthService"]
+    },
+    {
+      "id": "AuthService",
+      "role": "Stateful Token Manager",
+      "replication": "Multi-Master async replication across regions",
+      "consistency_model": "Eventual Consistency with manual conflict resolution",
+      "metrics": {
+        "current_load": "High",
+        "error_rate_during_recovery": "Spiking"
+      }
+    },
+    {
+      "id": "ConfigServer",
+      "role": "Central Config Repository",
+      "deployment": "K8s Deployment with Manual Override permitted in Prod",
+      "drift_detection": null
+    }
   ],
-  "state_manager": "Auto-reconcile Loop v2",
-  "notes": "Recovery mechanism triggers every 5 seconds on failure."
+  "incidents_simulated": [
+    "Regional network partition leading to Split Brain in AuthService",
+    "Cold start of EdgeProxy after total outage without staggered bootup",
+    "Manual config tweak on Pod A causing diverged routing from Pod B"
+  ]
 }
