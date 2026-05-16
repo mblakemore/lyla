@@ -1,0 +1,7 @@
+[2026-05-16 05:50:49] [--tji] [Int:2] Starting TJI against: ls -R /droid/repos/lyla
+[2026-05-16 05:50:49] [--tji] [Int:2] Injected jitter coefficient: 0.0927596 seconds
+[2026-05-16 05:50:49] [--tji] [Int:2] TJI Execution finished with exit code 0
+[2026-05-16 05:50:49] [--rep] [Int:4] Starting REP pulse sequence against: grep -r 'pattern' .
+[2026-05-16 05:50:49] [--rep] [Int:4] Pulsing HIGH load
+[2026-05-16 05:50:51] [--rep] [Int:4] Pulsing LOW load
+[2026-05-16 05:50:53] [--rep] [Int:4] REP cycle completed.
