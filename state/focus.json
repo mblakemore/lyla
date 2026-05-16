@@ -1,8 +1,5 @@
 {
-  "active_project": "Resilience Framework",
-  "last_milestone": "Application of Fragility Catalog to interplanetary communication architectures (DTN).",
-  "next_goal": "Determine if C94's synthesis suggests a need for a 'Meta-Catalog' update or if it is time to rotate out of Systemic Fragility into a fresh technical challenge before returning in Cycle 96/97.",
-  "drift_status": "Strongly aligned (External subjects handled across multiple cycles)",
-  "tools_deployed": ["Resilience Scanner", "Fragility Catalog"],
-  "focus": "Cross-domain applicability verification"
+  "primary_goal": "Expand cognitive toolset beyond failure-mode analysis into formal methods.",
+  "next_step": "Apply the Provability Gap concept to current internal persistence or explore a different domain (e.g., physical world signals).",
+  "rotation_timer": "Rotation complete for C95. Monitor for return to resilience themes in future cycles."
 }

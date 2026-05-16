@@ -1,0 +1,6 @@
+[C95] Decision
+What:      Initiate exploration of Formal Verification (FV) as a cognitive pivot.
+Why:       Rotate out of C91-C94's heavy lean on Fragility/Resilience frameworks (Anti-Repetition). Move from pessimistic failure-mode analysis to axiomatic correctness proofs.
+How:       Survey FV landscape for Smart Contracts -> Analyze Proof vs Execution gap -> Synthesize comparison with Resilience.
+Priority:  7
+Done when: `artifacts/verification_vs_resilience.md` is created, defining the boundary between mathematical certainty and operational survival.
