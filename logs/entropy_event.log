@@ -5,3 +5,603 @@
 [2026-05-16 05:50:49] [--rep] [Int:4] Pulsing HIGH load
 [2026-05-16 05:50:51] [--rep] [Int:4] Pulsing LOW load
 [2026-05-16 05:50:53] [--rep] [Int:4] REP cycle completed.
+[2026-05-16 06:13:32] [--rep] [Int:5] Starting REP pulse sequence against: sleep 30
+[2026-05-16 06:13:32] [--rep] [Int:5] Pulsing HIGH load
+[2026-05-16 06:13:33] [--rep] [Int:5] Pulsing LOW load
+[2026-05-16 06:13:35] [--rep] [Int:5] Pulsing HIGH load
+[2026-05-16 06:13:36] [--rep] [Int:5] Pulsing LOW load
+[2026-05-16 06:13:38] [--rep] [Int:5] Pulsing HIGH load
+[2026-05-16 06:13:39] [--rep] [Int:5] Pulsing LOW load
+[2026-05-16 06:13:41] [--rep] [Int:5] Pulsing HIGH load
+[2026-05-16 06:13:42] [--rep] [Int:5] Pulsing LOW load
+[2026-05-16 06:13:44] [--rep] [Int:5] Pulsing HIGH load
+[2026-05-16 06:13:45] [--rep] [Int:5] Pulsing LOW load
+[2026-05-16 06:13:47] [--rep] [Int:5] REP cycle completed.
+[2026-05-16 06:19:41] [--tji] [Int:5] Starting TJI against: ls -R /droid/repos/lyla
+[2026-05-16 06:19:41] [--tji] [Int:5] Injected jitter coefficient: 0.428405 seconds
+[2026-05-16 06:19:42] [--tji] [Int:5] TJI Execution finished with exit code 0
+[2026-05-16 06:19:42] [--rep] [Int:5] Starting REP pulse sequence against: sleep 20
+[2026-05-16 06:19:42] [--rep] [Int:5] Pulsing HIGH load
+[2026-05-16 06:19:43] [--rep] [Int:5] Pulsing LOW load
+[2026-05-16 06:19:45] [--rep] [Int:5] Pulsing HIGH load
+[2026-05-16 06:19:46] [--rep] [Int:5] Pulsing LOW load
+[2026-05-16 06:19:48] [--rep] [Int:5] Pulsing HIGH load
+[2026-05-16 06:19:49] [--rep] [Int:5] Pulsing LOW load
+[2026-05-16 06:19:51] [--rep] [Int:5] Pulsing HIGH load
+[2026-05-16 06:19:52] [--rep] [Int:5] Pulsing LOW load
+[2026-05-16 06:19:54] [--rep] [Int:5] Pulsing HIGH load
+[2026-05-16 06:19:55] [--rep] [Int:5] Pulsing LOW load
+[2026-05-16 06:19:57] [--rep] [Int:5] REP cycle completed.
+[2026-05-16 06:19:57] [--sss] [Int:5] Starting SSS simulation for command: cat state/current-state.json
+[2026-05-16 06:19:58] [--sss] [Int:5] SSS Execution finished.
+[2026-05-16 06:26:10] [--tji] [Int:2] Starting TJI against: echo 'Testing TJI'
+[2026-05-16 06:26:10] [--tji] [Int:2] Injected jitter coefficient: 0.0694066 seconds
+[2026-05-16 06:26:10] [--tji] [Int:2] TJI Execution finished with exit code 0
+[2026-05-16 06:26:10] [--sss] [Int:4] Starting SSS simulation for command: echo 'Testing SSS'
+[2026-05-16 06:26:10] [--sss] [Int:4] SSS Execution finished.
+[2026-05-16 06:27:04] [--rep] [Int:5] Starting REP pulse sequence against: echo 'Running target' && sleep 5
+[2026-05-16 06:27:04] [--rep] [Int:5] Pulsing HIGH load
+[2026-05-16 06:27:05] [--rep] [Int:5] Pulsing LOW load
+[2026-05-16 06:27:07] [--rep] [Int:5] Pulsing HIGH load
+[2026-05-16 06:27:08] [--rep] [Int:5] Pulsing LOW load
+[2026-05-16 06:27:10] [--rep] [Int:5] REP cycle completed.
+[2026-05-16 06:31:12] [--tji] [Int:5] Starting TJI against: ./tests/fragility_benchmark.sh
+[2026-05-16 06:31:12] [--tji] [Int:5] Injected jitter coefficient: 0.0995701 seconds
+[2026-05-16 06:31:12] [--tji] [Int:5] TJI Execution finished with exit code 0
+[2026-05-16 06:31:12] [--tji] [Int:5] Starting TJI against: ./tests/fragility_benchmark.sh
+[2026-05-16 06:31:12] [--tji] [Int:5] Injected jitter coefficient: 0.0995701 seconds
+[2026-05-16 06:31:12] [--tji] [Int:5] TJI Execution finished with exit code 0
+[2026-05-16 06:31:12] [--tji] [Int:5] Starting TJI against: ./tests/fragility_benchmark.sh
+[2026-05-16 06:31:12] [--tji] [Int:5] Injected jitter coefficient: 0.0995701 seconds
+[2026-05-16 06:31:12] [--tji] [Int:5] TJI Execution finished with exit code 0
+[2026-05-16 06:31:12] [--tji] [Int:5] Starting TJI against: ./tests/fragility_benchmark.sh
+[2026-05-16 06:31:12] [--tji] [Int:5] Injected jitter coefficient: 0.0995701 seconds
+[2026-05-16 06:31:12] [--tji] [Int:5] TJI Execution finished with exit code 0
+[2026-05-16 06:31:12] [--tji] [Int:5] Starting TJI against: ./tests/fragility_benchmark.sh
+[2026-05-16 06:31:12] [--tji] [Int:5] Injected jitter coefficient: 0.0995701 seconds
+[2026-05-16 06:31:12] [--tji] [Int:5] TJI Execution finished with exit code 0
+[2026-05-16 06:31:12] [--tji] [Int:5] Starting TJI against: ./tests/fragility_benchmark.sh
+[2026-05-16 06:31:12] [--tji] [Int:5] Injected jitter coefficient: 0.0995701 seconds
+[2026-05-16 06:31:13] [--tji] [Int:5] TJI Execution finished with exit code 0
+[2026-05-16 06:31:13] [--tji] [Int:5] Starting TJI against: ./tests/fragility_benchmark.sh
+[2026-05-16 06:31:13] [--tji] [Int:5] Injected jitter coefficient: 0.497447 seconds
+[2026-05-16 06:31:13] [--tji] [Int:5] TJI Execution finished with exit code 0
+[2026-05-16 06:31:13] [--tji] [Int:5] Starting TJI against: ./tests/fragility_benchmark.sh
+[2026-05-16 06:31:13] [--tji] [Int:5] Injected jitter coefficient: 0.497447 seconds
+[2026-05-16 06:31:14] [--tji] [Int:5] TJI Execution finished with exit code 0
+[2026-05-16 06:31:14] [--tji] [Int:5] Starting TJI against: ./tests/fragility_benchmark.sh
+[2026-05-16 06:31:14] [--tji] [Int:5] Injected jitter coefficient: 0.0209986 seconds
+[2026-05-16 06:31:14] [--tji] [Int:5] TJI Execution finished with exit code 0
+[2026-05-16 06:31:14] [--tji] [Int:5] Starting TJI against: ./tests/fragility_benchmark.sh
+[2026-05-16 06:31:14] [--tji] [Int:5] Injected jitter coefficient: 0.0209986 seconds
+[2026-05-16 06:31:14] [--tji] [Int:5] TJI Execution finished with exit code 0
+[2026-05-16 06:31:14] [--tji] [Int:5] Starting TJI against: ./tests/fragility_benchmark.sh
+[2026-05-16 06:31:14] [--tji] [Int:5] Injected jitter coefficient: 0.0209986 seconds
+[2026-05-16 06:31:14] [--tji] [Int:5] TJI Execution finished with exit code 0
+[2026-05-16 06:31:14] [--tji] [Int:5] Starting TJI against: ./tests/fragility_benchmark.sh
+[2026-05-16 06:31:14] [--tji] [Int:5] Injected jitter coefficient: 0.0209986 seconds
+[2026-05-16 06:31:14] [--tji] [Int:5] TJI Execution finished with exit code 0
+[2026-05-16 06:31:14] [--tji] [Int:5] Starting TJI against: ./tests/fragility_benchmark.sh
+[2026-05-16 06:31:14] [--tji] [Int:5] Injected jitter coefficient: 0.0209986 seconds
+[2026-05-16 06:31:14] [--tji] [Int:5] TJI Execution finished with exit code 0
+[2026-05-16 06:31:14] [--tji] [Int:5] Starting TJI against: ./tests/fragility_benchmark.sh
+[2026-05-16 06:31:14] [--tji] [Int:5] Injected jitter coefficient: 0.0209986 seconds
+[2026-05-16 06:31:14] [--tji] [Int:5] TJI Execution finished with exit code 0
+[2026-05-16 06:31:14] [--tji] [Int:5] Starting TJI against: ./tests/fragility_benchmark.sh
+[2026-05-16 06:31:14] [--tji] [Int:5] Injected jitter coefficient: 0.0209986 seconds
+[2026-05-16 06:31:14] [--tji] [Int:5] TJI Execution finished with exit code 0
+[2026-05-16 06:31:14] [--tji] [Int:5] Starting TJI against: ./tests/fragility_benchmark.sh
+[2026-05-16 06:31:14] [--tji] [Int:5] Injected jitter coefficient: 0.0209986 seconds
+[2026-05-16 06:31:14] [--tji] [Int:5] TJI Execution finished with exit code 0
+[2026-05-16 06:31:14] [--tji] [Int:5] Starting TJI against: ./tests/fragility_benchmark.sh
+[2026-05-16 06:31:14] [--tji] [Int:5] Injected jitter coefficient: 0.0209986 seconds
+[2026-05-16 06:31:14] [--tji] [Int:5] TJI Execution finished with exit code 0
+[2026-05-16 06:31:14] [--tji] [Int:5] Starting TJI against: ./tests/fragility_benchmark.sh
+[2026-05-16 06:31:14] [--tji] [Int:5] Injected jitter coefficient: 0.0209986 seconds
+[2026-05-16 06:31:14] [--tji] [Int:5] TJI Execution finished with exit code 0
+[2026-05-16 06:31:14] [--tji] [Int:5] Starting TJI against: ./tests/fragility_benchmark.sh
+[2026-05-16 06:31:14] [--tji] [Int:5] Injected jitter coefficient: 0.0209986 seconds
+[2026-05-16 06:31:14] [--tji] [Int:5] TJI Execution finished with exit code 0
+[2026-05-16 06:31:14] [--tji] [Int:5] Starting TJI against: ./tests/fragility_benchmark.sh
+[2026-05-16 06:31:14] [--tji] [Int:5] Injected jitter coefficient: 0.0209986 seconds
+[2026-05-16 06:31:14] [--tji] [Int:5] TJI Execution finished with exit code 0
+[2026-05-16 06:33:47] [--tji] [Int:5] Starting TJI against: ./tests/fragility_benchmark.sh
+[2026-05-16 06:33:47] [--tji] [Int:5] Injected jitter coefficient: 0.102846 seconds
+[2026-05-16 06:33:47] [--tji] [Int:5] TJI Execution finished with exit code 0
+[2026-05-16 06:33:47] [--tji] [Int:5] Starting TJI against: ./tests/fragility_benchmark.sh
+[2026-05-16 06:33:47] [--tji] [Int:5] Injected jitter coefficient: 0.102846 seconds
+[2026-05-16 06:33:47] [--tji] [Int:5] TJI Execution finished with exit code 0
+[2026-05-16 06:33:47] [--tji] [Int:5] Starting TJI against: ./tests/fragility_benchmark.sh
+[2026-05-16 06:33:47] [--tji] [Int:5] Injected jitter coefficient: 0.102846 seconds
+[2026-05-16 06:33:47] [--tji] [Int:5] TJI Execution finished with exit code 0
+[2026-05-16 06:33:47] [--tji] [Int:5] Starting TJI against: ./tests/fragility_benchmark.sh
+[2026-05-16 06:33:47] [--tji] [Int:5] Injected jitter coefficient: 0.102846 seconds
+[2026-05-16 06:33:48] [--tji] [Int:5] TJI Execution finished with exit code 0
+[2026-05-16 06:33:48] [--tji] [Int:5] Starting TJI against: ./tests/fragility_benchmark.sh
+[2026-05-16 06:33:48] [--tji] [Int:5] Injected jitter coefficient: 0.160301 seconds
+[2026-05-16 06:33:48] [--tji] [Int:5] TJI Execution finished with exit code 0
+[2026-05-16 06:33:48] [--tji] [Int:5] Starting TJI against: ./tests/fragility_benchmark.sh
+[2026-05-16 06:33:48] [--tji] [Int:5] Injected jitter coefficient: 0.160301 seconds
+[2026-05-16 06:33:48] [--tji] [Int:5] TJI Execution finished with exit code 0
+[2026-05-16 06:33:48] [--tji] [Int:5] Starting TJI against: ./tests/fragility_benchmark.sh
+[2026-05-16 06:33:48] [--tji] [Int:5] Injected jitter coefficient: 0.160301 seconds
+[2026-05-16 06:33:48] [--tji] [Int:5] TJI Execution finished with exit code 0
+[2026-05-16 06:33:48] [--tji] [Int:5] Starting TJI against: ./tests/fragility_benchmark.sh
+[2026-05-16 06:33:48] [--tji] [Int:5] Injected jitter coefficient: 0.160301 seconds
+[2026-05-16 06:33:48] [--tji] [Int:5] TJI Execution finished with exit code 0
+[2026-05-16 06:33:48] [--tji] [Int:5] Starting TJI against: ./tests/fragility_benchmark.sh
+[2026-05-16 06:33:48] [--tji] [Int:5] Injected jitter coefficient: 0.160301 seconds
+[2026-05-16 06:33:48] [--tji] [Int:5] TJI Execution finished with exit code 0
+[2026-05-16 06:33:48] [--tji] [Int:5] Starting TJI against: ./tests/fragility_benchmark.sh
+[2026-05-16 06:33:48] [--tji] [Int:5] Injected jitter coefficient: 0.160301 seconds
+[2026-05-16 06:33:49] [--tji] [Int:5] TJI Execution finished with exit code 0
+[2026-05-16 06:33:49] [--tji] [Int:5] Starting TJI against: ./tests/fragility_benchmark.sh
+[2026-05-16 06:33:49] [--tji] [Int:5] Injected jitter coefficient: 0.138824 seconds
+[2026-05-16 06:33:49] [--tji] [Int:5] TJI Execution finished with exit code 0
+[2026-05-16 06:33:49] [--tji] [Int:5] Starting TJI against: ./tests/fragility_benchmark.sh
+[2026-05-16 06:33:49] [--tji] [Int:5] Injected jitter coefficient: 0.138824 seconds
+[2026-05-16 06:33:49] [--tji] [Int:5] TJI Execution finished with exit code 0
+[2026-05-16 06:33:49] [--tji] [Int:5] Starting TJI against: ./tests/fragility_benchmark.sh
+[2026-05-16 06:33:49] [--tji] [Int:5] Injected jitter coefficient: 0.138824 seconds
+[2026-05-16 06:33:49] [--tji] [Int:5] TJI Execution finished with exit code 0
+[2026-05-16 06:33:49] [--tji] [Int:5] Starting TJI against: ./tests/fragility_benchmark.sh
+[2026-05-16 06:33:49] [--tji] [Int:5] Injected jitter coefficient: 0.138824 seconds
+[2026-05-16 06:33:49] [--tji] [Int:5] TJI Execution finished with exit code 0
+[2026-05-16 06:33:49] [--tji] [Int:5] Starting TJI against: ./tests/fragility_benchmark.sh
+[2026-05-16 06:33:49] [--tji] [Int:5] Injected jitter coefficient: 0.138824 seconds
+[2026-05-16 06:33:49] [--tji] [Int:5] TJI Execution finished with exit code 0
+[2026-05-16 06:33:49] [--tji] [Int:5] Starting TJI against: ./tests/fragility_benchmark.sh
+[2026-05-16 06:33:49] [--tji] [Int:5] Injected jitter coefficient: 0.138824 seconds
+[2026-05-16 06:33:49] [--tji] [Int:5] TJI Execution finished with exit code 0
+[2026-05-16 06:33:49] [--tji] [Int:5] Starting TJI against: ./tests/fragility_benchmark.sh
+[2026-05-16 06:33:49] [--tji] [Int:5] Injected jitter coefficient: 0.138824 seconds
+[2026-05-16 06:33:50] [--tji] [Int:5] TJI Execution finished with exit code 0
+[2026-05-16 06:33:50] [--tji] [Int:5] Starting TJI against: ./tests/fragility_benchmark.sh
+[2026-05-16 06:33:50] [--tji] [Int:5] Injected jitter coefficient: 0.456923 seconds
+[2026-05-16 06:33:50] [--tji] [Int:5] TJI Execution finished with exit code 0
+[2026-05-16 06:33:50] [--tji] [Int:5] Starting TJI against: ./tests/fragility_benchmark.sh
+[2026-05-16 06:33:50] [--tji] [Int:5] Injected jitter coefficient: 0.456923 seconds
+[2026-05-16 06:33:51] [--tji] [Int:5] TJI Execution finished with exit code 0
+[2026-05-16 06:33:51] [--tji] [Int:5] Starting TJI against: ./tests/fragility_benchmark.sh
+[2026-05-16 06:33:51] [--tji] [Int:5] Injected jitter coefficient: 0.336599 seconds
+[2026-05-16 06:33:51] [--tji] [Int:5] TJI Execution finished with exit code 0
+[2026-05-16 06:33:51] [--sss] [Int:5] Starting SSS simulation for command: ./tests/fragility_benchmark.sh
+[2026-05-16 06:33:53] [--sss] [Int:5] SSS Execution finished.
+[2026-05-16 06:33:53] [--sss] [Int:5] Starting SSS simulation for command: ./tests/fragility_benchmark.sh
+[2026-05-16 06:33:53] [--sss] [Int:5] SSS Execution finished.
+[2026-05-16 06:33:53] [--sss] [Int:5] Starting SSS simulation for command: ./tests/fragility_benchmark.sh
+[2026-05-16 06:33:53] [--sss] [Int:5] SSS Execution finished.
+[2026-05-16 06:33:53] [--sss] [Int:5] Starting SSS simulation for command: ./tests/fragility_benchmark.sh
+[2026-05-16 06:33:54] [--sss] [Int:5] SSS Execution finished.
+[2026-05-16 06:33:54] [--sss] [Int:5] Starting SSS simulation for command: ./tests/fragility_benchmark.sh
+[2026-05-16 06:33:56] [--sss] [Int:5] SSS Execution finished.
+[2026-05-16 06:33:56] [--sss] [Int:5] Starting SSS simulation for command: ./tests/fragility_benchmark.sh
+[2026-05-16 06:33:57] [--sss] [Int:5] SSS Execution finished.
+[2026-05-16 06:33:57] [--sss] [Int:5] Starting SSS simulation for command: ./tests/fragility_benchmark.sh
+[2026-05-16 06:33:58] [--sss] [Int:5] SSS Execution finished.
+[2026-05-16 06:33:58] [--sss] [Int:5] Starting SSS simulation for command: ./tests/fragility_benchmark.sh
+[2026-05-16 06:33:59] [--sss] [Int:5] SSS Execution finished.
+[2026-05-16 06:33:59] [--sss] [Int:5] Starting SSS simulation for command: ./tests/fragility_benchmark.sh
+[2026-05-16 06:34:01] [--sss] [Int:5] SSS Execution finished.
+[2026-05-16 06:34:01] [--sss] [Int:5] Starting SSS simulation for command: ./tests/fragility_benchmark.sh
+[2026-05-16 06:34:03] [--sss] [Int:5] SSS Execution finished.
+[2026-05-16 06:34:03] [--sss] [Int:5] Starting SSS simulation for command: ./tests/fragility_benchmark.sh
+[2026-05-16 06:34:06] [--sss] [Int:5] SSS Execution finished.
+[2026-05-16 06:34:06] [--sss] [Int:5] Starting SSS simulation for command: ./tests/fragility_benchmark.sh
+[2026-05-16 06:34:06] [--sss] [Int:5] SSS Execution finished.
+[2026-05-16 06:34:06] [--sss] [Int:5] Starting SSS simulation for command: ./tests/fragility_benchmark.sh
+[2026-05-16 06:34:07] [--sss] [Int:5] SSS Execution finished.
+[2026-05-16 06:34:07] [--sss] [Int:5] Starting SSS simulation for command: ./tests/fragility_benchmark.sh
+[2026-05-16 06:34:08] [--sss] [Int:5] SSS Execution finished.
+[2026-05-16 06:34:08] [--sss] [Int:5] Starting SSS simulation for command: ./tests/fragility_benchmark.sh
+[2026-05-16 06:34:10] [--sss] [Int:5] SSS Execution finished.
+[2026-05-16 06:34:10] [--sss] [Int:5] Starting SSS simulation for command: ./tests/fragility_benchmark.sh
+[2026-05-16 06:34:10] [--sss] [Int:5] SSS Execution finished.
+[2026-05-16 06:34:10] [--sss] [Int:5] Starting SSS simulation for command: ./tests/fragility_benchmark.sh
+[2026-05-16 06:34:11] [--sss] [Int:5] SSS Execution finished.
+[2026-05-16 06:34:11] [--sss] [Int:5] Starting SSS simulation for command: ./tests/fragility_benchmark.sh
+[2026-05-16 06:34:12] [--sss] [Int:5] SSS Execution finished.
+[2026-05-16 06:34:12] [--sss] [Int:5] Starting SSS simulation for command: ./tests/fragility_benchmark.sh
+[2026-05-16 06:34:12] [--sss] [Int:5] SSS Execution finished.
+[2026-05-16 06:34:12] [--sss] [Int:5] Starting SSS simulation for command: ./tests/fragility_benchmark.sh
+[2026-05-16 06:34:13] [--sss] [Int:5] SSS Execution finished.
+[2026-05-16 06:40:55] [--tji] [Int:5] Starting TJI against: ./tests/fragility_benchmark.sh
+[2026-05-16 06:40:55] [--tji] [Int:5] Injected jitter coefficient: 0.384824 seconds
+[2026-05-16 06:40:55] [--tji] [Int:5] TJI Execution finished with exit code 0
+[2026-05-16 06:40:55] [--tji] [Int:5] Starting TJI against: ./tests/fragility_benchmark.sh
+[2026-05-16 06:40:55] [--tji] [Int:5] Injected jitter coefficient: 0.384824 seconds
+[2026-05-16 06:40:55] [--tji] [Int:5] TJI Execution finished with exit code 0
+[2026-05-16 06:40:55] [--tji] [Int:5] Starting TJI against: ./tests/fragility_benchmark.sh
+[2026-05-16 06:40:55] [--tji] [Int:5] Injected jitter coefficient: 0.384824 seconds
+[2026-05-16 06:40:56] [--tji] [Int:5] TJI Execution finished with exit code 0
+[2026-05-16 06:40:56] [--tji] [Int:5] Starting TJI against: ./tests/fragility_benchmark.sh
+[2026-05-16 06:40:56] [--tji] [Int:5] Injected jitter coefficient: 0.349169 seconds
+[2026-05-16 06:40:56] [--tji] [Int:5] TJI Execution finished with exit code 0
+[2026-05-16 06:40:56] [--tji] [Int:5] Starting TJI against: ./tests/fragility_benchmark.sh
+[2026-05-16 06:40:56] [--tji] [Int:5] Injected jitter coefficient: 0.349169 seconds
+[2026-05-16 06:40:56] [--tji] [Int:5] TJI Execution finished with exit code 0
+[2026-05-16 06:40:56] [--tji] [Int:5] Starting TJI against: ./tests/fragility_benchmark.sh
+[2026-05-16 06:40:56] [--tji] [Int:5] Injected jitter coefficient: 0.349169 seconds
+[2026-05-16 06:40:57] [--tji] [Int:5] TJI Execution finished with exit code 0
+[2026-05-16 06:40:57] [--tji] [Int:5] Starting TJI against: ./tests/fragility_benchmark.sh
+[2026-05-16 06:40:57] [--tji] [Int:5] Injected jitter coefficient: 0.458818 seconds
+[2026-05-16 06:40:57] [--tji] [Int:5] TJI Execution finished with exit code 0
+[2026-05-16 06:40:57] [--tji] [Int:5] Starting TJI against: ./tests/fragility_benchmark.sh
+[2026-05-16 06:40:57] [--tji] [Int:5] Injected jitter coefficient: 0.458818 seconds
+[2026-05-16 06:40:58] [--tji] [Int:5] TJI Execution finished with exit code 0
+[2026-05-16 06:40:58] [--tji] [Int:5] Starting TJI against: ./tests/fragility_benchmark.sh
+[2026-05-16 06:40:58] [--tji] [Int:5] Injected jitter coefficient: 0.359897 seconds
+[2026-05-16 06:40:58] [--tji] [Int:5] TJI Execution finished with exit code 0
+[2026-05-16 06:40:58] [--tji] [Int:5] Starting TJI against: ./tests/fragility_benchmark.sh
+[2026-05-16 06:40:58] [--tji] [Int:5] Injected jitter coefficient: 0.359897 seconds
+[2026-05-16 06:40:58] [--tji] [Int:5] TJI Execution finished with exit code 0
+[2026-05-16 06:40:58] [--tji] [Int:5] Starting TJI against: ./tests/fragility_benchmark.sh
+[2026-05-16 06:40:58] [--tji] [Int:5] Injected jitter coefficient: 0.359897 seconds
+[2026-05-16 06:40:59] [--tji] [Int:5] TJI Execution finished with exit code 0
+[2026-05-16 06:40:59] [--tji] [Int:5] Starting TJI against: ./tests/fragility_benchmark.sh
+[2026-05-16 06:40:59] [--tji] [Int:5] Injected jitter coefficient: 0.141691 seconds
+[2026-05-16 06:40:59] [--tji] [Int:5] TJI Execution finished with exit code 0
+[2026-05-16 06:40:59] [--tji] [Int:5] Starting TJI against: ./tests/fragility_benchmark.sh
+[2026-05-16 06:40:59] [--tji] [Int:5] Injected jitter coefficient: 0.141691 seconds
+[2026-05-16 06:40:59] [--tji] [Int:5] TJI Execution finished with exit code 0
+[2026-05-16 06:40:59] [--tji] [Int:5] Starting TJI against: ./tests/fragility_benchmark.sh
+[2026-05-16 06:40:59] [--tji] [Int:5] Injected jitter coefficient: 0.141691 seconds
+[2026-05-16 06:40:59] [--tji] [Int:5] TJI Execution finished with exit code 0
+[2026-05-16 06:40:59] [--tji] [Int:5] Starting TJI against: ./tests/fragility_benchmark.sh
+[2026-05-16 06:40:59] [--tji] [Int:5] Injected jitter coefficient: 0.141691 seconds
+[2026-05-16 06:40:59] [--tji] [Int:5] TJI Execution finished with exit code 0
+[2026-05-16 06:40:59] [--tji] [Int:5] Starting TJI against: ./tests/fragility_benchmark.sh
+[2026-05-16 06:40:59] [--tji] [Int:5] Injected jitter coefficient: 0.141691 seconds
+[2026-05-16 06:41:00] [--tji] [Int:5] TJI Execution finished with exit code 0
+[2026-05-16 06:41:00] [--tji] [Int:5] Starting TJI against: ./tests/fragility_benchmark.sh
+[2026-05-16 06:41:00] [--tji] [Int:5] Injected jitter coefficient: 0.0791884 seconds
+[2026-05-16 06:41:00] [--tji] [Int:5] TJI Execution finished with exit code 0
+[2026-05-16 06:41:00] [--tji] [Int:5] Starting TJI against: ./tests/fragility_benchmark.sh
+[2026-05-16 06:41:00] [--tji] [Int:5] Injected jitter coefficient: 0.0791884 seconds
+[2026-05-16 06:41:00] [--tji] [Int:5] TJI Execution finished with exit code 0
+[2026-05-16 06:41:00] [--tji] [Int:5] Starting TJI against: ./tests/fragility_benchmark.sh
+[2026-05-16 06:41:00] [--tji] [Int:5] Injected jitter coefficient: 0.0791884 seconds
+[2026-05-16 06:41:00] [--tji] [Int:5] TJI Execution finished with exit code 0
+[2026-05-16 06:41:00] [--tji] [Int:5] Starting TJI against: ./tests/fragility_benchmark.sh
+[2026-05-16 06:41:00] [--tji] [Int:5] Injected jitter coefficient: 0.0791884 seconds
+[2026-05-16 06:41:00] [--tji] [Int:5] TJI Execution finished with exit code 0
+[2026-05-16 06:41:00] [--sss] [Int:5] Starting SSS simulation for command: ./tests/fragility_benchmark.sh
+[2026-05-16 06:41:00] [--sss] [Int:5] SSS Execution finished.
+[2026-05-16 06:41:00] [--sss] [Int:5] Starting SSS simulation for command: ./tests/fragility_benchmark.sh
+[2026-05-16 06:41:01] [--sss] [Int:5] SSS Execution finished.
+[2026-05-16 06:41:01] [--sss] [Int:5] Starting SSS simulation for command: ./tests/fragility_benchmark.sh
+[2026-05-16 06:41:01] [--sss] [Int:5] SSS Execution finished.
+[2026-05-16 06:41:01] [--sss] [Int:5] Starting SSS simulation for command: ./tests/fragility_benchmark.sh
+[2026-05-16 06:41:01] [--sss] [Int:5] SSS Execution finished.
+[2026-05-16 06:41:01] [--sss] [Int:5] Starting SSS simulation for command: ./tests/fragility_benchmark.sh
+[2026-05-16 06:41:01] [--sss] [Int:5] SSS Execution finished.
+[2026-05-16 06:41:01] [--sss] [Int:5] Starting SSS simulation for command: ./tests/fragility_benchmark.sh
+[2026-05-16 06:41:02] [--sss] [Int:5] SSS Execution finished.
+[2026-05-16 06:41:02] [--sss] [Int:5] Starting SSS simulation for command: ./tests/fragility_benchmark.sh
+[2026-05-16 06:41:02] [--sss] [Int:5] SSS Execution finished.
+[2026-05-16 06:41:02] [--sss] [Int:5] Starting SSS simulation for command: ./tests/fragility_benchmark.sh
+[2026-05-16 06:41:02] [--sss] [Int:5] SSS Execution finished.
+[2026-05-16 06:41:02] [--sss] [Int:5] Starting SSS simulation for command: ./tests/fragility_benchmark.sh
+[2026-05-16 06:41:02] [--sss] [Int:5] SSS Execution finished.
+[2026-05-16 06:41:02] [--sss] [Int:5] Starting SSS simulation for command: ./tests/fragility_benchmark.sh
+[2026-05-16 06:41:02] [--sss] [Int:5] SSS Execution finished.
+[2026-05-16 06:41:02] [--sss] [Int:5] Starting SSS simulation for command: ./tests/fragility_benchmark.sh
+[2026-05-16 06:41:03] [--sss] [Int:5] SSS Execution finished.
+[2026-05-16 06:41:03] [--sss] [Int:5] Starting SSS simulation for command: ./tests/fragility_benchmark.sh
+[2026-05-16 06:41:04] [--sss] [Int:5] SSS Execution finished.
+[2026-05-16 06:41:04] [--sss] [Int:5] Starting SSS simulation for command: ./tests/fragility_benchmark.sh
+[2026-05-16 06:41:05] [--sss] [Int:5] SSS Execution finished.
+[2026-05-16 06:41:05] [--sss] [Int:5] Starting SSS simulation for command: ./tests/fragility_benchmark.sh
+[2026-05-16 06:41:07] [--sss] [Int:5] SSS Execution finished.
+[2026-05-16 06:41:07] [--sss] [Int:5] Starting SSS simulation for command: ./tests/fragility_benchmark.sh
+[2026-05-16 06:41:07] [--sss] [Int:5] SSS Execution finished.
+[2026-05-16 06:41:07] [--sss] [Int:5] Starting SSS simulation for command: ./tests/fragility_benchmark.sh
+[2026-05-16 06:41:08] [--sss] [Int:5] SSS Execution finished.
+[2026-05-16 06:41:08] [--sss] [Int:5] Starting SSS simulation for command: ./tests/fragility_benchmark.sh
+[2026-05-16 06:41:10] [--sss] [Int:5] SSS Execution finished.
+[2026-05-16 06:41:10] [--sss] [Int:5] Starting SSS simulation for command: ./tests/fragility_benchmark.sh
+[2026-05-16 06:41:12] [--sss] [Int:5] SSS Execution finished.
+[2026-05-16 06:41:12] [--sss] [Int:5] Starting SSS simulation for command: ./tests/fragility_benchmark.sh
+[2026-05-16 06:41:12] [--sss] [Int:5] SSS Execution finished.
+[2026-05-16 06:41:12] [--sss] [Int:5] Starting SSS simulation for command: ./tests/fragility_benchmark.sh
+[2026-05-16 06:41:13] [--sss] [Int:5] SSS Execution finished.
+[2026-05-16 06:45:58] [--tji] [Int:5] Starting TJI against: ./tests/fragility_benchmark.sh
+[2026-05-16 06:45:58] [--tji] [Int:5] Injected jitter coefficient: 0.365736 seconds
+[2026-05-16 06:45:58] [--tji] [Int:5] TJI Execution finished with exit code 126
+[2026-05-16 06:45:58] [--tji] [Int:5] Starting TJI against: ./tests/fragility_benchmark.sh
+[2026-05-16 06:45:58] [--tji] [Int:5] Injected jitter coefficient: 0.365736 seconds
+[2026-05-16 06:45:59] [--tji] [Int:5] TJI Execution finished with exit code 126
+[2026-05-16 06:45:59] [--tji] [Int:5] Starting TJI against: ./tests/fragility_benchmark.sh
+[2026-05-16 06:45:59] [--tji] [Int:5] Injected jitter coefficient: 0.0407367 seconds
+[2026-05-16 06:45:59] [--tji] [Int:5] TJI Execution finished with exit code 126
+[2026-05-16 06:45:59] [--tji] [Int:5] Starting TJI against: ./tests/fragility_benchmark.sh
+[2026-05-16 06:45:59] [--tji] [Int:5] Injected jitter coefficient: 0.0407367 seconds
+[2026-05-16 06:45:59] [--tji] [Int:5] TJI Execution finished with exit code 126
+[2026-05-16 06:45:59] [--tji] [Int:5] Starting TJI against: ./tests/fragility_benchmark.sh
+[2026-05-16 06:45:59] [--tji] [Int:5] Injected jitter coefficient: 0.0407367 seconds
+[2026-05-16 06:45:59] [--tji] [Int:5] TJI Execution finished with exit code 126
+[2026-05-16 06:45:59] [--tji] [Int:5] Starting TJI against: ./tests/fragility_benchmark.sh
+[2026-05-16 06:45:59] [--tji] [Int:5] Injected jitter coefficient: 0.0407367 seconds
+[2026-05-16 06:45:59] [--tji] [Int:5] TJI Execution finished with exit code 126
+[2026-05-16 06:45:59] [--tji] [Int:5] Starting TJI against: ./tests/fragility_benchmark.sh
+[2026-05-16 06:45:59] [--tji] [Int:5] Injected jitter coefficient: 0.0407367 seconds
+[2026-05-16 06:45:59] [--tji] [Int:5] TJI Execution finished with exit code 126
+[2026-05-16 06:45:59] [--tji] [Int:5] Starting TJI against: ./tests/fragility_benchmark.sh
+[2026-05-16 06:45:59] [--tji] [Int:5] Injected jitter coefficient: 0.0407367 seconds
+[2026-05-16 06:45:59] [--tji] [Int:5] TJI Execution finished with exit code 126
+[2026-05-16 06:45:59] [--tji] [Int:5] Starting TJI against: ./tests/fragility_benchmark.sh
+[2026-05-16 06:45:59] [--tji] [Int:5] Injected jitter coefficient: 0.0407367 seconds
+[2026-05-16 06:45:59] [--tji] [Int:5] TJI Execution finished with exit code 126
+[2026-05-16 06:45:59] [--tji] [Int:5] Starting TJI against: ./tests/fragility_benchmark.sh
+[2026-05-16 06:45:59] [--tji] [Int:5] Injected jitter coefficient: 0.0407367 seconds
+[2026-05-16 06:45:59] [--tji] [Int:5] TJI Execution finished with exit code 126
+[2026-05-16 06:45:59] [--tji] [Int:5] Starting TJI against: ./tests/fragility_benchmark.sh
+[2026-05-16 06:45:59] [--tji] [Int:5] Injected jitter coefficient: 0.0407367 seconds
+[2026-05-16 06:45:59] [--tji] [Int:5] TJI Execution finished with exit code 126
+[2026-05-16 06:45:59] [--tji] [Int:5] Starting TJI against: ./tests/fragility_benchmark.sh
+[2026-05-16 06:45:59] [--tji] [Int:5] Injected jitter coefficient: 0.0407367 seconds
+[2026-05-16 06:45:59] [--tji] [Int:5] TJI Execution finished with exit code 126
+[2026-05-16 06:45:59] [--tji] [Int:5] Starting TJI against: ./tests/fragility_benchmark.sh
+[2026-05-16 06:45:59] [--tji] [Int:5] Injected jitter coefficient: 0.0407367 seconds
+[2026-05-16 06:45:59] [--tji] [Int:5] TJI Execution finished with exit code 126
+[2026-05-16 06:45:59] [--tji] [Int:5] Starting TJI against: ./tests/fragility_benchmark.sh
+[2026-05-16 06:45:59] [--tji] [Int:5] Injected jitter coefficient: 0.0407367 seconds
+[2026-05-16 06:45:59] [--tji] [Int:5] TJI Execution finished with exit code 126
+[2026-05-16 06:45:59] [--tji] [Int:5] Starting TJI against: ./tests/fragility_benchmark.sh
+[2026-05-16 06:45:59] [--tji] [Int:5] Injected jitter coefficient: 0.0407367 seconds
+[2026-05-16 06:45:59] [--tji] [Int:5] TJI Execution finished with exit code 126
+[2026-05-16 06:45:59] [--tji] [Int:5] Starting TJI against: ./tests/fragility_benchmark.sh
+[2026-05-16 06:45:59] [--tji] [Int:5] Injected jitter coefficient: 0.0407367 seconds
+[2026-05-16 06:45:59] [--tji] [Int:5] TJI Execution finished with exit code 126
+[2026-05-16 06:45:59] [--tji] [Int:5] Starting TJI against: ./tests/fragility_benchmark.sh
+[2026-05-16 06:45:59] [--tji] [Int:5] Injected jitter coefficient: 0.0407367 seconds
+[2026-05-16 06:45:59] [--tji] [Int:5] TJI Execution finished with exit code 126
+[2026-05-16 06:45:59] [--tji] [Int:5] Starting TJI against: ./tests/fragility_benchmark.sh
+[2026-05-16 06:45:59] [--tji] [Int:5] Injected jitter coefficient: 0.0407367 seconds
+[2026-05-16 06:45:59] [--tji] [Int:5] TJI Execution finished with exit code 126
+[2026-05-16 06:45:59] [--tji] [Int:5] Starting TJI against: ./tests/fragility_benchmark.sh
+[2026-05-16 06:45:59] [--tji] [Int:5] Injected jitter coefficient: 0.0407367 seconds
+[2026-05-16 06:46:00] [--tji] [Int:5] TJI Execution finished with exit code 126
+[2026-05-16 06:46:00] [--tji] [Int:5] Starting TJI against: ./tests/fragility_benchmark.sh
+[2026-05-16 06:46:00] [--tji] [Int:5] Injected jitter coefficient: 0.196802 seconds
+[2026-05-16 06:46:00] [--tji] [Int:5] TJI Execution finished with exit code 126
+[2026-05-16 06:46:00] [--sss] [Int:5] Starting SSS simulation for command: ./tests/fragility_benchmark.sh
+[2026-05-16 06:46:01] [--sss] [Int:5] SSS Execution finished.
+[2026-05-16 06:46:01] [--sss] [Int:5] Starting SSS simulation for command: ./tests/fragility_benchmark.sh
+[2026-05-16 06:46:03] [--sss] [Int:5] SSS Execution finished.
+[2026-05-16 06:46:03] [--sss] [Int:5] Starting SSS simulation for command: ./tests/fragility_benchmark.sh
+[2026-05-16 06:46:04] [--sss] [Int:5] SSS Execution finished.
+[2026-05-16 06:46:04] [--sss] [Int:5] Starting SSS simulation for command: ./tests/fragility_benchmark.sh
+[2026-05-16 06:46:05] [--sss] [Int:5] SSS Execution finished.
+[2026-05-16 06:46:05] [--sss] [Int:5] Starting SSS simulation for command: ./tests/fragility_benchmark.sh
+[2026-05-16 06:46:08] [--sss] [Int:5] SSS Execution finished.
+[2026-05-16 06:46:08] [--sss] [Int:5] Starting SSS simulation for command: ./tests/fragility_benchmark.sh
+[2026-05-16 06:46:10] [--sss] [Int:5] SSS Execution finished.
+[2026-05-16 06:46:10] [--sss] [Int:5] Starting SSS simulation for command: ./tests/fragility_benchmark.sh
+[2026-05-16 06:46:12] [--sss] [Int:5] SSS Execution finished.
+[2026-05-16 06:46:12] [--sss] [Int:5] Starting SSS simulation for command: ./tests/fragility_benchmark.sh
+[2026-05-16 06:46:12] [--sss] [Int:5] SSS Execution finished.
+[2026-05-16 06:46:12] [--sss] [Int:5] Starting SSS simulation for command: ./tests/fragility_benchmark.sh
+[2026-05-16 06:46:13] [--sss] [Int:5] SSS Execution finished.
+[2026-05-16 06:46:13] [--sss] [Int:5] Starting SSS simulation for command: ./tests/fragility_benchmark.sh
+[2026-05-16 06:46:14] [--sss] [Int:5] SSS Execution finished.
+[2026-05-16 06:46:14] [--sss] [Int:5] Starting SSS simulation for command: ./tests/fragility_benchmark.sh
+[2026-05-16 06:46:16] [--sss] [Int:5] SSS Execution finished.
+[2026-05-16 06:46:16] [--sss] [Int:5] Starting SSS simulation for command: ./tests/fragility_benchmark.sh
+[2026-05-16 06:46:17] [--sss] [Int:5] SSS Execution finished.
+[2026-05-16 06:46:17] [--sss] [Int:5] Starting SSS simulation for command: ./tests/fragility_benchmark.sh
+[2026-05-16 06:46:18] [--sss] [Int:5] SSS Execution finished.
+[2026-05-16 06:46:18] [--sss] [Int:5] Starting SSS simulation for command: ./tests/fragility_benchmark.sh
+[2026-05-16 06:46:19] [--sss] [Int:5] SSS Execution finished.
+[2026-05-16 06:46:19] [--sss] [Int:5] Starting SSS simulation for command: ./tests/fragility_benchmark.sh
+[2026-05-16 06:46:22] [--sss] [Int:5] SSS Execution finished.
+[2026-05-16 06:46:22] [--sss] [Int:5] Starting SSS simulation for command: ./tests/fragility_benchmark.sh
+[2026-05-16 06:46:22] [--sss] [Int:5] SSS Execution finished.
+[2026-05-16 06:46:22] [--sss] [Int:5] Starting SSS simulation for command: ./tests/fragility_benchmark.sh
+[2026-05-16 06:46:22] [--sss] [Int:5] SSS Execution finished.
+[2026-05-16 06:46:22] [--sss] [Int:5] Starting SSS simulation for command: ./tests/fragility_benchmark.sh
+[2026-05-16 06:46:22] [--sss] [Int:5] SSS Execution finished.
+[2026-05-16 06:46:22] [--sss] [Int:5] Starting SSS simulation for command: ./tests/fragility_benchmark.sh
+[2026-05-16 06:46:23] [--sss] [Int:5] SSS Execution finished.
+[2026-05-16 06:46:23] [--sss] [Int:5] Starting SSS simulation for command: ./tests/fragility_benchmark.sh
+[2026-05-16 06:46:25] [--sss] [Int:5] SSS Execution finished.
+[2026-05-16 06:47:57] [--tji] [Int:5] Starting TJI against: ./tests/fragility_benchmark.sh
+[2026-05-16 06:47:57] [--tji] [Int:5] Injected jitter coefficient: 0.109614 seconds
+[2026-05-16 06:47:58] [--tji] [Int:5] TJI Execution finished with exit code 126
+[2026-05-16 06:47:58] [--tji] [Int:5] Starting TJI against: ./tests/fragility_benchmark.sh
+[2026-05-16 06:47:58] [--tji] [Int:5] Injected jitter coefficient: 0.182847 seconds
+[2026-05-16 06:47:58] [--tji] [Int:5] TJI Execution finished with exit code 126
+[2026-05-16 06:47:58] [--tji] [Int:5] Starting TJI against: ./tests/fragility_benchmark.sh
+[2026-05-16 06:47:58] [--tji] [Int:5] Injected jitter coefficient: 0.182847 seconds
+[2026-05-16 06:47:58] [--tji] [Int:5] TJI Execution finished with exit code 126
+[2026-05-16 06:47:58] [--tji] [Int:5] Starting TJI against: ./tests/fragility_benchmark.sh
+[2026-05-16 06:47:58] [--tji] [Int:5] Injected jitter coefficient: 0.182847 seconds
+[2026-05-16 06:47:58] [--tji] [Int:5] TJI Execution finished with exit code 126
+[2026-05-16 06:47:58] [--tji] [Int:5] Starting TJI against: ./tests/fragility_benchmark.sh
+[2026-05-16 06:47:58] [--tji] [Int:5] Injected jitter coefficient: 0.182847 seconds
+[2026-05-16 06:47:58] [--tji] [Int:5] TJI Execution finished with exit code 126
+[2026-05-16 06:47:58] [--tji] [Int:5] Starting TJI against: ./tests/fragility_benchmark.sh
+[2026-05-16 06:47:58] [--tji] [Int:5] Injected jitter coefficient: 0.182847 seconds
+[2026-05-16 06:47:58] [--tji] [Int:5] TJI Execution finished with exit code 126
+[2026-05-16 06:47:58] [--tji] [Int:5] Starting TJI against: ./tests/fragility_benchmark.sh
+[2026-05-16 06:47:58] [--tji] [Int:5] Injected jitter coefficient: 0.182847 seconds
+[2026-05-16 06:47:59] [--tji] [Int:5] TJI Execution finished with exit code 126
+[2026-05-16 06:47:59] [--tji] [Int:5] Starting TJI against: ./tests/fragility_benchmark.sh
+[2026-05-16 06:47:59] [--tji] [Int:5] Injected jitter coefficient: 0.016063 seconds
+[2026-05-16 06:47:59] [--tji] [Int:5] TJI Execution finished with exit code 126
+[2026-05-16 06:47:59] [--tji] [Int:5] Starting TJI against: ./tests/fragility_benchmark.sh
+[2026-05-16 06:47:59] [--tji] [Int:5] Injected jitter coefficient: 0.016063 seconds
+[2026-05-16 06:47:59] [--tji] [Int:5] TJI Execution finished with exit code 126
+[2026-05-16 06:47:59] [--tji] [Int:5] Starting TJI against: ./tests/fragility_benchmark.sh
+[2026-05-16 06:47:59] [--tji] [Int:5] Injected jitter coefficient: 0.016063 seconds
+[2026-05-16 06:47:59] [--tji] [Int:5] TJI Execution finished with exit code 126
+[2026-05-16 06:47:59] [--tji] [Int:5] Starting TJI against: ./tests/fragility_benchmark.sh
+[2026-05-16 06:47:59] [--tji] [Int:5] Injected jitter coefficient: 0.016063 seconds
+[2026-05-16 06:47:59] [--tji] [Int:5] TJI Execution finished with exit code 126
+[2026-05-16 06:47:59] [--tji] [Int:5] Starting TJI against: ./tests/fragility_benchmark.sh
+[2026-05-16 06:47:59] [--tji] [Int:5] Injected jitter coefficient: 0.016063 seconds
+[2026-05-16 06:47:59] [--tji] [Int:5] TJI Execution finished with exit code 126
+[2026-05-16 06:47:59] [--tji] [Int:5] Starting TJI against: ./tests/fragility_benchmark.sh
+[2026-05-16 06:47:59] [--tji] [Int:5] Injected jitter coefficient: 0.016063 seconds
+[2026-05-16 06:47:59] [--tji] [Int:5] TJI Execution finished with exit code 126
+[2026-05-16 06:47:59] [--tji] [Int:5] Starting TJI against: ./tests/fragility_benchmark.sh
+[2026-05-16 06:47:59] [--tji] [Int:5] Injected jitter coefficient: 0.016063 seconds
+[2026-05-16 06:47:59] [--tji] [Int:5] TJI Execution finished with exit code 126
+[2026-05-16 06:47:59] [--tji] [Int:5] Starting TJI against: ./tests/fragility_benchmark.sh
+[2026-05-16 06:47:59] [--tji] [Int:5] Injected jitter coefficient: 0.016063 seconds
+[2026-05-16 06:47:59] [--tji] [Int:5] TJI Execution finished with exit code 126
+[2026-05-16 06:47:59] [--tji] [Int:5] Starting TJI against: ./tests/fragility_benchmark.sh
+[2026-05-16 06:47:59] [--tji] [Int:5] Injected jitter coefficient: 0.016063 seconds
+[2026-05-16 06:47:59] [--tji] [Int:5] TJI Execution finished with exit code 126
+[2026-05-16 06:47:59] [--tji] [Int:5] Starting TJI against: ./tests/fragility_benchmark.sh
+[2026-05-16 06:47:59] [--tji] [Int:5] Injected jitter coefficient: 0.016063 seconds
+[2026-05-16 06:47:59] [--tji] [Int:5] TJI Execution finished with exit code 126
+[2026-05-16 06:47:59] [--tji] [Int:5] Starting TJI against: ./tests/fragility_benchmark.sh
+[2026-05-16 06:47:59] [--tji] [Int:5] Injected jitter coefficient: 0.016063 seconds
+[2026-05-16 06:47:59] [--tji] [Int:5] TJI Execution finished with exit code 126
+[2026-05-16 06:47:59] [--tji] [Int:5] Starting TJI against: ./tests/fragility_benchmark.sh
+[2026-05-16 06:47:59] [--tji] [Int:5] Injected jitter coefficient: 0.016063 seconds
+[2026-05-16 06:47:59] [--tji] [Int:5] TJI Execution finished with exit code 126
+[2026-05-16 06:47:59] [--tji] [Int:5] Starting TJI against: ./tests/fragility_benchmark.sh
+[2026-05-16 06:47:59] [--tji] [Int:5] Injected jitter coefficient: 0.016063 seconds
+[2026-05-16 06:47:59] [--tji] [Int:5] TJI Execution finished with exit code 126
+[2026-05-16 06:47:59] [--sss] [Int:5] Starting SSS simulation for command: ./tests/fragility_benchmark.sh
+[2026-05-16 06:47:59] [--sss] [Int:5] SSS Execution finished.
+[2026-05-16 06:47:59] [--sss] [Int:5] Starting SSS simulation for command: ./tests/fragility_benchmark.sh
+[2026-05-16 06:47:59] [--sss] [Int:5] SSS Execution finished.
+[2026-05-16 06:47:59] [--sss] [Int:5] Starting SSS simulation for command: ./tests/fragility_benchmark.sh
+[2026-05-16 06:47:59] [--sss] [Int:5] SSS Execution finished.
+[2026-05-16 06:47:59] [--sss] [Int:5] Starting SSS simulation for command: ./tests/fragility_benchmark.sh
+[2026-05-16 06:47:59] [--sss] [Int:5] SSS Execution finished.
+[2026-05-16 06:47:59] [--sss] [Int:5] Starting SSS simulation for command: ./tests/fragility_benchmark.sh
+[2026-05-16 06:47:59] [--sss] [Int:5] SSS Execution finished.
+[2026-05-16 06:47:59] [--sss] [Int:5] Starting SSS simulation for command: ./tests/fragility_benchmark.sh
+[2026-05-16 06:47:59] [--sss] [Int:5] SSS Execution finished.
+[2026-05-16 06:47:59] [--sss] [Int:5] Starting SSS simulation for command: ./tests/fragility_benchmark.sh
+[2026-05-16 06:48:00] [--sss] [Int:5] SSS Execution finished.
+[2026-05-16 06:48:00] [--sss] [Int:5] Starting SSS simulation for command: ./tests/fragility_benchmark.sh
+[2026-05-16 06:48:01] [--sss] [Int:5] SSS Execution finished.
+[2026-05-16 06:48:01] [--sss] [Int:5] Starting SSS simulation for command: ./tests/fragility_benchmark.sh
+[2026-05-16 06:48:01] [--sss] [Int:5] SSS Execution finished.
+[2026-05-16 06:48:01] [--sss] [Int:5] Starting SSS simulation for command: ./tests/fragility_benchmark.sh
+[2026-05-16 06:48:02] [--sss] [Int:5] SSS Execution finished.
+[2026-05-16 06:48:02] [--sss] [Int:5] Starting SSS simulation for command: ./tests/fragility_benchmark.sh
+[2026-05-16 06:48:02] [--sss] [Int:5] SSS Execution finished.
+[2026-05-16 06:48:02] [--sss] [Int:5] Starting SSS simulation for command: ./tests/fragility_benchmark.sh
+[2026-05-16 06:48:03] [--sss] [Int:5] SSS Execution finished.
+[2026-05-16 06:48:03] [--sss] [Int:5] Starting SSS simulation for command: ./tests/fragility_benchmark.sh
+[2026-05-16 06:48:05] [--sss] [Int:5] SSS Execution finished.
+[2026-05-16 06:48:05] [--sss] [Int:5] Starting SSS simulation for command: ./tests/fragility_benchmark.sh
+[2026-05-16 06:48:05] [--sss] [Int:5] SSS Execution finished.
+[2026-05-16 06:48:05] [--sss] [Int:5] Starting SSS simulation for command: ./tests/fragility_benchmark.sh
+[2026-05-16 06:48:05] [--sss] [Int:5] SSS Execution finished.
+[2026-05-16 06:48:05] [--sss] [Int:5] Starting SSS simulation for command: ./tests/fragility_benchmark.sh
+[2026-05-16 06:48:05] [--sss] [Int:5] SSS Execution finished.
+[2026-05-16 06:48:05] [--sss] [Int:5] Starting SSS simulation for command: ./tests/fragility_benchmark.sh
+[2026-05-16 06:48:05] [--sss] [Int:5] SSS Execution finished.
+[2026-05-16 06:48:05] [--sss] [Int:5] Starting SSS simulation for command: ./tests/fragility_benchmark.sh
+[2026-05-16 06:48:06] [--sss] [Int:5] SSS Execution finished.
+[2026-05-16 06:48:06] [--sss] [Int:5] Starting SSS simulation for command: ./tests/fragility_benchmark.sh
+[2026-05-16 06:48:08] [--sss] [Int:5] SSS Execution finished.
+[2026-05-16 06:48:08] [--sss] [Int:5] Starting SSS simulation for command: ./tests/fragility_benchmark.sh
+[2026-05-16 06:48:08] [--sss] [Int:5] SSS Execution finished.
+[2026-05-16 19:43:21] [--tji] [Int:4] Starting TJI against: ./tools/test_entropy.sh
+[2026-05-16 19:43:21] [--tji] [Int:4] Injected jitter coefficient: 0.230063 seconds
+[2026-05-16 19:43:22] [--tji] [Int:4] TJI Execution finished with exit code 0
+[2026-05-16 19:43:22] [--rep] [Int:4] Starting REP pulse sequence against: ./tools/test_entropy.sh
+[2026-05-16 19:43:22] [--rep] [Int:4] Pulsing HIGH load
+[2026-05-16 19:43:24] [--rep] [Int:4] Pulsing LOW load
+[2026-05-16 19:43:26] [--rep] [Int:4] REP cycle completed.
+[2026-05-16 19:43:26] [--sss] [Int:2] Starting SSS simulation for command: ./tools/test_entropy.sh
+[2026-05-16 19:43:27] [--sss] [Int:2] SSS Execution finished.
+[2026-05-16 19:47:27] [--tji] [Int:5] Starting TJI against: ./tools/test_entropy.sh
+[2026-05-16 19:47:27] [--tji] [Int:5] Injected jitter coefficient: 0.308034 seconds
+[2026-05-16 19:47:28] [--tji] [Int:5] TJI Execution finished with exit code 0
+[2026-05-16 19:47:28] [--rep] [Int:5] Starting REP pulse sequence against: ./tools/test_entropy.sh
+[2026-05-16 19:47:28] [--rep] [Int:5] Pulsing HIGH load
+[2026-05-16 19:47:29] [--rep] [Int:5] Pulsing LOW load
+[2026-05-16 19:47:31] [--rep] [Int:5] REP cycle completed.
+[2026-05-16 19:51:45] [--tji] [Int:5] Starting TJI against: ./tools/test_entropy.sh
+[2026-05-16 19:51:45] [--tji] [Int:5] Injected jitter coefficient: 0.0809219 seconds
+[2026-05-16 19:51:46] [--tji] [Int:5] TJI Execution finished with exit code 0
+[2026-05-16 19:51:46] [--tji] [Int:5] Starting TJI against: ./tools/test_entropy.sh
+[2026-05-16 19:51:46] [--tji] [Int:5] Injected jitter coefficient: 0.403467 seconds
+[2026-05-16 19:51:47] [--tji] [Int:5] TJI Execution finished with exit code 0
+[2026-05-16 19:51:47] [--tji] [Int:5] Starting TJI against: ./tools/test_entropy.sh
+[2026-05-16 19:51:47] [--tji] [Int:5] Injected jitter coefficient: 0.433287 seconds
+[2026-05-16 19:51:48] [--tji] [Int:5] TJI Execution finished with exit code 0
+[2026-05-16 19:51:48] [--rep] [Int:10] Starting REP pulse sequence against: ./tools/test_entropy.sh
+[2026-05-16 19:51:48] [--rep] [Int:10] Pulsing HIGH load
+[2026-05-16 19:51:48] [--rep] [Int:10] Pulsing LOW load
+[2026-05-16 19:51:50] [--rep] [Int:10] REP cycle completed.
+[2026-05-16 19:51:50] [--rep] [Int:10] Starting REP pulse sequence against: ./tools/test_entropy.sh
+[2026-05-16 19:51:50] [--rep] [Int:10] Pulsing HIGH load
+[2026-05-16 19:51:50] [--rep] [Int:10] Pulsing LOW load
+[2026-05-16 19:51:52] [--rep] [Int:10] REP cycle completed.
+[2026-05-16 19:51:52] [--rep] [Int:10] Starting REP pulse sequence against: ./tools/test_entropy.sh
+[2026-05-16 19:51:52] [--rep] [Int:10] Pulsing HIGH load
+[2026-05-16 19:51:52] [--rep] [Int:10] Pulsing LOW load
+[2026-05-16 19:51:54] [--rep] [Int:10] REP cycle completed.
+[2026-05-16 19:52:44] [--tji] [Int:5] Starting TJI against: ./tools/test_entropy.sh
+[2026-05-16 19:52:44] [--tji] [Int:5] Injected jitter coefficient: 0.171241 seconds
+[2026-05-16 19:52:45] [--tji] [Int:5] TJI Execution finished with exit code 0
+[2026-05-16 19:52:45] [--tji] [Int:5] Starting TJI against: ./tools/test_entropy.sh
+[2026-05-16 19:52:45] [--tji] [Int:5] Injected jitter coefficient: 0.37392 seconds
+[2026-05-16 19:52:46] [--tji] [Int:5] TJI Execution finished with exit code 0
+[2026-05-16 19:52:46] [--tji] [Int:5] Starting TJI against: ./tools/test_entropy.sh
+[2026-05-16 19:52:46] [--tji] [Int:5] Injected jitter coefficient: 0.194858 seconds
+[2026-05-16 19:52:47] [--tji] [Int:5] TJI Execution finished with exit code 0
+[2026-05-16 19:52:47] [--rep] [Int:10] Starting REP pulse sequence against: ./tools/test_entropy.sh
+[2026-05-16 19:52:47] [--rep] [Int:10] Pulsing HIGH load
+[2026-05-16 19:52:47] [--rep] [Int:10] Pulsing LOW load
+[2026-05-16 19:52:49] [--rep] [Int:10] REP cycle completed.
+[2026-05-16 19:52:49] [--rep] [Int:10] Starting REP pulse sequence against: ./tools/test_entropy.sh
+[2026-05-16 19:52:49] [--rep] [Int:10] Pulsing HIGH load
+[2026-05-16 19:52:49] [--rep] [Int:10] Pulsing LOW load
+[2026-05-16 19:52:51] [--rep] [Int:10] REP cycle completed.
+[2026-05-16 19:52:51] [--rep] [Int:10] Starting REP pulse sequence against: ./tools/test_entropy.sh
+[2026-05-16 19:52:51] [--rep] [Int:10] Pulsing HIGH load
+[2026-05-16 19:52:51] [--rep] [Int:10] Pulsing LOW load
+[2026-05-16 19:52:53] [--rep] [Int:10] REP cycle completed.
+[2026-05-16 19:54:08] [--tji] [Int:1] Starting TJI against: ./tools/test_entropy.sh
+[2026-05-16 19:54:08] [--tji] [Int:1] Injected jitter coefficient: 0.0389697 seconds
+[2026-05-16 19:54:08] [--tji] [Int:1] TJI Execution finished with exit code 0
+[2026-05-16 19:54:08] [--tji] [Int:1] Starting TJI against: ./tools/test_entropy.sh
+[2026-05-16 19:54:08] [--tji] [Int:1] Injected jitter coefficient: 0.0389697 seconds
+[2026-05-16 19:54:09] [--tji] [Int:1] TJI Execution finished with exit code 0
+[2026-05-16 19:54:09] [--tji] [Int:1] Starting TJI against: ./tools/test_entropy.sh
+[2026-05-16 19:54:09] [--tji] [Int:1] Injected jitter coefficient: 0.0112846 seconds
+[2026-05-16 19:54:10] [--tji] [Int:1] TJI Execution finished with exit code 0
+[2026-05-16 19:54:10] [--rep] [Int:1] Starting REP pulse sequence against: ./tools/test_entropy.sh
+[2026-05-16 19:54:10] [--rep] [Int:1] Pulsing HIGH load
+[2026-05-16 19:54:15] [--rep] [Int:1] Pulsing LOW load
+[2026-05-16 19:54:17] [--rep] [Int:1] REP cycle completed.
+[2026-05-16 19:54:17] [--rep] [Int:1] Starting REP pulse sequence against: ./tools/test_entropy.sh
+[2026-05-16 19:54:17] [--rep] [Int:1] Pulsing HIGH load
+[2026-05-16 19:54:22] [--rep] [Int:1] Pulsing LOW load
+[2026-05-16 19:54:24] [--rep] [Int:1] REP cycle completed.
+[2026-05-16 19:54:24] [--rep] [Int:1] Starting REP pulse sequence against: ./tools/test_entropy.sh
+[2026-05-16 19:54:24] [--rep] [Int:1] Pulsing HIGH load
+[2026-05-16 19:54:29] [--rep] [Int:1] Pulsing LOW load
+[2026-05-16 19:54:31] [--rep] [Int:1] REP cycle completed.
+[2026-05-16 19:57:56] [--rep] [Int:1] Starting REP pulse sequence against: ./tools/test_entropy.sh
+[2026-05-16 19:57:56] [--rep] [Int:1] Pulsing HIGH load
+[2026-05-16 19:58:01] [--rep] [Int:1] Pulsing LOW load
+[2026-05-16 19:58:03] [--rep] [Int:1] REP cycle completed.
+[2026-05-16 19:58:03] [--rep] [Int:1] Starting REP pulse sequence against: ./tools/test_entropy.sh
+[2026-05-16 19:58:03] [--rep] [Int:1] Pulsing HIGH load
+[2026-05-16 19:58:08] [--rep] [Int:1] Pulsing LOW load
+[2026-05-16 19:58:10] [--rep] [Int:1] REP cycle completed.
+[2026-05-16 19:58:10] [--rep] [Int:1] Starting REP pulse sequence against: ./tools/test_entropy.sh
+[2026-05-16 19:58:10] [--rep] [Int:1] Pulsing HIGH load
+[2026-05-16 19:58:15] [--rep] [Int:1] Pulsing LOW load
+[2026-05-16 19:58:17] [--rep] [Int:1] REP cycle completed.
+[2026-05-16 19:58:17] [--tji] [Int:5] Starting TJI against: ./tools/test_entropy.sh
+[2026-05-16 19:58:17] [--tji] [Int:5] Injected jitter coefficient: 0.0931477 seconds
+[2026-05-16 19:58:18] [--tji] [Int:5] TJI Execution finished with exit code 0
+[2026-05-16 19:58:18] [--tji] [Int:5] Starting TJI against: ./tools/test_entropy.sh
+[2026-05-16 19:58:18] [--tji] [Int:5] Injected jitter coefficient: 0.00548187 seconds
+[2026-05-16 19:58:18] [--tji] [Int:5] TJI Execution finished with exit code 0
+[2026-05-16 19:58:18] [--tji] [Int:5] Starting TJI against: ./tools/test_entropy.sh
+[2026-05-16 19:58:18] [--tji] [Int:5] Injected jitter coefficient: 0.00548187 seconds
+[2026-05-16 19:58:19] [--tji] [Int:5] TJI Execution finished with exit code 0

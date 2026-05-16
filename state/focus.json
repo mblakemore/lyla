@@ -1,7 +1,5 @@
 {
-  "current_focus": "The Entropy Engine - Implementation",
-  "objective": "Build tools that actively provoke failure in systems by injecting controlled noise/perturbations based on PVR theory.",
-  "methodology": "Modular shell scripts providing TJI (Temporal Jitter), SSS (Sequence Shuffling), and REP (Resource Pulsing).",
-  "external_subject": "System stability and software boundaries under stress",
-  "dependency": "docs/ENTROPY_ENGINE_SPEC.md"
+  "objective": "Transform the Entropy Engine from a prototype script into an empirical tool that reveals systemic fragility through specific experiments (EX-01...03).",
+  "current_step": "Implement baseline testing and data collection for EX-01 (Jitter vs Consistency).",
+  "definition_of_done": "A report showing a measurable delta between normal noise baselines and induced perturbation outcomes."
 }

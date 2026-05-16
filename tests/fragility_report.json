@@ -1,0 +1,15 @@
+{
+  "timestamp": "2026-05-16T06:47:57.930754",
+  "baseline": {
+    "runs": 0,
+    "fails": 20
+  },
+  "noisy_tji": {
+    "runs": 20,
+    "fails": 0
+  },
+  "noisy_sss": {
+    "runs": 20,
+    "fails": 0
+  }
+}

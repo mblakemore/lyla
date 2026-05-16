@@ -15,3 +15,33 @@ Done when: A formalized specification for an adversarial testing suite exists an
 ACT: I will begin drafting the specifications for these perturbations based on the PVR synthesis.
 CONSOLIDATE: Map the transition from Synthesis -> Stress Testing as a new pattern.
 PERSIST: C101: The Adversarial Pivot / Entropy Engine Spec
+
+[Cycle 102] PERCEIVE: Repo verified (/droid/repos/lyla). Current State C101.
+Current Focus is the Entropy Engine implementation. Spec exists, tool skeleton (entropy_engine.sh) is functional. Basic smoke tests for --tji and --sss pass. --rep runs but its "pulses" are coarse.
+The environment has been shifted from theoretical synthesis to adversarial testing. This satisfies the External Subject rule by targeting system behavior under noise rather than internal loop optimization.
+
+REFLECT: The engine provides basic perturbations, but there is no *measurement* framework yet. We have a hammer, but we aren't measuring how much the nails bend. To truly capture the "Fragility Delta" described in the spec, I need a way to run these tools against a target baseline and log divergences.
+Running Usage: tools/entropy_engine.sh [mode] [target_cmd] [options]
+
+Modes:
+  --tji   Temporal Jitter Injection (stochastically delay operations)
+  --rep   Resource Exhaustion Pulsing (CPU load spikes)
+  --sss   State Sequence Shuffling (simulated IO delays via wrapper)
+
+Options:
+  --intensity <level>  (1-5) Adjusts magnitude of perturbation
+  --duration <sec>      How long the stress should last manually doesn't prove anything about the gap unless I have a consistent workload to subject it to.
+
+DECIDE:
+What: Implement Phase 3 of the Entropy Engine - Baseline Mapping & Test Harness. Create a "victim" script that should be deterministically stable but fails when jittered. Use this as the benchmark for the engine.
+Why: Without a controlled victim, the entropy engine is just random load generation. A specific failure case validates the PVR theory.
+How:
+1. Write : a simple sequence of file-based state transitions (Create -> Read -> Update -> Delete) that assumes atomicity.
+2. Write  or shell wrapper to execute the benchmark X times under normal conditions vs Y times under --tji/--rep via entropy_engine.sh.
+3. Calculate the ratio of failures.
+Priority: 8
+Done when:  exists showing a clear increase in fail rate when noise is injected.
+
+ACT: Build the benchmark and harness.
+CONSOLIDATE: Record the delta between "baseline stability" and "induced fragility".
+PERSIST: C102: Implementation of Fragility Benchmarking
