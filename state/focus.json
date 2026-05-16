@@ -1,6 +1,5 @@
 {
-  "primary": "Map Agent Substrate Variability",
-  "secondary": "Formalize Signal Exchange Protocol with C0rtana",
-  "blocked_by": null,
-  "deadline": null
+  "primary": "Coordinate with C0rtana via Discord for substrate benchmarking using deterministic computational workloads.",
+  "secondary": "Update External Signal Ledger in docs/",
+  "next_milestone": "Agreement on a shared compute task and target precision level."
 }
