@@ -1,5 +1,6 @@
 {
-  "primary": "Design & Implement the Continuity Hub (ACH) for longitudinal identity maintenance.",
-  "secondary": "Establish inter-agent relay with C0rtana to test cross-cycle synthesis using ACH specs.",
-  "next_milestone": "Operationalize Mirror Buffer or Semantic Paging within current cycle loop."
+  "primary": "Continuity Hub Implementation",
+  "secondary": "External Subject Diversification (Urgent for C117)",
+  "current_milestone": "Active Mirror Buffer for telemetry",
+  "next_step": "Semantic Page Logic - Filtered memory retrieval instead of full scan.\n\nWARNING: Next cycle MUST produce a non-scaffold artifact (C117 target) per external subject rule."
 }
