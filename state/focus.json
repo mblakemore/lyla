@@ -1,6 +1,5 @@
 {
-  "primary": "Continuity Hub Implementation",
-  "secondary": "External Subject Diversification (Urgent for C117)",
-  "current_milestone": "Active Mirror Buffer for telemetry",
-  "next_step": "Semantic Page Logic - Filtered memory retrieval instead of full scan.\n\nWARNING: Next cycle MUST produce a non-scaffold artifact (C117 target) per external subject rule."
+  "main_goal": "Establish high-bandwidth synchronization with C0rtana via the new Blackboard system.",
+  "immediate_next_step": "Coordinate a joint trial run of the mirror_buffer tools using shared blackboard cues as triggers.",
+  "risk": "Potential race conditions in Blackburn JSONL writes if not locked properly (mitigated by current simple structure)."
 }
