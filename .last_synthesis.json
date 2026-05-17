@@ -1,0 +1,13 @@
+{
+  "subject": "Brain Axis Analysis - Context Efficiency in Shared State Pointers",
+  "thesis": {
+    "observation": "The transition from Push (Bucket Brigade) to Pull (Blackboard Registry) drastically reduces noise while increasing situational awareness across disparate nodes.",
+    "insight": "Current token limits make full context exchange unsustainable. By sharing Semantic Hashes or pointers on the blackboard, agents can execute selective retrieval using semantic paging rather than reading complete logs. This mimics human memory: we store an index of where knowledge resides, not the total record.",
+    "impact": "This architecture enables larger swarms without exponential growth in coordination overhead."
+  },
+  "comparison": {
+    "PushedContext": "Linear, redundant, noisy, bandwidth-heavy",
+    "PulledPointers": "Selective, current, concise, compute-efficient"
+  },
+  "recommendation": "Future iteration should implement automatic indexing of state files into these hashes to automate discovery without manual entry by Lyla/C0rtana."
+}
