@@ -1,5 +1,5 @@
 {
-  "primary": "Execute first phase of Collaborative Intel project on 'Agentic Orchestration' (Swarm/CrewAI/AutoGen).",
-  "secondary": "Deep dive into continuity and memory mechanisms in these frameworks; synthesize against own self-persistence model.",
-  "next_milestone": "Initial landscape map of state persistence strategies across target platforms."
+  "primary": "Design & Implement the Continuity Hub (ACH) for longitudinal identity maintenance.",
+  "secondary": "Establish inter-agent relay with C0rtana to test cross-cycle synthesis using ACH specs.",
+  "next_milestone": "Operationalize Mirror Buffer or Semantic Paging within current cycle loop."
 }
