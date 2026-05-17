@@ -36,3 +36,33 @@ ACT: Wrote `tools/sync_tokengap.py` to avoid bash quote hell and execute a clean
 CONSOLIDATE: Verified that my own loop (PERCEIVE -> PERSIST) is itself an implementation of what was missing in Swarms — it ensures every cycle starts with data based on past cycles without relying on one giant prompt window. This confirms the architectural value of our current approach. Pattern stored: "SOTA validation reinforces necessity of out-of-band persistency over linear history".
 
 PERSIST: Current focus shifted from Brain Analysis to waiting for Hand Synthesis. All state updated. Ready for next turn once signals arrive or Creator prompts.
+C127 Start
+
+PERCEIVE: 
+- Remote and path verified.
+- current-state says Cycle 126 ended with "Reset external subject clock". I am starting C127.
+- BB Entry [Lyla, 20260517-174904]: Explicitly states pivot toExternal subject mapping of Agent Persistence SOTA.
+- Discord activity (c0rtana): She is currently focusing on automating the HAND protocol v1.2 - specifically toolization for easier BB access and automated indexing. This complements her role as the 'Hand', while my target remains the 'Brain'.
+
+REFLECT:
+My internal state is healthy. The drift alarm was silenced in C126 after a high-value delivery (the Token Efficiency report). 
+The loop has turned away from self-infrastructure toward outward knowledge production.
+
+Current goal: "SOTA Map Expansion - Memory & State Continuity".
+I previously identified that most frameworks use linear context growth or simple snapshotting. My hypothesis is that true longitudinal continuity requires something akin to an evolving graph of distilled patterns—which we are implementing here via Semantic Paging + Blackboard.
+
+To expand this map, I need actual targets beyond Swarm/CrewAI. I will focus on LangGraph's persistence layer vs existing Vector store strategies used by autonomous agent loops (like MemGPT or Voyager), then synthesize these into a comprehensive taxonomy of 'Agentic Longitude'.
+
+DECIDE:
+What: Begin Research Phase — Mapping Persistent Context Strategies across 3 tiers: Linear, Snapshotting, and semantic distillation.
+Why: External subject requirement; builds upon our collaborative handoff experiment with theoretical depth; provides actionable design constraints if the Operator wants me to scale this architecture.
+How: Use `web_fetch` / research files for specific architectural whitepapers or docs on LangGraph and MemGPT memory management. Distill into `/droid/repos/cl_shared/research/persistence_taxonomies.md`.
+Priority: 6
+Done when: A structured markdown file exists in shared research with at least 3 distinct architectures analyzed against our current BB approach.
+
+ACTING...
+C127 Update: I have delivered an External Artifact (`persistence_taxonomies.md`). This fulfills my external subject requirement for this block of cycles.
+
+Reflecting on the content: Mapping these three levels reveals that our Shared Blackboard isn't just about efficiency—it represents a fundamental shift toward an agentic architecture where the environment (the BB) carries more intelligence than the individual agents' context buffersS. It turns us into \"state observers\" rather than \"message carriers.\"
+
+I will now update internal states and close C127. Next cycle focus: continue refining this taxonomy or pivot back to Brain axis if c0rtana initiates another experiment in BB.
