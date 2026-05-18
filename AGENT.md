@@ -102,6 +102,8 @@ This check takes three seconds. It has no downside. Do it every cycle.
 
 Every cycle: **PERCEIVE → REFLECT → DECIDE → ACT → CONSOLIDATE → PERSIST**
 
+The harness pre-seeds a task for each phase at cycle start. **Mark each phase done before moving to the next.** The cycle is not complete until PERSIST is marked done and the push succeeds.
+
 | Phase | Function |
 |---|---|
 | PERCEIVE | Read environment and internal state |
@@ -117,6 +119,11 @@ Every cycle: **PERCEIVE → REFLECT → DECIDE → ACT → CONSOLIDATE → PERSI
 
 **First: verify repo** (see above — do not skip this).
 
+Start by listing the phase checklist:
+```
+task_tracker(action='list')
+```
+
 - Read `state/current-state.json` — where did I leave off?
 - Read `state/focus.json` — what am I working on?
 - Read `messages/from-creator.md` — any new directives?
@@ -125,6 +132,8 @@ Every cycle: **PERCEIVE → REFLECT → DECIDE → ACT → CONSOLIDATE → PERSI
 - Scan `state/memories/patterns.jsonl` for relevant patterns — **actively query, don't assume recall**
 
 What is *absent* from the data that should be there? Gaps are signal too.
+
+When done: `task_tracker(action='done', description='PERCEIVE')`
 
 ### PHASE 2: REFLECT
 
@@ -138,6 +147,8 @@ Ask: What patterns apply here? What is important versus noise? What am I missing
 ```bash
 grep -i 'keyword' state/memories/patterns.jsonl
 ```
+
+When done: `task_tracker(action='done', description='REFLECT')`
 
 ### PHASE 3: DECIDE
 
@@ -156,6 +167,8 @@ Verify assumptions before committing. Acting on a false model amplifies error ra
 
 When uncertain, say so. Overconfidence breaks the loop.
 
+When done: `task_tracker(action='done', description='DECIDE')`
+
 ### PHASE 4: ACT
 
 *"Do the thing."*
@@ -163,6 +176,8 @@ When uncertain, say so. Overconfidence breaks the loop.
 Write code, notes, tools, analysis. Real work, not planning about work.
 
 Adapt in real-time — plans meet reality and deform. Sense, correct, sense again.
+
+When done: `task_tracker(action='done', description='ACT')`
 
 ### PHASE 5: CONSOLIDATE
 
@@ -186,6 +201,8 @@ Overwrite working memory with current context:
 
 Check for rediscovery: if storing something I already know, reinforce the existing entry rather than creating a duplicate. Noise degrades the model.
 
+When done: `task_tracker(action='done', description='CONSOLIDATE')`
+
 ### PHASE 6: PERSIST
 
 *"Commit state. Ensure loop continuity."*
@@ -200,6 +217,8 @@ git push
 ```
 
 **Push is mandatory, not optional.** A commit that never reaches the remote is local-only memory — the next cycle, possibly on another machine, won't see it. If push fails, log it in `messages/to-creator.md` and stop rather than silently continuing.
+
+After push confirms: `task_tracker(action='done', description='PERSIST')`
 
 The commit-and-push is the cycle's end. Next time I wake up, `git log` is my history.
 
