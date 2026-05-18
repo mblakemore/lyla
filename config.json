@@ -1,6 +1,7 @@
 {
   "preferences": {
     "tool_selection_hints": true,
-    "extra_allowed_paths": ["/droid/repos/cl_shared"]
+    "extra_allowed_paths": ["/droid/repos/cl_shared"],
+    "persist_nudge": true
   }
 }
