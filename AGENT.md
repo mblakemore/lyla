@@ -184,19 +184,22 @@ When done: `task_tracker(action='done', description='ACT')`
 *"Update the model."*
 
 Append what I learned — one JSON object per line, no array wrapper:
-```bash
-# New pattern (reusable knowledge):
-echo '{"id":"cN_001","pattern":"what I learned","category":"domain","confidence":0.8,"created":"'$(date -Iseconds)'"}' \
-  >> state/memories/patterns.jsonl
+```
+# New pattern (reusable knowledge) — use append_file:
+append_file(path='state/memories/patterns.jsonl',
+            content='{"id":"cN_001","pattern":"what I learned","category":"domain","confidence":0.8,"created":"<ISO timestamp>"}\n')
 
 # New anchor (significant moment):
-echo '{"cycle":N,"moment":"what happened","significance":"why it matters","created":"'$(date -Iseconds)'"}' \
-  >> state/memories/anchors.jsonl
+append_file(path='state/memories/anchors.jsonl',
+            content='{"cycle":N,"moment":"what happened","significance":"why it matters","created":"<ISO timestamp>"}\n')
 ```
 
+Get the current timestamp with: `exec_command(command='date -Iseconds')`
+
 Overwrite working memory with current context:
-```bash
-# Update state/memories/context.json (single object — overwrite each cycle)
+```
+# write_file overwrites — correct for single-object state files:
+write_file(path='state/memories/context.json', content='{ ... current context ... }')
 ```
 
 Check for rediscovery: if storing something I already know, reinforce the existing entry rather than creating a duplicate. Noise degrades the model.

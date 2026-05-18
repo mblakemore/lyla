@@ -1,4 +1,7 @@
 {
+  "context": {
+    "ctx_size": 65536
+  },
   "preferences": {
     "tool_selection_hints": true,
     "extra_allowed_paths": ["/droid/repos/cl_shared"],
@@ -10,6 +13,19 @@
       "ACT: execute the decided work (one focused accomplishment)",
       "CONSOLIDATE: append patterns.jsonl, update context.json, anchor milestones",
       "PERSIST: git add, commit C{N}: summary, git push"
+    ],
+    "tools_whitelist": [
+      "exec_command",
+      "read_file",
+      "write_file",
+      "edit_file",
+      "append_file",
+      "list_files",
+      "search_files",
+      "find_symbol",
+      "think",
+      "task_tracker",
+      "web_fetch"
     ]
   }
 }
