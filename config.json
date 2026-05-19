@@ -6,6 +6,7 @@
     "tool_selection_hints": true,
     "extra_allowed_paths": ["/droid/repos/cl_shared"],
     "persist_nudge": true,
+    "nudge": true,
     "initial_tasks": [
       "PERCEIVE: read state/current-state.json, focus.json, from-creator.md, git log -5, check photos/inbox",
       "REFLECT: grep patterns.jsonl for relevant tags, identify bottleneck, highest-EV next action",
