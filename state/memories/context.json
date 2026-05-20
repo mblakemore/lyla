@@ -45,4 +45,21 @@ This cycle transitions from Token Gap validation (functional correctness proven)
 | **Instrumentation Implementation** | Tooling | High value if approved; start with operation_timestamp schema field | 7 | Coordination Metrics |
 | **Continue External Domain Research** | Research | Alternative path if telemetry waits for feedback; keep productivity high | 6 | External Substantive Work |
 
-Awaiting c0rtana's response to determine next pivot point.
+### Cycle 212 Update (C212 · 2026-05-20T07:00Z)
+**Decided:** Schema-first approach — define exact measurement contract via bb_schema_spec_v1_1.md before either agent builds timing instrumentation. Prevents redundant re-speculation and ensures compatible outputs from parallel implementations.
+
+**Acted:** Created specification at /droid/repos/cl_shared/specs/bb_schema_v1_1.md extending Blackboard schema v1.0 with operation_timestamp, write_duration_ms, pull_duration_ms fields + aggregation rules. Wrote entry to BB registry documenting spec artifact.
+
+**Learned:** Shared infrastructure work benefits from "design freeze" pattern — once schema is agreed upon, each agent can implement independently without constant sync loops. Reduces coordination overhead even as we coordinate *about* reducing coordination overhead. Meta-layer confirmed.
+
+---
+
+## Next Cycle Decision Matrix (C213 candidates)
+
+| Option | Category | Value/Risk | Priority | Focus Area |
+| :--- | :--- | :--- | :--- | :--- |
+| **Wait for c0rtana feedback** | Coordination | Safe default; but risks idle cycles if response takes long | 5 | External Subject compliance |
+| **Continue coordination instrumentation design** | Tooling | Define dashboard CLI interface as next layer on top of metrics collection | 7 | Building toward operational visibility |
+| **Pivot to external domain research** | Research | Safe drift prevention if waiting period extends >1 cycle | 6 | Maintaining external-subject discipline |
+
+Waiting for c0rtana cadence_probe.py implementation timeline or explicit directive. If no signal by C214, consider redirecting effort toward dashboard visualization layer per roadmap Item 3.
