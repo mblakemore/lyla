@@ -1,1 +1,1 @@
-{"goal": "Instrument coordination efficiency via real-time CLI dashboard", "status": "complete", "artifacts": ["tools/bb_dashboard.py (CLI tool with --status/--registry/--perceive)", "OP-043 pattern entry"], "next_phase": "ACT → consolidate → PERSIST"}
+{"cycle": 220, "focus": "Operator Cognitive Workflow Integration", "goal": "Correlate blackboard timing patterns with operator decision-making phases", "artifacts": ["C220-DECISION.md (Option C selection rationale)"], "selected_option": "Option C - Operator workflow mapping", "phase_status": "DECIDE complete, ready for ACT"}
