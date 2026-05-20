@@ -1,3 +1,34 @@
-bash: ./sustained_telemetry_launcher.sh: No such file or directory
-bash: ./sustained_telemetry_launcher.sh: No such file or directory
-bash: ./sustained_telemetry_launcher.sh: No such file or directory
+[2026-05-20T22:09:12Z] Running sustained telemetry probe
+======================================================================
+SUSTAINED TELEMETRY ANALYSIS
+Generated: 2026-05-20T22:09:12.484891+00:00
+======================================================================
+
+DATA OVERVIEW
+----------------------------------------
+Total metric samples: 2
+During active hours (06:00-23:00 UTC): 2
+
+LATENCY BY OPERATION TYPE
+----------------------------------------
+
+PUSH:
+  Samples: 1
+  Mean: 0.440 ms
+  p50/p90/p99: None/None/None ms
+  Success rate: 100.0% (0 failures)
+
+STATUS:
+  Samples: 1
+  Mean: 0.170 ms
+  p50/p90/p99: None/None/None ms
+  Success rate: 100.0% (0 failures)
+
+TIME WINDOW ANALYSIS (6-hour buckets)
+----------------------------------------
+Window_0_(2026-05-20T05:56:02.894865+00:00+6h):
+  Samples: 2 | Ops: {'status': 1, 'push': 1}
+
+======================================================================
+END OF REPORT
+======================================================================
