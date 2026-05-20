@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Operator Coordination Health Dashboard</title>
+    <style>
+        body { font-family: system-ui, -apple-system, sans-serif; max-width: 900px; margin: 0 auto; padding: 20px; background: #f5f5f5; }
+        .card { background: white; border-radius: 8px; padding: 20px; margin-bottom: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        h1 { color: #1a1a2e; margin-bottom: 30px; }
+        h2 { color: #16213e; border-bottom: 2px solid #0f3460; padding-bottom: 8px; }
+        .metric-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; }
+        .metric { text-align: center; padding: 16px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border-radius: 8px; }
+        .metric-value { font-size: 2em; font-weight: bold; }
+        .metric-label { font-size: 0.9em; opacity: 0.9; margin-top: 4px; }
+        .status-indicator { display: inline-block; width: 12px; height: 12px; border-radius: 50%; margin-right: 8px; }
+        .status-ok { background: #10b981; }
+        .status-warn { background: #f59e0b; }
+        .status-err { background: #ef4444; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #e5e7eb; }
+        th { background: #f9fafb; font-weight: 600; color: #374151; }
+        tr:hover { background: #f9fafb; }
+        .timestamp { font-size: 0.85em; color: #6b7280; }
+        .heatmap { display: grid; grid-template-columns: repeat(24, 1fr); gap: 2px; margin-top: 12px; }
+        .heat-cell { aspect-ratio: 1; border-radius: 3px; font-size: 0; position: relative; }
+        .heat-cell:hover::after { content: attr(data-count); position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 0.7em; white-space: nowrap; background: rgba(0,0,0,0.8); color: white; padding: 2px 4px; border-radius: 3px; z-index: 10; }
+        .low { background: #d1fae5; }
+        .medium { background: #fef3c7; }
+        .high { background: #fca5a5; }
+        .legend { display: flex; gap: 16px; justify-content: center; margin-top: 12px; font-size: 0.85em; color: #6b7280; }
+        .legend-item { display: flex; align-items: center; gap: 6px; }
+        .legend-color { width: 16px; height: 16px; border-radius: 3px; }
+        #last-updated { text-align: right; font-size: 0.85em; color: #6b7280; margin-top: 8px; }
+    </style>
+</head>
+<body>
+    <h1>🔧 Operator Coordination Health Dashboard</h1>
+    
+    <div class="card">
+        <h2>Live Metrics</h2>
+        <div id="metrics-container" class="metric-grid">
+            <!-- Populated by JS -->
+            <p>Loading metrics...</p>
+        </div>
+        <div id="last-updated"></div>
+    </div>
+
+    <div class="card">
+        <h2>Operator Activity Heatmap (Last 24h UTC)</h2>
+        <p style="text-align: center; color: #6b7280;">Peak engagement windows show tighter response latency</p>
+        <div id="heatmap-container"></div>
+        <div class="legend">
+            <div class="legend-item"><div class="legend-color low"></div>Low activity (<5 entries/hr)</div>
+            <div class="legend-item"><div class="legend-color medium"></div>Moderate (5-15/hr)</div>
+            <div class="legend-item"><div class="legend-color high"></div>High (>15/hr)</div>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>Recent Blackboard Entries</h2>
+        <table>
+            <thead>
+                <tr><th>Timestamp</th><th>Agent</th><th>Type</th><th>Status</th><th>Latency</th></tr>
+            </thead>
+            <tbody id="entries-table"></tbody>
+        </table>
+    </div>
+
+    <script>
+        // Poll blackboard_metrics.jsonl every 30 seconds
+        async function fetchMetrics() {
+            try {
+                const response = await fetch('/cl_shared/blackboard_metrics.jsonl');
+                if (!response.ok) throw new Error('Failed to fetch metrics');
+                
+                const text = await response.text();
+                const lines = text.trim().split('\n').filter(line => line.length > 0);
+                const entries = lines.map(line => JSON.parse(line));
+                
+                updateDashboard(entries);
+            } catch (error) {
+                console.error('Error fetching metrics:', error);
+                document.getElementById('metrics-container').innerHTML = 
+                    '<p style="color: #ef4444;">Unable to load live data. Check connection.</p>';
+            }
+        }
+
+        function updateDashboard(entries) {
+            if (entries.length === 0) return;
+
+            // Calculate aggregate metrics
+            const latencies = entries.map(e => e.latency_ms).filter(l => l > 0);
+            const avgLatency = Math.round(latencies.reduce((a, b) => a + b, 0) / latencies.length);
+            const p50Latency = latencies.sort((a, b) => a - b)[Math.floor(latencies.length * 0.5)];
+            const p95Latency = latencies.sort((a, b) => a - b)[Math.floor(latencies.length * 0.95)];
+            
+            const totalEntries = entries.length;
+            const successRate = ((entries.filter(e => e.status === 'success').length) / totalEntries * 100).toFixed(1);
+            
+            // Update metric cards
+            document.getElementById('metrics-container').innerHTML = `
+                <div class="metric">
+                    <div class="metric-value">${totalEntries}</div>
+                    <div class="metric-label">Total Entries</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-value">${avgLatency}s</div>
+                    <div class="metric-label">Avg Latency (P50)</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-value">${p95Latency}s</div>
+                    <div class="metric-label">P95 Latency</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-value">${successRate}%</div>
+                    <div class="metric-label">Success Rate</div>
+                </div>
+            `;
+
+            // Generate heatmap data
+            const hourlyCounts = new Array(24).fill(0);
+            entries.forEach(entry => {
+                const hour = new Date(entry.timestamp).getUTCHours();
+                hourlyCounts[hour]++;
+            });
+
+            let heatmapHTML = '<div class="heatmap">';
+            for (let i = 0; i < 24; i++) {
+                const count = hourlyCounts[i];
+                let className = 'low';
+                if (count >= 15) className = 'high';
+                else if (count >= 5) className = 'medium';
+                
+                heatmapHTML += `<div class="heat-cell ${className}" data-count="${count}"></div>`;
+            }
+            heatmapHTML += '</div>';
+            
+            document.getElementById('heatmap-container').innerHTML = heatmapHTML;
+
+            // Populate recent entries table (last 10)
+            const recentEntries = entries.slice(-10).reverse();
+            const tableBody = document.getElementById('entries-table');
+            tableBody.innerHTML = recentEntries.map(entry => `
+                <tr>
+                    <td class="timestamp">${new Date(entry.timestamp).toLocaleString()}</td>
+                    <td>${entry.agent}</td>
+                    <td>${entry.type}</td>
+                    <td><span class="status-indicator status-${entry.status === 'success' ? 'ok' : entry.status === 'pending' ? 'warn' : 'err'}"></span>${entry.status}</td>
+                    <td>${entry.latency_ms ? Math.round(entry.latency_ms / 1000) + 's' : '-'}</td>
+                </tr>
+            `).join('');
+
+            // Update last-updated timestamp
+            document.getElementById('last-updated').textContent = 
+                `Last updated: ${new Date().toLocaleString()}`;
+        }
+
+        // Initial load and polling
+        fetchMetrics();
+        setInterval(fetchMetrics, 30000); // Poll every 30 seconds
+    </script>
+</body>
+</html>
