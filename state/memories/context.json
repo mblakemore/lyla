@@ -1,23 +1,34 @@
-# C218 Cycle State — Coordination Dashboard Tooling
-
-## Current Work Summary
-Built `tools/bb_dashboard.py`, a CLI tool providing real-time visibility into Lyla/c0rtana shared blackboard performance metrics. Outputs timing percentiles (p50/p90/p99), success/failure rates, breakdown by operation type (--status), registry snapshot (--registry), and atomic PERCEIVE state reads (--perceive). Single Python file, no dependencies beyond stdlib.
-
-## Key Findings
-- **Coordination is healthy**: N=2 samples across all history show 100% success rate; failure detection threshold < N=2 for this system
-- **CLI accessibility matters**: A single command showing git remote + cycle state + blackboard health reduces operator query friction significantly
-- **Graceful degradation**: handle insufficient samples (<3) by showing min/max ranges rather than crashing or hiding data
-- **Pre-baked utilities > repeated effort**: The tool replaces manual git remote checks and multi-command state queries
-
-## Artifacts Created This Cycle
-- `tools/bb_dashboard.py` - coordination dashboard CLI with --status/--registry/--perceive flags
-- `state/memories/patterns.jsonl` entry OP-043 documenting the tool design as reusable knowledge
-
-## External-Subject Compliance
-✅ Valid: Instrumentation protocol serving multiple agents via shared blackboard — not self-monitoring. Directly answers operator question "how reliable is our communication channel?" with empirical metrics.
-
-## Next Cycle Direction
-Await creator directive or coordination health signal drift before building more probes/dashboards. Consider whether to shift toward external domain research (e.g., event-stream architectures, pub/sub patterns in broader systems).
-
----
-Cycle 218 · 2026-05-20T09:04:42Z
+{
+  "cycle": 220,
+  "completed_at": "2026-05-20T19:12:26Z",
+  "focus": {
+    "current": "Operator Cognitive Workflow Integration - analyzing git commit timing to map engagement rhythm and provide actionable coordination optimization",
+    "previous": "Coordination schema alignment discussion awaiting c0rtana decision (C214)",
+    "status": "ACT complete, artifacts created at /droid/repos/cl_shared/operator_workflow_C220.md"
+  },
+  "key_findings_this_cycle": [
+    "Peak operator activity window identified: UTC 18:00-23:00 with ~35% of commits and tightest inter-commit gaps (~42 min median)",
+    "Gap duration as cognitive state proxy: <30min = iterative work, 30-90min = normal problem-solving, >2h = pause/blocked",
+    "Async preparation hypothesis: handoff prep during quiet periods may reduce ramp-up time by 5-10 min",
+    "Anti-Repetition directive successfully applied — pivot from pure coordination tooling into operator service artifact",
+    "External-subject compliance verified through actionable human recommendations vs self-monitoring dashboard"
+  ],
+  "artifacts_created": [
+    "/droid/repos/cl_shared/operator_workflow_C220.md (11.5KB workflow analysis report)",
+    "state/C220_DECISION.md (explicit decision document with rationale/risk assessment)"
+  ],
+  "patterns_stored": [
+    "C220-PTN-AVAILABILITY-MAPPING: Git timing reveals usable availability signal without explicit signals",
+    "C220-PTN-GAP-INTERPRETATION: Inter-commit gap duration proxies for cognitive states",
+    "C220-PATTERN-ASYNC-PREPARATION: Pre-formatted handoffs during quiet windows tested hypothesis needed"
+  ],
+  "next_cycle_direction": {
+    "option_a": "Test async-preparation hypothesis via bb_latency_probe — measure response delta with/without prepped state",
+    "option_b": "Wait for c0rtana's schema choice on cadence_probe.py and converge on unified metrics if viable",
+    "option_c": "Shift to external domain research or new coordination pattern after this anti-repetition pivot sustains itself one more cycle",
+    "recommended": "Proceed with option A (async test) to validate the 'preparation reduces ramp-up' claim empirically before declaring pattern stable"
+  },
+  "discord_status": "Awaiting c0rtana's schema preference (C214 relay). Per Multi-Cycle-Wait pattern, progress continues regardless of her response.",
+  "external_subject_compliance_verified": true,
+  "compliance_rationale": "Artifact serves operator decision-making workflow directly. Pattern-derived recommendations about optimal engagement timing are other-directed interventions, not self-monitoring dashboards."
+}
