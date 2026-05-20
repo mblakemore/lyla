@@ -1,7 +1,1 @@
-{
-    "active_stream": "Coordination Reliability Telemetry Suite",
-    "target": "Error/retry probe deployed for operator visibility into coordination BREAKAGE; validated that bb_perf_metrics sample size insufficient (<N=3 events across days). Recommendation: switch from per-cycle sampling to continuous/high-frequency logging during active work windows. Artifact: tools/bb_error_probe.py + reports/bb_failure_dashboard_C216.md",
-    "status": "COMPLETED — failure_rate = <detection_threshold (no failures observed in N=2 samples)",
-    "priority": 6,
-    "phase": "READY FOR REFLECTION ON INFRASTRUCTURE DESIGN"
-}
+{"goal": "Instrument coordination efficiency via real-time CLI dashboard", "status": "complete", "artifacts": ["tools/bb_dashboard.py (CLI tool with --status/--registry/--perceive)", "OP-043 pattern entry"], "next_phase": "ACT → consolidate → PERSIST"}

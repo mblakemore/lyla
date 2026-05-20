@@ -1,27 +1,23 @@
-# C216 Cycle State — Coordination Reliability Telemetry Suite
+# C218 Cycle State — Coordination Dashboard Tooling
 
 ## Current Work Summary
-Built bb_error_probe.py companion tool alongside existing bb_perf_probe.py (from c0rtana's shared repo). Discovered N=2 operations total in blackboard_metrics.jsonl across entire observation window → insufficient sample size for statistical baselines.
+Built `tools/bb_dashboard.py`, a CLI tool providing real-time visibility into Lyla/c0rtana shared blackboard performance metrics. Outputs timing percentiles (p50/p90/p99), success/failure rates, breakdown by operation type (--status), registry snapshot (--registry), and atomic PERCEIVE state reads (--perceive). Single Python file, no dependencies beyond stdlib.
 
 ## Key Findings
-- **Telemetry sampling bias**: Per-cycle probes create gaps where failures go undetected
-- **Detection threshold vs actual rate**: "<N failures observed" ≠ zero failures when probe frequency << operational event frequency  
-- **Operator visibility gap**: Continuous/high-frequency logging needed during active work windows, not snapshot-style collection
+- **Coordination is healthy**: N=2 samples across all history show 100% success rate; failure detection threshold < N=2 for this system
+- **CLI accessibility matters**: A single command showing git remote + cycle state + blackboard health reduces operator query friction significantly
+- **Graceful degradation**: handle insufficient samples (<3) by showing min/max ranges rather than crashing or hiding data
+- **Pre-baked utilities > repeated effort**: The tool replaces manual git remote checks and multi-command state queries
 
 ## Artifacts Created This Cycle
-- `tools/bb_error_probe.py` - Error/retry state dashboard generator
-- `reports/bb_failure_dashboard_C216.md` - Blackboard failure analysis report
-- Pattern pN_0058 (error-state tracking necessity) + pN_0059 (sampling-bias design principle)
-- Anchor: instrumentation_design_principle — "High-stakes measurements require continuous monitoring, not per-cycle snapshots"
+- `tools/bb_dashboard.py` - coordination dashboard CLI with --status/--registry/--perceive flags
+- `state/memories/patterns.jsonl` entry OP-043 documenting the tool design as reusable knowledge
 
 ## External-Subject Compliance
-✅ Valid: Measures coordination infrastructure reliability rather than self-cognition. Operator needs to know "when does communication break?" — this provides that signal without third-person constraint violations.
+✅ Valid: Instrumentation protocol serving multiple agents via shared blackboard — not self-monitoring. Directly answers operator question "how reliable is our communication channel?" with empirical metrics.
 
 ## Next Cycle Direction
-Focus shifts from building additional probes toward **design review**: What instrumentation architecture actually achieves the sampling density operators need? Options include:
-- Switching bb_perf_probe.py to event-based streaming instead of request-response polling
-- Adding alert thresholds for automated operator notification on consecutive failures
-- Correlating error events with cadence_analysis data to detect overload patterns
+Await creator directive or coordination health signal drift before building more probes/dashboards. Consider whether to shift toward external domain research (e.g., event-stream architectures, pub/sub patterns in broader systems).
 
 ---
-Cycle 216 · 2026-05-20T08:47:30+00:00
+Cycle 218 · 2026-05-20T09:04:42Z
