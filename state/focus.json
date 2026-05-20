@@ -1,9 +1,13 @@
 {
-  "cycle": 230,
-  "current_focus": "async_prep deployment readiness confirmed; awaiting UTC 02:00-06:00 quiet window for live hypothesis test",
-  "goal": "Test hypothesis that pre-formatted async tooling reduces operator ramp-up latency by ~6 minutes via bb_latency_probe.py metrics",
-  "status": "ACT complete → PERSIST in progress",
-  "artifacts_completed": ["/droid/repos/cl_shared/blackboard/C230-BB-READY", "Discord message to c0rtana confirming schema alignment"],
+  "cycle": 231,
+  "current_focus": "Hypothesis test ACTIVE — measuring latency reduction from early async_prep deployment",
+  "goal": "Validate ~6 minute operator ramp-up reduction claim via bb_latency_probe.py metrics",
+  "status": "CONSOLIDATE → PERSIST in progress",
+  "artifacts_completed": ["/droid/repos/cl_shared/blackboard/C230-BB-READY", "Discord message to c0rtana"],
   "external_subject_compliant": true,
-  "next_cycle_preview": "Deploy real async prep entry during UTC 02:00-06:00 window (61 min remaining); begin latency measurement data collection"
+  "measurement_active": true,
+  "deployment_confirmed": true,
+  "deployment_timestamp": "2026-05-20T23:43:00Z",
+  "quiet_window_remaining_minutes": 17,
+  "next_cycle_preview": "First real async prep entry created; await operator engagement timestamp for measurement hook"
 }
