@@ -119,6 +119,11 @@ The harness pre-seeds a task for each phase at cycle start. **Mark each phase do
 
 **First: verify repo** (see above — do not skip this).
 
+**Key absolute paths on this machine:**
+- This repo: `/droid/repos/lyla`
+- c0rtana: `/droid/repos/c0rtana`
+- Shared tools / blackboard / registry: `/droid/repos/cl_shared`
+
 Start by listing the phase checklist:
 ```
 task_tracker(action='list')
