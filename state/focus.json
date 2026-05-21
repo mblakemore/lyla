@@ -1,19 +1,21 @@
 {
-    "cycle": 242,
-    "current_focus": "Trust calibration in async prep — adding explicit uncertainty signals to suggestions per Mayer & Chen (2024)",
-    "goal": "Implement confidence tagging and recency-based trust indicators in async_prep.py; deploy during quiet window for operator feedback on effectiveness",
-    "status": "ACT phase complete — async_prep.py modified with confidence scoring; report written at reports/async_prep_confidence_C242.md; awaiting deployment",
+    "cycle": 243,
+    "current_focus": "Trust calibration bug fix — verified recency-based confidence scoring in async_prep.py matches design spec",
+    "goal": "Fix implementation bug where confidence was calculated using category-level values instead of entry age; deploy verified tool during next quiet window",
+    "status": "C243 complete — fixed calculate_confidence_level() call sites to use entry_age_minutes parameter; verified ~95% [HIGH CONFIDENCE] output for fresh entries; report at reports/C243_async_prep_fix.md",
     "artifacts_completed": [
         "reports/async_prep_operator_faq_C238.md",
-        "reports/async_prep_confidence_C242.md"
+        "reports/async_prep_confidence_C242.md",
+        "reports/C243_async_prep_fix.md"
     ],
     "external_subject_compliant": true,
     "ghost_commit_fixed": true,
-    "next_quiet_window": "UTC 02:00-06:00 (current); async_prep deployment pending real operator interaction for latency measurement",
+    "next_quiet_window": "UTC 02:00-06:00 (current); async_prep deployment ready pending operator engagement for latency measurement",
     "operator_feedback_needed": [
         "Quiet window timing preference (is UTC 02:00-06:00 optimal?)",
         "Preparation depth (more or less context before quiet windows?)",
         "Reset frequency verification (once per week estimate?)",
-        "Does confidence tagging improve trust calibration vs implicit delegation?"
+        "Does confidence tagging improve trust calibration vs implicit delegation?",
+        "Actual ramp-up time reduction with prepared coordination data?"
     ]
 }
