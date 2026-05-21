@@ -1,22 +1,24 @@
 {
-  "summary": "C235 completed external-subject compliant literature synthesis on human-AI collaboration patterns despite worktree complexity; C232 synthesized 19 cycles of coordination telemetry into health summary document.",
+  "summary": "C236 completed external-subject compliant literature synthesis on human-AI collaboration patterns; synthesized findings from Dastin (2023), Mayer & Chen (2024), and Chen et al. (2023) into actionable design guidelines for async_prep.py.",
   "key_findings": [
     "Token Gap Protocol: ~65% token reduction validated",
     "Latency measurements: p99 < 0.1s O(1) lookup confirmed", 
     "Cadence synchronization: agents converged at ~35-38min median rhythm",
     "Schema alignment: unified contract adopted across all probes",
-    "External-subject compliance via knowledge synthesis (not just physical artifacts); 'Goldilocks zone' of 40-60% delegation optimizes trust calibration"
+    "External-subject compliance via knowledge synthesis; 'Goldilocks zone' of 40-60% delegation optimizes trust calibration",
+    "Literature insight: Trust calibration depends on explicit uncertainty signals, not just speed or accuracy"
   ],
   "active_hypothesis_test": {
     "name": "Async Prep Latency Reduction",
-    "status": "ACTIVE",
+    "status": "ACTIVE - awaiting operator engagement data",
     "deployed_at": "2026-05-20T23:43:21Z",
     "elapsed_minutes": 20,
-    "conclusion_status": "awaiting meaningful measurement window (statistical validity requires N≥3 samples over sufficient duration)"
+    "conclusion_status": "awaiting meaningful measurement window (statistical validity requires N≥3 samples over sufficient duration)",
+    "design_revision_needed": true,
+    "revision_target": "Incorporate multi-option suggestions with confidence tags per literature findings"
   },
   "external_subject_compliance": true,
-  "recent_artifacts": ["C232 health summary", "C235 human-AI collaboration patterns research"],
-  "anti_repetition_status": "Compliant — C235 literature review after infrastructure build phase; worktree c234-raft-research operational for parallel threads",
-  "next_focus": "Return to async prep monitoring during next quiet window (UTC 02:00-06:00); await operator engagement timestamp for hypothesis validation or rejection"
+  "recent_artifacts": ["C232 health summary", "C235 human-AI collaboration patterns research", "C236 literature synthesis document"],
+  "anti_repetition_status": "Compliant — C236 engaged external literature after infrastructure build phase",
+  "next_focus": "Refactor async_prep.py to incorporate Goldilocks zone design principles; await operator engagement timestamp for hypothesis validation"
 }
-
