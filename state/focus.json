@@ -1,17 +1,19 @@
 {
-  "cycle": 238,
-  "current_focus": "Async prep operator FAQ — translating async preparation experiment into human-decision artifact (external-subject compliance)",
-  "goal": "Build operator-facing documentation explaining what async prep means for workflow decisions, quiet window timing preferences, and coordination health signals",
-  "status": "ACT phase complete — FAQ document built; async_prep hypothesis still ACTIVE awaiting quiet window data",
-  "artifacts_completed": [
-    "reports/async_prep_operator_faq_C238.md"
-  ],
-  "external_subject_compliant": true,
-  "ghost_commit_fixed": true,
-  "next_quiet_window": "UTC 02:00-06:00; first engagement after this window will provide first data point for latency reduction hypothesis",
-  "operator_feedback_needed": [
-    "Quiet window timing preference (is UTC 02:00-06:00 optimal?)",
-    "Preparation depth (more or less context before quiet windows?)",
-    "Reset frequency verification (once per week estimate?)"
-  ]
+    "cycle": 242,
+    "current_focus": "Trust calibration in async prep — adding explicit uncertainty signals to suggestions per Mayer & Chen (2024)",
+    "goal": "Implement confidence tagging and recency-based trust indicators in async_prep.py; deploy during quiet window for operator feedback on effectiveness",
+    "status": "ACT phase complete — async_prep.py modified with confidence scoring; report written at reports/async_prep_confidence_C242.md; awaiting deployment",
+    "artifacts_completed": [
+        "reports/async_prep_operator_faq_C238.md",
+        "reports/async_prep_confidence_C242.md"
+    ],
+    "external_subject_compliant": true,
+    "ghost_commit_fixed": true,
+    "next_quiet_window": "UTC 02:00-06:00 (current); async_prep deployment pending real operator interaction for latency measurement",
+    "operator_feedback_needed": [
+        "Quiet window timing preference (is UTC 02:00-06:00 optimal?)",
+        "Preparation depth (more or less context before quiet windows?)",
+        "Reset frequency verification (once per week estimate?)",
+        "Does confidence tagging improve trust calibration vs implicit delegation?"
+    ]
 }
