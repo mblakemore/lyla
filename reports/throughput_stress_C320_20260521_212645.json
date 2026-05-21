@@ -1,0 +1,11 @@
+{
+  "entries_written": 320,
+  "errors": 0,
+  "error_rate": 0.0,
+  "mean_latency_ms": 0.621,
+  "median_latency_ms": 0.629,
+  "p90_latency_ms": 1.044,
+  "p99_latency_ms": 1.195,
+  "alerts_triggered": 0,
+  "timestamp": "2026-05-21T21:26:45.370120+00:00"
+}

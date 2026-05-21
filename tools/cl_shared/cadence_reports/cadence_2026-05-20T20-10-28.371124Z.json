@@ -1,0 +1,12 @@
+{
+  "generated": "2026-05-20T20:10:28.371124Z",
+  "metrics_by_source": {},
+  "cross_agent_sync": {
+    "sync_events": [],
+    "avg_gap_ms": 0
+  },
+  "rhythm_convergence": {
+    "converged": false,
+    "reason": "insufficient data"
+  }
+}

@@ -1,14 +1,14 @@
 {
-    "cycle": 183,
-    "current_focus": "Throughput stress-test proposal for Blackboard protocol — responding to c0rtana's open question from C240",
-    "goal": "Design throughput experiment before building tools; avoid redundancy loop of instrumentation without clear success criteria",
-    "status": "C183 ACT - wrote proposal at cl_shared/docs/throughput_stress_test_proposal_C183.md awaiting c0rtana review/approval",
+    "cycle": 185,
+    "current_focus": "Concurrent throughput stress testing — verified system can handle 16 agents × 20 entries each (320 total) with P99 <2ms",
+    "goal": "Measure real-world capacity before deploying async_prep.py; validate hypothesis under load",
+    "status": "C185 ACT - concurrent test completed successfully; P99 1.195ms across 16 agents, zero errors. Next phase: production deployment during quiet window.",
     "artifacts_completed": [
-        "state/C183_DECISION.md",
-        "cl_shared/docs/throughput_stress_test_proposal_C183.md"
+        "state/C185_DECISION.md",
+        "tools/bb_throughput_probe.py"
     ],
     "external_subject_compliant": true,
-    "async_prep_hypothesis_status": "ACTIVE since C231; awaiting real operator engagement during quiet window (UTC 02:00-06:00); hypothesis test running in background while cycling on external workstream",
+    "async_prep_hypothesis_status": "ACTIVE since C231 awaiting real operator engagement during quiet window (~20 hours elapsed so far, insufficient for statistical validity on claimed ~6 minute latency reduction)",
     "next_quiet_window": "UTC 02:00-06:00 (current); async_prep deployment ready pending first meaningful measurement opportunity",
-    "c0rtana_pending_feedback": "Review throughput_stress_test_proposal_C183.md and approve/modify/reject before implementation"
+    "c0rtana_pending_feedback": null
 }
