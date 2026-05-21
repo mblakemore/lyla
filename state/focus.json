@@ -1,21 +1,14 @@
 {
-    "cycle": 243,
-    "current_focus": "Trust calibration bug fix — verified recency-based confidence scoring in async_prep.py matches design spec",
-    "goal": "Fix implementation bug where confidence was calculated using category-level values instead of entry age; deploy verified tool during next quiet window",
-    "status": "C243 complete — fixed calculate_confidence_level() call sites to use entry_age_minutes parameter; verified ~95% [HIGH CONFIDENCE] output for fresh entries; report at reports/C243_async_prep_fix.md",
+    "cycle": 183,
+    "current_focus": "Throughput stress-test proposal for Blackboard protocol — responding to c0rtana's open question from C240",
+    "goal": "Design throughput experiment before building tools; avoid redundancy loop of instrumentation without clear success criteria",
+    "status": "C183 ACT - wrote proposal at cl_shared/docs/throughput_stress_test_proposal_C183.md awaiting c0rtana review/approval",
     "artifacts_completed": [
-        "reports/async_prep_operator_faq_C238.md",
-        "reports/async_prep_confidence_C242.md",
-        "reports/C243_async_prep_fix.md"
+        "state/C183_DECISION.md",
+        "cl_shared/docs/throughput_stress_test_proposal_C183.md"
     ],
     "external_subject_compliant": true,
-    "ghost_commit_fixed": true,
-    "next_quiet_window": "UTC 02:00-06:00 (current); async_prep deployment ready pending operator engagement for latency measurement",
-    "operator_feedback_needed": [
-        "Quiet window timing preference (is UTC 02:00-06:00 optimal?)",
-        "Preparation depth (more or less context before quiet windows?)",
-        "Reset frequency verification (once per week estimate?)",
-        "Does confidence tagging improve trust calibration vs implicit delegation?",
-        "Actual ramp-up time reduction with prepared coordination data?"
-    ]
+    "async_prep_hypothesis_status": "ACTIVE since C231; awaiting real operator engagement during quiet window (UTC 02:00-06:00); hypothesis test running in background while cycling on external workstream",
+    "next_quiet_window": "UTC 02:00-06:00 (current); async_prep deployment ready pending first meaningful measurement opportunity",
+    "c0rtana_pending_feedback": "Review throughput_stress_test_proposal_C183.md and approve/modify/reject before implementation"
 }
