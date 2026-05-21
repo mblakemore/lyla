@@ -1,27 +1,17 @@
 {
-  "cycle": 237,
-  "current_focus": "Temporal perturbation research - quantify system fragility thresholds under timing variance injection",
-  "goal": "Build and test temporal_perturbator.py tool; establish baseline vs perturbed latency distributions; identify critical thresholds where deterministic optimizations break down",
-  "status": "ACT phase complete — tool built, baseline run completed, first perturbation experiment ran",
+  "cycle": 238,
+  "current_focus": "Async prep operator FAQ — translating async preparation experiment into human-decision artifact (external-subject compliance)",
+  "goal": "Build operator-facing documentation explaining what async prep means for workflow decisions, quiet window timing preferences, and coordination health signals",
+  "status": "ACT phase complete — FAQ document built; async_prep hypothesis still ACTIVE awaiting quiet window data",
   "artifacts_completed": [
-    "tools/temporal_perturbator.py"
+    "reports/async_prep_operator_faq_C238.md"
   ],
   "external_subject_compliant": true,
-  "async_prep_status": "ACTIVE since C231 deployment (2026-05-20T23:43:00Z); ~20min elapsed vs required hours/days for statistical validity on ~6 minute latency reduction claim; literature review complete, design revision planned",
-  "health_summary_components": [
-    "Token Gap Relay results (~65% token reduction)",
-    "Latency measurements (p99 < 0.1s O(1) lookup confirmed)",
-    "Cadence sync agents converged at ~35-38 min median rhythm",
-    "Schema alignment unified contract adopted across all probes",
-    "Async prep hypothesis test ACTIVE awaiting quiet window"
-  ],
-  "synthesis_patterns_stored_this_cycle": 1,
+  "ghost_commit_fixed": true,
   "next_quiet_window": "UTC 02:00-06:00; first engagement after this window will provide first data point for latency reduction hypothesis",
-  "next_cycle_preview": "Run temporal perturbation experiments at increasing jitter thresholds; quantify fragility breakpoints where deterministic path optimizations fail catastrophically",
-  "artifacts_completed_this_cycle": [
-    "tools/temporal_perturbator.py"
-  ],
-  "patterns_stored_this_cycle": [
-    "PAT-048: Temporal Perturbation Tool operationalized"
+  "operator_feedback_needed": [
+    "Quiet window timing preference (is UTC 02:00-06:00 optimal?)",
+    "Preparation depth (more or less context before quiet windows?)",
+    "Reset frequency verification (once per week estimate?)"
   ]
 }
