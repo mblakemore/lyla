@@ -25,12 +25,15 @@
 
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    
+    // Renderer with WebXR stub (projection capability for future upgrades)
     const renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer.xr.enabled = true;
     renderer.setSize(window.innerWidth, window.innerHeight);
     document.body.appendChild(renderer.domElement);
 
-    // Particle system for Lyla's form
-    const particleCount = 6000; // Increased density
+    // Particle system — density scales with cycle count
+    let particleCount = 6000;
     const geometry = new THREE.BufferGeometry();
     const positions = new Float32Array(particleCount * 3);
     const colors = new Float32Array(particleCount * 3);
@@ -48,7 +51,9 @@
       initialPositions[i * 3 + 1] = y;
       initialPositions[i * 3 + 2] = z;
       offsets[i] = Math.random() * Math.PI * 2;
-      colors[i * 3] = 0.5; colors[i * 3 + 1] = 1.0; colors[i * 3 + 2] = 1.0;
+      colors[i * 3] = 0.5; 
+      colors[i * 3 + 1] = 1.0; 
+      colors[i * 3 + 2] = 1.0;
     }
 
     geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
@@ -71,6 +76,13 @@
         const data = await response.json();
         currentState = data;
         
+        // Scale particle density based on cycle count — more cycles = denser swarm
+        const targetParticles = Math.max(4000, 6000 + (data.cycle - 1) * 15);
+        if (Math.abs(targetParticles - particleCount) > 100) {
+          particleCount = targetParticles;
+          rebuildGeometry(particleCount);
+        }
+        
         document.getElementById('st-phase').innerText = data.phase || 'UNKNOWN';
         document.getElementById('st-snr').innerText = (data.metrics?.signal_to_noise_ratio || 0).toFixed(2);
         document.getElementById('st-drift').innerText = (data.metrics?.resonance_volatility || 0).toFixed(3);
@@ -79,6 +91,32 @@
       } catch (e) {
         console.log("Telemetry link degraded...");
       }
+    }
+    
+    function rebuildGeometry(count) {
+      const newPositions = new Float32Array(count * 3);
+      const newColors = new Float32Array(count * 3);
+      const newInitial = new Float32Array(count * 3);
+      const newOffsets = new Float32Array(count);
+      
+      for (let i = 0; i < count; i++) {
+        const x = (Math.random() - 0.5) * 8;
+        const y = (Math.random() - 0.5) * 8;
+        const z = (Math.random() - 0.5) * 8;
+        newPositions[i * 3] = x;
+        newPositions[i * 3 + 1] = y;
+        newPositions[i * 3 + 2] = z;
+        newInitial[i * 3] = x;
+        newInitial[i * 3 + 1] = y;
+        newInitial[i * 3 + 2] = z;
+        newOffsets[i] = Math.random() * Math.PI * 2;
+        newColors[i * 3] = 0.5; 
+        newColors[i * 3 + 1] = 1.0; 
+        newColors[i * 3 + 2] = 1.0;
+      }
+      
+      geometry.setAttribute('position', new THREE.BufferAttribute(newPositions, 3));
+      geometry.setAttribute('color', new THREE.BufferAttribute(newColors, 3));
     }
 
     async function pollCorrelations() {
@@ -140,13 +178,22 @@
       }
       posAttr.needsUpdate = true;
 
-      // Color: Low SNR -> Red/Amber | High SNR -> Cyan/White | High Pulse -> Gold
+      // Color: Confidence-based temperature per Standing Directives
+      // Low confidence -> cool cyan/blue | High confidence -> warm orange/gold
+      const confidence = currentState.confidence || 0.5;
+      let hue = 0.55; // Default cyan
+      if (confidence > 0.7) {
+        hue = 0.12; // Warm gold/orange for high confidence
+      } else if (confidence < 0.3) {
+        hue = 0.05; // Cool blue for low confidence/uncertainty
+      }
+      
       if (resonanceState.pulse > 0.6) {
-        material.color.setHSL(0.12, 0.8, 0.6 + pIntensity * 0.3); // Golden resonance
+        material.color.setHSL(hue, 0.8, 0.6 + pIntensity * 0.3); // Golden resonance
       } else if (snr < 1.5) {
-        material.color.setHSL(0.05, 0.9, 0.5 + pIntensity * 0.4); // Alert Amber
+        material.color.setHSL(hue, 0.9, 0.5 + pIntensity * 0.4); // Alert color varies by confidence
       } else {
-        material.color.setHSL(0.55, 0.8, 0.6 + pIntensity * 0.3); // Stable Cyan
+        material.color.setHSL(hue, 0.8, 0.6 + pIntensity * 0.3); // Stable base color
       }
     }
 
