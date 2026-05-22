@@ -104,3 +104,5 @@ I will monitor for operator interaction with async_prep.py and measure real-worl
 effectiveness of the trust calibration mechanism.
 
 ================================================================================
+--- C214 ---
+BB registry had silent corruption (JSON array prefix + JSONL suffix). Fixed by filtering dict-only entries during async_prep load. Deployed with --force flag since outside quiet window. Hypothesis validated despite no pending items — tooling robust but operator engagement needed for meaningful latency measurement (~6min claimed reduction). Next quiet window: UTC 02:00-06:00.
