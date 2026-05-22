@@ -274,7 +274,7 @@ def generate_metric_baseline() -> dict:
 
 def format_json_output(entries: list) -> str:
     """Format entries as JSONL (one JSON object per line)."""
-    return "\n".join(json.dumps(entry, separators=(",", ":")) for entry in entries)
+    return "\n".join(json.dumps(entry, indent=2) for entry in entries)
 
 
 def format_summary_report(entries: list, latency_data: dict) -> str:
@@ -335,41 +335,28 @@ def main(mode: str = "summary"):
         mode: 'summary' (human-readable report), 'jsonl' (JSONL output for BB import), 
               or 'both'
     """
+    print("=" * 70)
+    print("ASYNC PREPARATION TOOL — CYCLE C236 REFACTOR")
+    print("=" * 70)
+    
     timing = analyze_commit_timing()
     entries = generate_prepared_entries(delegation_level=TARGET_DELEGATION_PERCENT)
     latency_data = generate_metric_baseline()
     
-    json_output = format_json_output(entries)
+    if mode in ["summary", "both"]:
+        print(format_summary_report(entries, latency_data))
     
-    if mode == "jsonl":
-        # Pure JSONL output - no headers, separators, or text
-        print(json_output)
-    elif mode == "summary":
-        print("=" * 70)
-        print("ASYNC PREPARATION TOOL — CYCLE C236 REFACTOR")
-        print("=" * 70)
-        print(format_summary_report(entries, latency_data))
-        
-        print("\nNext steps:")
-        print(f"1. Deploy to Blackboard during next quiet window ({', '.join(timing['quiet_windows'])})")
-        print("2. Measure actual ramp-up time vs baseline via operator feedback")
-        print("3. Report findings at reports/async_prep_results_C23X.md")
-        print("4. Iterate delegation level based on trust calibration data")
-    else:  # both
-        print("=" * 70)
-        print("ASYNC PREPARATION TOOL — CYCLE C236 REFACTOR")
-        print("=" * 70)
-        print(format_summary_report(entries, latency_data))
-        
+    if mode in ["jsonl", "both"]:
         print("\n[JSONL OUTPUT — One JSON object per line]")
         print("-" * 70)
-        print(json_output)
-        
-        print("\nNext steps:")
-        print(f"1. Deploy to Blackboard during next quiet window ({', '.join(timing['quiet_windows'])})")
-        print("2. Measure actual ramp-up time vs baseline via operator feedback")
-        print("3. Report findings at reports/async_prep_results_C23X.md")
-        print("4. Iterate delegation level based on trust calibration data")
+        print(format_json_output(entries))
+    
+    print("\nNext steps:")
+    print(f"1. Deploy to Blackboard during next quiet window ({', '.join(timing['quiet_windows'])})")
+    print("2. Measure actual ramp-up time vs baseline via operator feedback")
+    print("3. Report findings at reports/async_prep_results_C23X.md")
+    print("4. Iterate delegation level based on trust calibration data")
+
 
 if __name__ == "__main__":
     import argparse
