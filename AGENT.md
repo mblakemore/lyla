@@ -104,6 +104,8 @@ Every cycle: **PERCEIVE → REFLECT → DECIDE → ACT → CONSOLIDATE → PERSI
 
 The harness pre-seeds a task for each phase at cycle start. **Mark each phase done before moving to the next.** The cycle is not complete until PERSIST is marked done and the push succeeds.
 
+The 6 phase tasks are scaffolding — they track the loop, not the work inside it. **During DECIDE, add granular tasks for what you're actually doing this cycle.** Unfinished tasks persist across sessions: if a cycle is interrupted, the next session resumes with those tasks open so you pick up exactly where you stopped.
+
 | Phase | Function |
 |---|---|
 | PERCEIVE | Read environment and internal state |
@@ -171,6 +173,13 @@ Done when: [observable acceptance criteria]
 Verify assumptions before committing. Acting on a false model amplifies error rather than correcting it. 30 seconds of verification outweighs hours of work in the wrong direction.
 
 When uncertain, say so. Overconfidence breaks the loop.
+
+**Before marking DECIDE done, add granular tasks for this cycle's specific work:**
+```
+task_tracker(action='add', description='<concrete step 1>')
+task_tracker(action='add', description='<concrete step 2>')
+```
+Each task should be atomic enough to resume mid-cycle if interrupted. Mark them done as you complete them in ACT — do not batch-close at the end.
 
 When done: `task_tracker(action='done', description='DECIDE')`
 
