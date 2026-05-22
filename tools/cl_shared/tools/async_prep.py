@@ -163,13 +163,13 @@ def create_bb_entry(suggestion_text):
     
     return entry_id
 
-def main(dry_run=False):
+def main(dry_run=False, force_deploy=False):
     """Main execution logic."""
     current_hour = get_current_utc_hour()
     
     print(f"[ASYNC-PREP] Current UTC hour: {current_hour}")
     
-    if not is_quiet_window(current_hour):
+    if not force_deploy and not is_quiet_window(current_hour):
         print("[ASYNC-PREP] Not in quiet window (02:00-06:00 UTC). Skipping auto-deployment.")
         print("[ASYNC-PREP] This tool runs during low-activity periods to prepare handoffs for when engagement resumes.")
         return
@@ -210,6 +210,7 @@ if __name__ == "__main__":
     
     parser = argparse.ArgumentParser(description="Async Preparation Tool - pre-formatted handoff suggestions for operator review")
     parser.add_argument("--dry-run", action="store_true", help="Print output without creating BB entries")
+    parser.add_argument("--force", action="store_true", help="Force deployment outside quiet window (per Standing Directives)")
     args = parser.parse_args()
     
-    main(dry_run=args.dry_run)
+    main(dry_run=args.dry_run, force_deploy=args.force)

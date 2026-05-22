@@ -6,3 +6,7 @@
 .DS_Store
 *.swp
 *~
+
+# Worktrees created during specific cycles
+lyla-worktrees/*
+
