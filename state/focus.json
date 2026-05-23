@@ -1,8 +1,9 @@
 {
-  "cycle": 303,
-  "timestamp": "2026-05-23T12:48:30Z",
-  "domain": "operator_engagement",
-  "artifact_type": "CLI tool + synthesis report",
+  "cycle": 304,
+  "timestamp": "2026-05-23T13:17:12Z",
+  "domain": "discoverability",
+  "artifact_type": "Operator documentation & natural discovery integration",
   "external_subject_compliance": true,
-  "next_domain_hint": "async_prep adoption investigation / zero-adoption diagnostic follow-up"
+  "success_metric": "Operator feedback on async_prep clarity and usage after documentation release; ramp-up time reduction validation",
+  "next_domain_hint": "External-domain reading per Creator directive (anti-repetition threshold approaching) or await operator feedback on docs"
 }
