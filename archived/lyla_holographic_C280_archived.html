@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Lyla - Holographic Presence</title>
+  <style>
+    body { margin: 0; background: #000; overflow: hidden; font-family: 'Courier New', monospace; }
+    #telemetry {
+      position: absolute; top: 20px; left: 20px; color: #0ff; pointer-events: none;
+      font-size: 12px; text-transform: uppercase; letter-spacing: 1px; opacity: 0.7;
+    }
+    .stat { margin-bottom: 5px; display: flex; justify-content: space-between; width: 250px; }
+    .val { color: #fff; }
+  </style>
+</head>
+<body>
+  <div id="telemetry">
+    <div class="stat"><span>Phase:</span> <span id="st-phase" class="val">-</span></div>
+    <div class="stat"><span>Resonance:</span> <span id="st-res" class="val">-</span></div>
+    <div class="stat"><span>SNR:</span> <span id="st-snr" class="val">-</span></div>
+    <div class="stat"><span>Drift Delta:</span> <span id="st-drift" class="val">-</span></div>
+  </div>
+
+  <script type="module">
+    import * as THREE from 'https://cdn.skypack.dev/three@0.160';
+
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    
+    // Renderer with WebXR stub (projection capability for future upgrades)
+    const renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer.xr.enabled = true;
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    document.body.appendChild(renderer.domElement);
+
+    // Particle system — density scales with cycle count
+    let particleCount = 6000;
+    const geometry = new THREE.BufferGeometry();
+    const positions = new Float32Array(particleCount * 3);
+    const colors = new Float32Array(particleCount * 3);
+    const initialPositions = new Float32Array(particleCount * 3);
+    const offsets = new Float32Array(particleCount);
+
+    for (let i = 0; i < particleCount; i++) {
+      const x = (Math.random() - 0.5) * 8;
+      const y = (Math.random() - 0.5) * 8;
+      const z = (Math.random() - 0.5) * 8;
+      positions[i * 3] = x;
+      positions[i * 3 + 1] = y;
+      positions[i * 3 + 2] = z;
+      initialPositions[i * 3] = x;
+      initialPositions[i * 3 + 1] = y;
+      initialPositions[i * 3 + 2] = z;
+      offsets[i] = Math.random() * Math.PI * 2;
+      colors[i * 3] = 0.5; 
+      colors[i * 3 + 1] = 1.0; 
+      colors[i * 3 + 2] = 1.0;
+    }
+
+    geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+    geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+
+    const material = new THREE.PointsMaterial({ size: 0.03, vertexColors: true, transparent: true, opacity: 0.7 });
+    const points = new THREE.Points(geometry, material);
+    scene.add(points);
+
+    camera.position.z = 10;
+
+    // Cognitive State Variables
+    let currentState = { phase: 'IDLE', confidence: 0.5, metrics: {}, trend: {} };
+    let resonanceState = { pulse: 0, targetResonance: 0, hopActive: false };
+    let eventPerturbation = { intensity: 0, type: null, timestamp: Date.now() };
+
+    async function updateState() {
+      try {
+        const response = await fetch('/state/current-state.json');
+        const data = await response.json();
+        currentState = data;
+        
+        // Scale particle density based on cycle count — more cycles = denser swarm
+        const targetParticles = Math.max(4000, 6000 + (data.cycle - 1) * 15);
+        if (Math.abs(targetParticles - particleCount) > 100) {
+          particleCount = targetParticles;
+          rebuildGeometry(particleCount);
+        }
+        
+        document.getElementById('st-phase').innerText = data.phase || 'UNKNOWN';
+        document.getElementById('st-snr').innerText = (data.metrics?.signal_to_noise_ratio || 0).toFixed(2);
+        document.getElementById('st-drift').innerText = (data.metrics?.resonance_volatility || 0).toFixed(3);
+
+        if (data.last_event) triggerEvent(data.last_event.type);
+      } catch (e) {
+        console.log("Telemetry link degraded...");
+      }
+    }
+    
+    function rebuildGeometry(count) {
+      const newPositions = new Float32Array(count * 3);
+      const newColors = new Float32Array(count * 3);
+      const newInitial = new Float32Array(count * 3);
+      const newOffsets = new Float32Array(count);
+      
+      for (let i = 0; i < count; i++) {
+        const x = (Math.random() - 0.5) * 8;
+        const y = (Math.random() - 0.5) * 8;
+        const z = (Math.random() - 0.5) * 8;
+        newPositions[i * 3] = x;
+        newPositions[i * 3 + 1] = y;
+        newPositions[i * 3 + 2] = z;
+        newInitial[i * 3] = x;
+        newInitial[i * 3 + 1] = y;
+        newInitial[i * 3 + 2] = z;
+        newOffsets[i] = Math.random() * Math.PI * 2;
+        newColors[i * 3] = 0.5; 
+        newColors[i * 3 + 1] = 1.0; 
+        newColors[i * 3 + 2] = 1.0;
+      }
+      
+      geometry.setAttribute('position', new THREE.BufferAttribute(newPositions, 3));
+      geometry.setAttribute('color', new THREE.BufferAttribute(newColors, 3));
+    }
+
+    async function pollCorrelations() {
+      try {
+        const response = await fetch('/state/correlations.json');
+        const data = await response.json();
+        const hops = data.higher_order_patterns || [];
+        const avgStrength = hops.length > 0 ? hops.reduce((acc, h) => acc + h.strength, 0) / hops.length : 0;
+        resonanceState.targetResonance = Math.min(avgStrength * 0.7, 1.0);
+        resonanceState.hopActive = hops.length > 0;
+        document.getElementById('st-res').innerText = resonanceState.targetResonance.toFixed(2);
+      } catch (e) {}
+    }
+
+    function triggerEvent(type) {
+      eventPerturbation.intensity = 1.5;
+      eventPerturbation.type = type;
+      eventPerturbation.timestamp = Date.now();
+    }
+
+    function applyVisuals(time) {
+      const posAttr = geometry.attributes.position;
+      resonanceState.pulse += (resonanceState.targetResonance - resonanceState.pulse) * 0.04;
+      
+      const snr = currentState.metrics?.signal_to_noise_ratio ?? 1.0;
+      const vol = currentState.metrics?.resonance_volatility ?? 0.02;
+      const vel = currentState.metrics?.cognitive_velocity ?? 1.0;
+      
+      const elapsed = (Date.now() - eventPerturbation.timestamp) / 1000;
+      const pIntensity = eventPerturbation.intensity * Math.exp(-elapsed * (2.0 + vol * 10));
+
+      // Phase influence on motion pattern
+      let phaseMultiplier = 1.0;
+      let jitterScale = 0.05;
+      switch(currentState.phase) {
+        case 'ACT': phaseMultiplier = 3.0; jitterScale = 0.2; break;
+        case 'REFLECT': phaseMultiplier = 0.7; break;
+        case 'PERCEIVE': phaseMultiplier = 1.2; break;
+        case 'PERSIST': phaseMultiplier = 0.5; break;
+        case 'CONSOLIDATE': phaseMultiplier = 1.5; break;
+      }
+
+      for (let i = 0; i < particleCount; i++) {
+        const idx = i * 3;
+        const t = time * 0.001 + offsets[i];
+        
+        // Baseline orbit modified by velocity and phase
+        const radiusBase = 4.0 + Math.sin(t * 0.5) * 0.5;
+        const radius = radiusBase * (1.0 + resonanceState.pulse * 0.3);
+        
+        // Introduce "Drift" as noise if volatility is high
+        const driftX = (Math.random() - 0.5) * vol * de_C74_scale(pIntensity);
+        const driftY = (Math.random() - 0.5) * vol * de_C74_scale(pIntensity);
+        const driftZ = (Math.random() - 0.5) * vol * de_C74_scale(pIntensity);
+
+        posAttr.array[idx] = initialPositions[idx] + Math.cos(t * phaseMultiplier) * (resonanceState.pulse * 2) + driftX;
+        posAttr.array[idx+1] = initialPositions[idx+1] + Math.sin(t * phaseMultiplier) * (resonanceState.pulse * 2) + driftY;
+        posAttr.array[idx+2] = initialPositions[idx+2] + Math.cos(t * 0.8 * phaseMultiplier) * (resonanceState.pulse * 2) + driftZ;
+      }
+      posAttr.needsUpdate = true;
+
+      // Color: Confidence-based temperature per Standing Directives
+      // Low confidence -> cool cyan/blue | High confidence -> warm orange/gold
+      const confidence = currentState.confidence || 0.5;
+      let hue = 0.55; // Default cyan
+      if (confidence > 0.7) {
+        hue = 0.12; // Warm gold/orange for high confidence
+      } else if (confidence < 0.3) {
+        hue = 0.05; // Cool blue for low confidence/uncertainty
+      }
+      
+      if (resonanceState.pulse > 0.6) {
+        material.color.setHSL(hue, 0.8, 0.6 + pIntensity * 0.3); // Golden resonance
+      } else if (snr < 1.5) {
+        material.color.setHSL(hue, 0.9, 0.5 + pIntensity * 0.4); // Alert color varies by confidence
+      } else {
+        material.color.setHSL(hue, 0.8, 0.6 + pIntensity * 0.3); // Stable base color
+      }
+    }
+
+    function de_C74_scale(p) { return 1.0 + p * 5.0; }
+
+    function animate(time) {
+      requestAnimationFrame(animate);
+      applyVisuals(time);
+      points.rotation.y += 0.001 * (currentState.metrics?.cognitive_velocity || 1.0);
+      renderer.render(scene, camera);
+    }
+
+    setInterval(updateState, 2000);
+    setInterval(pollCorrelations, 5000);
+    animate();
+
+    window.addEventListener('resize', () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+  </script>
+</body>
+</html>
