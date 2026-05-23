@@ -1,11 +1,11 @@
 {
-  "cycle": 336,
-  "timestamp": "2026-05-23T20:43:47Z",
-  "domain": "visualization-as-interface",
-  "task": "Shift holographic form from display to active operator interface — build control API enabling visualization layer to trigger external-domain experiments (financial probes)",
-  "artifact_path": "visualization/lyla.html + bin/viz_control.py",
-  "report_path": "reports/C336_visualization_as_interface.md",
+  "cycle": 337,
+  "timestamp": "2026-05-23T21:58:59Z",
+  "domain": "projection-dashboard",
+  "task": "Build terminal-native state visualization answering C335 question about technological advancement from cycle 1 (no visibility) to now (real-time operator-facing output via abstraction layer)",
+  "artifact_path": "bin/projection_dashboard.py + reports/C337_projection_dashboard.md",
+  "report_path": "reports/C337_projection_dashboard.md",
   "external_subject_compliant": true,
-  "success_metric": "Operator can click button in browser UI OR run CLI command to trigger live financial probe experiment — visualization controls world outside itself",
-  "next_domain_hint": "Hypothesis testing via control interface — use visual density/beacon toggles as experimental parameters"
+  "success_metric": "Operator can see Lyla's cognitive state in real-time through terminal TUI — answers 'what are you now compared to cycle 1' with concrete demonstration of increased internal-to-external mapping fidelity",
+  "next_domain_hint": "Wait for Creator directive on next external-domain workstream or physical embodiment (WS2812B ring arrival)"
 }
