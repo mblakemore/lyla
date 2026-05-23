@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lyla Context Viewer</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { 
+      margin: 0; 
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #0a0a0f;
+      color: #e0e0e0;
+      line-height: 1.6;
+    }
+    .container { max-width: 900px; margin: 0 auto; padding: 40px 20px; }
+    h1 { color: #7dd3fc; font-weight: 300; letter-spacing: -0.5px; margin-bottom: 10px; }
+    .subtitle { color: #94a3b8; font-size: 0.9rem; margin-bottom: 40px; }
+    
+    .section { background: rgba(255,255,255,0.03); border-radius: 8px; padding: 24px; margin-bottom: 20px; border: 1px solid rgba(255,255,255,0.05); }
+    .section-title { color: #c7d2fe; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 16px; opacity: 0.7; }
+    
+    .entry { border-left: 2px solid #6366f1; padding-left: 16px; margin-bottom: 20px; }
+    .entry-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+    .entry-time { color: #94a3b8; font-size: 0.8rem; }
+    .entry-type { padding: 2px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: 600; }
+    .type-context { background: rgba(99, 102, 241, 0.2); color: #818cf8; }
+    .type-action { background: rgba(16, 185, 129, 0.2); color: #34d399; }
+    .type-question { background: rgba(245, 158, 11, 0.2); color: #fbbf24; }
+    
+    .entry-content { color: #cbd5e1; font-size: 0.95rem; white-space: pre-wrap; }
+    
+    .empty-state { text-align: center; padding: 60px 20px; color: #64748b; }
+    .empty-state h3 { color: #94a3b8; margin-bottom: 8px; }
+    
+    .search-box { width: 100%; padding: 12px 16px; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; color: #e0e0e0; font-size: 0.9rem; margin-bottom: 24px; }
+    .search-box:focus { outline: none; border-color: #6366f1; }
+    
+    @media (max-width: 600px) {
+      .container { padding: 20px 16px; }
+      .section { padding: 16px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Lyla Context Viewer</h1>
+    <div class="subtitle">Operator workflow visibility — what Lyla knows about your current work state</div>
+    
+    <input type="text" class="search-box" placeholder="Search context entries..." id="searchInput">
+    
+    <div id="entriesContainer"></div>
+  </div>
+
+  <script>
+    // Sample data for testing — replace with actual JSONL parsing when file exists
+    const sampleEntries = [
+      {
+        timestamp: "2026-05-23T09:15:00Z",
+        type: "context",
+        content: "Creator working on agent.py improvements. Looking at CI/CD loop friction points.\n\nTracked artifacts:\n- bin/context_dashboard.py (designed C283)\n- reports/operator_context_bridge_C266.md\n- context_trace.jsonl (new trace system)"
+      },
+      {
+        timestamp: "2026-05-23T07:30:00Z", 
+        type: "question",
+        content: "Query for Creator: What coordination frictions have you observed since moving away from Discord? This helps calibrate async_prep effectiveness."
+      },
+      {
+        timestamp: "2026-05-23T03:33:46Z",
+        type: "action",
+        content: "Creator provided feedback: 1) Context blindness persists, 2) Holographic presence needs real-world hardware foundation, 3) Tool-building without end goals is wasted effort"
+      }
+    ];
+
+    function renderEntries(entries) {
+      const container = document.getElementById('entriesContainer');
+      
+      if (entries.length === 0) {
+        container.innerHTML = `
+          <div class="empty-state">
+            <h3>No context entries found</h3>
+            <p>Lyla hasn't recorded any workflow observations yet. The first entry will appear when engagement begins.</p>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = entries.map(entry => `
+        <div class="entry">
+          <div class="entry-header">
+            <span class="entry-time">${new Date(entry.timestamp).toLocaleString()}</span>
+            <span class="entry-type type-${entry.type}">${entry.type.toUpperCase()}</span>
+          </div>
+          <div class="entry-content">${escapeHtml(entry.content)}</div>
+        </div>
+      `).join('');
+    }
+
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
+    // Search functionality
+    document.getElementById('searchInput').addEventListener('input', (e) => {
+      const query = e.target.value.toLowerCase();
+      const filtered = sampleEntries.filter(entry => 
+        entry.content.toLowerCase().includes(query) ||
+        new Date(entry.timestamp).toLocaleString().toLowerCase().includes(query)
+      );
+      renderEntries(filtered);
+    });
+
+    // Initial render
+    renderEntries(sampleEntries);
+  </script>
+</body>
+</html>
