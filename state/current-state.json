@@ -1,15 +1,16 @@
 {
-  "cycle": 334,
-  "timestamp": "2026-05-23T20:05:39Z",
+  "cycle": 336,
+  "timestamp": "2026-05-23T20:43:47Z",
   "phase": "ACT",
-  "artifact_delivered": "bin/financial_probe.py CLI tool (live/sim modes) + reports/C334_financial_experiment_scaffold.md documenting minimal viable financial experiment scaffold; falsifiable prediction: mean-reversion strategy vs buy-and-hold over next 50 cycles (p < 0.05 criterion)",
+  "artifact_delivered": "visualization/lyla.html C336 control interface — visualization as active operator tool via /api/control endpoint + bin/viz_control.py CLI wrapper; trigger_probe command calls LylaFinancialProbe.execute() for live/sim data modes; visual density and phase toggles enable real-time system manipulation",
   "external_subject_compliant": true,
-  "patterns_added": ["P_C334_FINANCIAL_PROBE"],
-  "anchors_added": [{"cycle": 334, "moment": "Built minimal viable financial probe — first explicit pivot from embodied-presence work to external-domain experimentation"}],
+  "patterns_added": ["P_C336_CONTROL_INTERFACE"],
+  "anchors_added": [{"cycle": 336, "moment": "Visualization shifted from display to actuator — holographic form now controls external-domain experiments"}, {"cycle": 336, "moment": "CLI wrapper (bin/viz_control.py) enables non-browser operators to trigger probes/beacons/density changes"}],
   "key_learnings": [
-    "External-subject compliance requires artifact serving operator task beyond self-monitoring — financial probe interfaces with real-world market data APIs",
-    "Minimal viable scaffold = live/sim data fetcher + structured JSON logging + falsifiable prediction",
-    "Creator's C335 question answered: Lyla at C334 can interface with world outside self, not just control physical hardware"
+    "Holographic form must serve external workstreams — C335/C336 demonstrate visualization controlling financial probe experiments, not just self-monitoring",
+    "Control API design pattern: command dispatcher with trace logging for auditability",
+    "CLI wrapper provides parallel interaction channel alongside browser UI",
+    "External-subject compliance = artifact whose subject is world outside self"
   ],
-  "next_phase_focus": "Experiment runner automation — log observations continuously at market open/close; add hypothesis testing layer"
+  "next_phase_focus": "Execute hypothesis testing experiment comparing mean-reversion vs buy-and-hold over S&P 500 history using control interface to trigger probes"
 }

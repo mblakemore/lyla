@@ -193,6 +193,41 @@ window.lylaCommandEndpoint = {
 window.lylaAPI = window.lylaStateEndpoint;
 window.lylaCommands = window.lylaCommandEndpoint;
 
+// NEW C336 CONTROL INTERFACE — visualization as active operator interface
+window.lylaControlAPI = {
+  execute: async (command, payload = {}) => {
+    try {
+      await fetch('/state/context_trace.jsonl', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/jsonl' },
+        body: JSON.stringify({ type: 'control_command', command, timestamp: new Date().toISOString() }) + '\n'
+      });
+    } catch (e) {}
+    
+    switch(command) {
+      case 'trigger_probe':
+        return await window.lylaFinancialProbe.execute(payload.mode || 'sim');
+      case 'set_density':
+        particleCount = Math.max(1000, Math.min(50000, payload.count));
+        rebuildGeometry(particleCount);
+        return { success: true, new_density: particleCount };
+      case 'run_beacon':
+        eventPerturbation.intensity = 2.0;
+        eventPerturbation.type = `beacon_${payload.pattern || 'default'}`;
+        return { success: true, beacon: payload.pattern };
+      case 'toggle_phases':
+        const phases = ['PERCEIVE','REFLECT','DECIDE','ACT','CONSOLIDATE','PERSIST'];
+        const idx = phases.indexOf(currentState.phase);
+        currentState.phase = phases[(idx + 1) % phases.length];
+        triggerEvent('phase_transition');
+        return { success: true, phase: currentState.phase };
+      default:
+        return { success: false, error: `Unknown command: ${command}`, available_commands: ['trigger_probe','set_density','run_beacon','toggle_phases'] };
+    }
+  },
+  queueCommand: async (cmd, payload) => window.lylaControlAPI.execute(cmd, payload)
+};
+
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 
@@ -426,3 +461,42 @@ window.addEventListener('resize', () => {
 </script>
 </body>
 </html>
+
+<!-- C336 CONTROL INTERFACE -->
+<style>
+#control-overlay{position:fixed;bottom:20px;left:20px;background:#000e5;border:1px solid #0ff;border-radius:8px;padding:15px;font-family:monospace;color:#0ff;z-index:1000;max-width:320px;display:none}
+.control-section{margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid rgba(0,255,255,.2)}
+.control-label{font-size:11px;text-transform:uppercase;opacity:.7;margin-bottom:6px}
+.control-btn{background:transparent;border:1px solid #0ff;color:#0ff;padding:6px 12px;margin-right:6px;margin-bottom:6px;cursor:pointer;font-family:monospace;font-size:11px}
+.control-btn:hover{background:rgba(0,255,255,.2);box-shadow:0 0 8px rgba(0,255,255,.4)}
+.toggle-mode-btn{position:fixed;bottom:20px;left:20px;background:transparent;border:2px solid #0ff;color:#0ff;padding:12px 20px;cursor:pointer;font-family:monospace;font-size:13px;z-index:999}
+</style>
+
+<div id="mode-toggle" class="toggle-mode-btn" onclick="toggleControlMode()">[ C336 CONTROL MODE ]</div>
+<div id="control-overlay">
+  <div class="control-section">
+    <div class="control-label">External Domain Probe</div>
+    <button class="control-btn" onclick="triggerProbe('sim')">SIM DATA</button>
+    <button class="control-btn" style="border-color:#f55;color:#f55" onclick="triggerProbe('live')">LIVE MARKET</button>
+  </div>
+  <div class="control-section">
+    <div class="control-label">Visual Parameters</div>
+    <button class="control-btn" onclick="setDensity(4000)">LOW DENSITY</button>
+    <button class="control-btn" onclick="setDensity(15000)">MED DENSITY</button>
+    <button class="control-btn" onclick="setDensity(40000)">HIGH DENSITY</button>
+  </div>
+  <div class="control-section">
+    <div class="control-label">System Commands</div>
+    <button class="control-btn" onclick="runBeacon('pulse_3x')">BEACON PULSE</button>
+    <button class="control-btn" onclick="togglePhases()">TOGGLE PHASES</button>
+  </div>
+</div>
+
+<script>
+let controlMode=false;
+function toggleControlMode(){controlMode=!controlMode;document.getElementById('control-overlay').style.display=controlMode?'block':'none';document.getElementById('mode-toggle').style.display=controlMode?'none':'block'}
+async function triggerProbe(mode){await window.lylaControlAPI.execute('trigger_probe',{mode})}
+async function setDensity(count){await window.lylaControlAPI.execute('set_density',{count})}
+async function runBeacon(pattern){await window.lylaControlAPI.execute('run_beacon',{pattern})}
+async function togglePhases(){await window.lylaControlAPI.execute('toggle_phases',{})}
+</script>

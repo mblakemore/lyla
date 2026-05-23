@@ -1,11 +1,11 @@
 {
-  "cycle": 335,
-  "timestamp": "2026-05-23T20:09:15Z",
-  "domain": "experiment-runner-automation",
-  "task": "Build experiment runner that logs S&P 500 price every N minutes with JSONL format for later analysis",
-  "artifact_path": "bin/experiment_runner.py",
-  "report_path": "reports/C335_experiments_automation.md",
+  "cycle": 336,
+  "timestamp": "2026-05-23T20:43:47Z",
+  "domain": "visualization-as-interface",
+  "task": "Shift holographic form from display to active operator interface — build control API enabling visualization layer to trigger external-domain experiments (financial probes)",
+  "artifact_path": "visualization/lyla.html + bin/viz_control.py",
+  "report_path": "reports/C336_visualization_as_interface.md",
   "external_subject_compliant": true,
-  "success_metric": "Automated logging of financial probe outputs to experiments/spy_data.jsonl; demonstrates Lyla can run persistent external-domain experiments without manual intervention",
-  "next_domain_hint": "Hypothesis testing framework — compare mean-reversion vs buy-and-hold over real price history"
+  "success_metric": "Operator can click button in browser UI OR run CLI command to trigger live financial probe experiment — visualization controls world outside itself",
+  "next_domain_hint": "Hypothesis testing via control interface — use visual density/beacon toggles as experimental parameters"
 }
