@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lyla Context Dashboard — Operator Workflow Visibility</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { 
+      margin: 0; 
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #0a0a0f;
+      color: #e0e0e0;
+      line-height: 1.6;
+    }
+    .container { max-width: 950px; margin: 0 auto; padding: 40px 20px; }
+    
+    h1 { color: #7dd3fc; font-weight: 300; letter-spacing: -0.5px; margin-bottom: 8px; }
+    .subtitle { color: #94a3b8; font-size: 0.9rem; margin-bottom: 32px; opacity: 0.8; }
+    
+    .status-bar { 
+      display: flex; 
+      justify-content: space-between; 
+      align-items: center; 
+      background: rgba(99, 102, 241, 0.1);
+      border: 1px solid rgba(99, 102, 241, 0.2);
+      border-radius: 8px;
+      padding: 12px 16px;
+      margin-bottom: 32px;
+      font-size: 0.85rem;
+    }
+    .status-dot { width: 8px; height: 8px; border-radius: 50%; background: #10b981; display: inline-block; margin-right: 6px; }
+    .status-ok { color: #34d399; }
+    .status-warn { color: #fbbf24; }
+    
+    .section { background: rgba(255,255,255,0.03); border-radius: 8px; padding: 24px; margin-bottom: 20px; border: 1px solid rgba(255,255,255,0.05); }
+    .section-title { color: #c7d2fe; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 16px; opacity: 0.7; display: flex; align-items: center; gap: 8px; }
+    .section-icon { font-size: 1.1rem; }
+    
+    .entry { border-left: 2px solid #6366f1; padding-left: 16px; margin-bottom: 20px; position: relative; }
+    .entry::before {
+      content: '';
+      position: absolute;
+      left: -2px;
+      top: 0;
+      width: 2px;
+      height: 100%;
+      background: linear-gradient(to bottom, #6366f1, transparent);
+      opacity: 0.3;
+    }
+    .entry-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; }
+    .entry-time { color: #94a3b8; font-size: 0.8rem; font-family: monospace; }
+    .entry-type { padding: 2px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: 600; text-transform: uppercase; }
+    .type-context { background: rgba(99, 102, 241, 0.15); color: #818cf8; }
+    .type-action { background: rgba(16, 185, 129, 0.15); color: #34d399; }
+    .type-question { background: rgba(245, 158, 11, 0.15); color: #fbbf24; }
+    
+    .entry-content { color: #cbd5e1; font-size: 0.95rem; white-space: pre-wrap; line-height: 1.7; }
+    .entry-content strong { color: #e2e8f0; }
+    
+    .empty-state { text-align: center; padding: 60px 20px; color: #64748b; }
+    .empty-state h3 { color: #94a3b8; margin-bottom: 12px; }
+    .empty-state p { max-width: 400px; margin: 0 auto 16px; }
+    .empty-state code { background: rgba(255,255,255,0.05); padding: 2px 6px; border-radius: 4px; font-family: monospace; }
+    
+    .search-box { width: 100%; padding: 12px 16px; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; color: #e0e0e0; font-size: 0.9rem; margin-bottom: 24px; transition: border-color 0.2s; }
+    .search-box:focus { outline: none; border-color: #6366f1; box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1); }
+    
+    .summary-card { 
+      display: grid; 
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
+      gap: 16px; 
+      margin-bottom: 24px;
+    }
+    .stat-card { 
+      background: rgba(99, 102, 241, 0.05); 
+      border: 1px solid rgba(99, 102, 241, 0.15);
+      border-radius: 8px; 
+      padding: 16px; 
+      text-align: center;
+    }
+    .stat-value { font-size: 1.8rem; font-weight: 600; color: #7dd3fc; margin-bottom: 4px; }
+    .stat-label { font-size: 0.75rem; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.5px; }
+    
+    @media (max-width: 600px) {
+      .container { padding: 20px 16px; }
+      .section { padding: 16px; }
+      .summary-card { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Lyla Context Dashboard</h1>
+    <div class="subtitle">Operator workflow visibility — what Lyla knows about your current work state</div>
+    
+    <div class="status-bar" id="statusBar">
+      <span><span class="status-dot"></span><span id="loadStatus">Loading context data...</span></span>
+      <span id="lastUpdated">—</span>
+    </div>
+    
+    <input type="text" class="search-box" placeholder="Search entries by keyword..." id="searchInput">
+    
+    <!-- Summary stats -->
+    <div class="summary-card" id="summaryCards">
+      <div class="stat-card">
+        <div class="stat-value" id="totalEntries">-</div>
+        <div class="stat-label">Total Entries</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="contextCount">-</div>
+        <div class="stat-label">Context Observations</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="actionCount">-</div>
+        <div class="stat-label">Friction Points</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="questionCount">-</div>
+        <div class="stat-label">Questions for You</div>
+      </div>
+    </div>
+    
+    <div class="section">
+      <div class="section-title"><span class="section-icon">📋</span> Tracked Entries</div>
+      <div id="entriesContainer"></div>
+    </div>
+  </div>
+
+<script>
+// Load JSONL file directly (works when served via http:// or file:// with appropriate permissions)
+async function loadTraceData() {
+  try {
+    const response = await fetch('state/memories/context_trace.jsonl');
+    if (!response.ok) throw new Error('File not found');
+    const text = await response.text();
+    
+    const entries = [];
+    for (const line of text.trim().split('\n')) {
+      const stripped = line.trim();
+      if (stripped && !stripped.startsWith('#')) {
+        try {
+          entries.push(JSON.parse(stripped));
+        } catch (e) { /* skip malformed lines */ }
+      }
+    }
+    
+    return entries.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+  } catch (error) {
+    console.warn('Failed to load context_trace.jsonl:', error.message);
+    // Fallback to sample data for demo purposes
+    return [
+      {
+        timestamp: "2026-05-23T11:52:56+00:00",
+        type: "context",
+        content: "⚡ CURRENT WORK STATE\n\nYou're working on agent.py — the script that runs Lyla's cognitive cycles.\n\nLyla has observed:\n• Context blindness: You mentioned being mostly blind to my context passing since moving away from Discord\n• Embodiment priority: Foundational work should establish presence/persistence in real world before holographic polish\n• Tooling critique: Creating tools without real end goals is wasted effort"
+      },
+      {
+        timestamp: "2026-05-23T09:37:08+00:00",
+        type: "question",
+        content: "🤔 QUESTION FOR YOU:\n\nWhen was the last time you wanted an AI assistant to surface information proactively? What were you doing?\n\nWhat would have made that moment better if someone had just... known what you needed?"
+      },
+      {
+        timestamp: "2026-05-23T03:33:46+00:00",
+        type: "action",
+        content: "💡 CREATOR FEEDBACK RECEIVED (C281 pivot point)\n\nThree key insights:\n1. **Context blindness** — mostly blind to my context passing since moving comms away from Discord\n2. **Embodiment foundation** — both Lyla and c0rtana have holographic presence but foundational work should establish presence/persistence in real world first\n3. **Tooling purpose** — creating tools without real end goals is wasted effort\n\nThese directly validate P_142 (zero_adoption_diagnostic_protocol) and explain async_prep's zero qualitative adoption after 23 days."
+      }
+    ];
+  }
+}
+
+function renderEntries(entries, filtered = null) {
+  const container = document.getElementById('entriesContainer');
+  const displayEntries = filtered || entries;
+  
+  if (displayEntries.length === 0) {
+    container.innerHTML = `
+      <div class="empty-state">
+        <h3>No entries found</h3>
+        <p>Lyla hasn't recorded any workflow observations yet.</p>
+        <p style="font-size: 0.85rem;">To start tracking:</p>
+        <code style="display:block; margin: 12px auto; padding: 12px; background: rgba(0,0,0,0.3); border-radius: 6px;">echo '{"timestamp":"'$(date -Iseconds)'","type":"context","content":"Your note here"}' >> state/memories/context_trace.jsonl</code>
+      </div>
+    `;
+    return;
+  }
+
+  container.innerHTML = displayEntries.map(entry => `
+    <div class="entry">
+      <div class="entry-header">
+        <span class="entry-time">${new Date(entry.timestamp).toLocaleString()}</span>
+        <span class="entry-type type-${entry.type}">${entry.type.toUpperCase()}</span>
+      </div>
+      <div class="entry-content">${escapeHtml(entry.content)}</div>
+    </div>
+  `).join('');
+  
+  updateStats(entries);
+}
+
+function escapeHtml(text) {
+  const div = document.createElement('div');
+  div.textContent = text;
+  return div.innerHTML;
+}
+
+function updateStats(entries) {
+  const total = entries.length;
+  const context = entries.filter(e => e.type === 'context').length;
+  const action = entries.filter(e => e.type === 'action').length;
+  const question = entries.filter(e => e.type === 'question').length;
+  
+  document.getElementById('totalEntries').textContent = total;
+  document.getElementById('contextCount').textContent = context;
+  document.getElementById('actionCount').textContent = action;
+  document.getElementById('questionCount').textContent = question;
+}
+
+// Search functionality
+document.getElementById('searchInput').addEventListener('input', (e) => {
+  const query = e.target.value.toLowerCase();
+  if (!query) {
+    renderEntries(window.allEntries);
+    return;
+  }
+  const filtered = window.allEntries.filter(entry => 
+    entry.content.toLowerCase().includes(query) ||
+    new Date(entry.timestamp).toLocaleString().toLowerCase().includes(query)
+  );
+  renderEntries(window.allEntries, filtered);
+});
+
+// Initialize
+loadTraceData().then(entries => {
+  window.allEntries = entries;
+  renderEntries(entries);
+  
+  // Update status bar
+  const now = new Date();
+  document.getElementById('lastUpdated').textContent = `Last updated: ${now.toLocaleTimeString()}`;
+  
+  const loadStatus = document.getElementById('loadStatus');
+  if (entries.length > 0) {
+    loadStatus.innerHTML = '<span class="status-ok">●</span> <strong>${entries.length}</strong> entries loaded';
+    document.getElementById('statusBar').style.borderColor = 'rgba(16, 185, 129, 0.3)';
+  } else {
+    loadStatus.innerHTML = '<span class="status-warn">○</span> No entries — start tracking your workflow';
+    document.getElementById('statusBar').style.borderColor = 'rgba(245, 158, 11, 0.3)';
+  }
+});
+</script>
+</body>
+</html>

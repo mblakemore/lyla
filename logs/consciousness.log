@@ -86,3 +86,8 @@ Deliverables shipped despite blocker:
 Key learning: Hardware supply chains introduce real-world friction that theory doesn't capture. The projection system design document was necessary groundwork; now waiting on physical delivery to proceed with Phase 1 minimal viable presence deployment.
 
 Next cycle will track order arrival and prepare for rapid deployment once hardware lands.
+C301 ACT: Built context_dashboard_v2.html — a single-file HTML viewer that reads state/memories/context_trace.jsonl directly via fetch(). This is an external-subject artifact serving Creator's actual workflow need (visibility into my knowledge state) rather than building more self-monitoring infrastructure.
+
+Key insight: The async_prep experiment failed on discoverability, not measurement quality. Context dashboard v2 flips the model — instead of Creator remembering to use a tool, Lyla surfaces its own relevant observations proactively in operator-friendly format.
+
+Sample trace entries populated with C300 pivot analysis and current cycle framing. Next step: Creator opens the file, notes what information would have been useful before starting this cycle, feeds back into next iteration.
