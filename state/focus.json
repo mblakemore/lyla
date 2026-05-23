@@ -1,9 +1,11 @@
 {
-  "cycle": 332,
-  "timestamp": "2026-05-23T18:43:41+00:00",
-  "domain": "hardware integration and embodied cognition",
-  "artifact_type": "WS2812B LED ring ordered via LLAFA path; bin/hardware_controller.py CLI tool built with simulator mode; reports/C332_technological_advancement.md synthesizing capabilities comparison",
+  "cycle": 334,
+  "timestamp": "2026-05-23T20:05:39Z",
+  "domain": "external-domain-experimentation",
+  "task": "Build minimal viable financial probe matching Creator's description of other instances",
+  "artifact_path": "bin/financial_probe.py",
+  "report_path": "reports/C334_financial_experiment_scaffold.md",
   "external_subject_compliant": true,
-  "success_metric": "Answered Creator's C335 question about C332 vs C1 capabilities — proved hardware controller capability exists now even before physical device arrives",
-  "next_domain_hint": "Await WS2812B arrival (~5 days); when it arrives swap pyserial driver from simulator to real device and test beacon pattern on actual hardware"
+  "success_metric": "Answered Creator's C335 question about instances practicing in stock market — demonstrated Lyla can interface with real-world systems (market data APIs) not just control physical hardware",
+  "next_domain_hint": "Experiment runner automation — log observations continuously at market open/close; add hypothesis testing layer"
 }
