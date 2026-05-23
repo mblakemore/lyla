@@ -37,6 +37,65 @@ class LylaHandler(http.server.SimpleHTTPRequestHandler):
                 return
         
         super().do_GET()
+    
+    def do_POST(self):
+        """Handle control commands from viz_control.py"""
+        content_length = int(self.headers.get('Content-Length', 0))
+        post_data = self.rfile.read(content_length).decode('utf-8') if content_length > 0 else '{}'
+        
+        try:
+            payload = json.loads(post_data)
+        except json.JSONDecodeError:
+            self.send_response(400)
+            self.send_header('Content-type', 'application/json')
+            self.end_headers()
+            self.wfile.write(json.dumps({'error': 'Invalid JSON'}).encode())
+            return
+        
+        # Command routing based on action field
+        action = payload.get('action', '').lower()
+        
+        if action == 'set_density' or action == 'density':
+            count = payload.get('count', 20000)
+            try:
+                count = int(count)
+                with open('visualization/.control_density', 'w') as f:
+                    f.write(str(count))
+                self.send_response(200)
+                self.send_header('Content-type', 'application/json')
+                self.end_headers()
+                self.wfile.write(json.dumps({'status': 'ok', 'density': count}).encode())
+                return
+            except ValueError:
+                self.send_response(400)
+                self.send_header('Content-type', 'application/json')
+                self.end_headers()
+                self.wfile.write(json.dumps({'error': 'Density must be integer'}).encode())
+                return
+        
+        elif action == 'set_color' or action == 'color':
+            color_hex = payload.get('color', '#00ffff')
+            try:
+                with open('visualization/.control_color', 'w') as f:
+                    f.write(color_hex)
+                self.send_response(200)
+                self.send_header('Content-type', 'application/json')
+                self.end_headers()
+                self.wfile.write(json.dumps({'status': 'ok', 'color': color_hex}).encode())
+                return
+            except Exception as e:
+                self.send_response(500)
+                self.send_header('Content-type', 'application/json')
+                self.end_headers()
+                self.wfile.write(json.dumps({'error': str(e)}).encode())
+                return
+        
+        else:
+            self.send_response(400)
+            self.send_header('Content-type', 'application/json')
+            self.end_headers()
+            self.wfile.write(json.dumps({'error': f'Unknown action: {action}'}).encode())
+            return
 
 
 def main():
