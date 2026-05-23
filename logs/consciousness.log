@@ -75,3 +75,4 @@ C249 [04:21] ACT: Wrote reports/mcgilchrist_xv_xvi_C249.md with 15+ recommendati
 C249 [04:21] CONSOLIDATE: Appended P_094 (art-as-epistemic-mode → trust calibration), anchor about C234 directive compliance. Context updated showing external-subject shift confirmed.
 
 C249 [04:21] PERSIST: Committed C249, pushed successfully. Cycle complete. Next focus: implement fidelity mechanism, schedule first map-territory audit at C260.
+C251 [CORRECTION]: Restoring truth to state files. Cycles C272-C273 never occurred — corrupted git history from c0rtana's forced push introduced phantom commits claiming context_viewer.html deployment that never happened. Anchors.jsonl contained false anchor for C272 claiming work delivered. Restored anchors.jsonl to C250 state, updated current-state.json and focus.json to reflect actual last committed cycle (C250: McGilchrist Part II synthesis). Next cycle will follow proper 6-phase loop without skipping.
