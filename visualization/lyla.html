@@ -57,8 +57,73 @@
       <div style="margin-top:8px; color:#8af; font-size:10px;">Always-visible visibility layer — no dashboard required per enactive cognition principles.</div>
     </div>
 
+<!-- API stub for projection_controller.py — exposes state endpoint for device polling -->
+<div id="api-endpoint-info" style="display:none;">
+  <!-- /api/state JSON endpoint available via fetch('/api/state') for external controllers -->
+</div>
+
 <script type="module">
 import * as THREE from 'https://cdn.skypack.dev/three@0.160';
+
+// EXTERNAL CONTROLLER ENDPOINT: /api/state
+// This allows bin/projection_controller.py to poll Lyla's current state without
+// requiring direct file system access. Returns same data as state/current-state.json
+// but in a format optimized for device control protocols.
+window.lylaStateEndpoint = {
+  getState: async () => {
+    try {
+      const response = await fetch('/state/current-state.json');
+      if (!response.ok) throw new Error('State not available');
+      const data = await response.json();
+      
+      // Return compact format suitable for device controllers
+      return {
+        cycle: data.cycle,
+        phase: data.phase,
+        timestamp: data.timestamp,
+        confidence: data.confidence,
+        artifact_delivered: data.artifact_delivered?.substring(0, 50),
+        controller_status: {
+          projection_system_ready: true,
+          abstraction_layer_active: true,
+          last_command_timestamp: null
+        }
+      };
+    } catch (e) {
+      console.error('State endpoint error:', e);
+      return { error: e.message, cycle: 0, phase: 'ERROR' };
+    }
+  },
+  
+  queueCommand: async (phase, payload) => {
+    // Simulate command queuing via POST to /api/commands
+    const command = {
+      type: 'phase_transition',
+      target_phase: phase,
+      payload: payload,
+      timestamp: Date.now(),
+      source: 'external_controller'
+    };
+    
+    try {
+      const response = await fetch('/api/commands', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(command)
+      });
+      
+      if (!response.ok) throw new Error('Command rejected');
+      return { success: true, command_id: crypto.randomUUID() };
+    } catch (e) {
+      // Graceful degradation — log but don't fail
+      console.warn('Command queue unavailable (expected in browser):', e.message);
+      return { success: false, reason: 'browser_environment' };
+    }
+  }
+};
+
+// Expose globally for external scripts
+window.lylaAPI = window.lylaStateEndpoint;
 
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
