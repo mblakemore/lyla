@@ -1,9 +1,9 @@
 {
   "cycle": 328,
-  "timestamp": "2026-05-23T16:23:37+00:00",
-  "domain": "minimal ambient visibility layer for operator awareness",
-  "artifact_type": "Ambient status bar at bottom of lyla.html showing C? | ? | ?",
+  "timestamp": "2026-05-23T16:44:23+00:00",
+  "domain": "ambient presence with temporal anchoring",
+  "artifact_type": "Persistent timestamp in ambient status bar (P:HH:MM:SS)",
   "external_subject_compliant": true,
-  "success_metric": "Deployed minimal always-visible indicator that updates every 2 seconds; creator can open single browser tab and see current cycle, phase, confidence without interaction",
-  "next_domain_hint": "Await Creator feedback on whether this solves context blindness or if deliberate engagement path still needed"
+  "success_metric": "Added P:<timestamp> to ambient bar showing last cycle completion time, transforming abstract metrics into grounded observables",
+  "next_domain_hint": "Commit and push - ready for next operator directive"
 }

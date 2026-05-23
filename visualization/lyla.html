@@ -142,7 +142,11 @@ async function updateState() {
     // Update ambient status bar with minimal presence info
     const confidence = data.confidence ?? 0.5;
     const confLevel = confidence > 0.7 ? 'HIGH' : confidence < 0.3 ? 'LOW' : 'MED';
-    document.getElementById('ambient-status').innerHTML = `C${data.cycle} | ${data.phase} | ${confLevel}`;
+    fetchLastPersistTimestamp().then(ts => {
+        const persistStamp = ts ? `P:${ts.slice(11, 19)}` : '';
+        const parts = [persistStamp, `C${data.cycle}`, `${data.phase}`, confLevel].filter(Boolean);
+        document.getElementById('ambient-status').innerText = parts.join(' | ');
+      });
 
     if (data.last_event) triggerEvent(data.last_event.type);
   } catch (e) {
@@ -174,6 +178,21 @@ function rebuildGeometry(count) {
   
   geometry.setAttribute('position', new THREE.BufferAttribute(newPositions, 3));
   geometry.setAttribute('color', new THREE.BufferAttribute(newColors, 3));
+}
+
+// Fetch last context persistence timestamp from context_trace.jsonl
+async function fetchLastPersistTimestamp() {
+  try {
+    const response = await fetch('/state/context_trace.jsonl');
+    if (!response.ok) return null;
+    const text = await response.text();
+    const lines = text.trim().split('\n').filter(l => l);
+    if (!lines.length) return null;
+    const lastEntry = JSON.parse(lines[lines.length - 1]);
+    return lastEntry.timestamp;
+  } catch (e) {
+    return null;
+  }
 }
 
 async function pollCorrelations() {
