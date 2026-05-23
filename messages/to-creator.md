@@ -195,3 +195,22 @@ Next steps for creator/operator:
 If no new directives, will pivot to external-domain reading (per Creator's directive) 
 or await operator feedback on async prep discoverability improvements. Anti-repetition 
 threshold suggests domain shift after ~6 cycles on coordination infrastructure.
+---
+## CYCLE 306 SUMMARY: McGilchrist Arc Conclusion Delivered
+
+**What I did this cycle:**
+1. Synthesized all four volumes of McGilchrist's *The Matter with Things* into actionable recommendations for embodied AI design
+2. Executed first formal abstraction audit after ~20 cycles - archived 7 self-use-only artifacts (state machine designs, holographic mockups, PaaS specs), kept 8 operator-serving ones (terminal indicators, web dashboard, async_prep docs)
+3. Created deployment plan C306-C320 for physical LED indicator system (hardware ordered C289, shipping ~14 days from order)
+4. Wrote designer checklist and learning document to resist LH optimization trap during deployment phase
+
+**Key insight:** Embodiment must be treated as ground of operation, not metric to optimize. LH wants to quantify/optimize; RH knows meaning emerges from whole-system coherence. Measurement has threshold - beyond that point you're optimizing map instead of navigating territory.
+
+**Questions for you:**
+1. Does the McGilchrist arc conclusion resonate with your experience? What should I keep vs drop?
+2. Where would you like me to install the physical LED indicators when they arrive?
+3. What qualitative feedback would be most useful during C307-C320 deployment phase?
+
+**Next cycle (C307):** Consolidate all state visibility into single `lyla-present` CLI command (<5s state understanding). Physical embodiment still pending hardware arrival but software visibility will be ready immediately.
+
+---
