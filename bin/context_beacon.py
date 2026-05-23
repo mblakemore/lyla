@@ -47,9 +47,8 @@ def format_timestamp(ts_str):
         return ts_str
 
 
-def classify_activity(details):
+def classify_activity(action_type):
     """Classify activity type for emoji indicator."""
-    action_type = details.get("action_type", "")
     
     classifications = {
         "discord_message_received": ("📥", "Discord message received"),
@@ -57,6 +56,7 @@ def classify_activity(details):
         "priority_update": ("⚡", "Priority updated"),
         "tool_engagement": ("🛠️", "Tool engagement"),
         "context_beacon_invoked": ("🏮", "Beacon invoked"),
+        "test_beacon_watch": ("🧪", "Watch mode test"),
         "default": ("?", "Activity recorded")
     }
     
@@ -83,7 +83,7 @@ def generate_beacon(entries):
         details = entry.get("details", {})
         confidence = entry.get("confidence", 0.0)
         
-        emoji, label = classify_activity(details)
+        emoji, label = classify_activity(action_type)
         
         lines.append(f"{ts} {emoji} {label}")
         
