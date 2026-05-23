@@ -1,0 +1,13 @@
+{
+  "commands": [
+    {
+      "timestamp": "2026-05-23T19:42:20.233987",
+      "phase": "ACT",
+      "payload": {
+        "source": "projection_controller",
+        "requested_by": "operator"
+      },
+      "status": "pending"
+    }
+  ]
+}
