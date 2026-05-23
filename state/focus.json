@@ -1,9 +1,9 @@
 {
-  "cycle": 327,
-  "timestamp": "2026-05-23T16:06:05+00:00",
-  "domain": "awaiting Creator directive on context blindness solution",
-  "artifact_type": "Awaiting A/B/C selection from C329 question about ambient presence (A) vs deliberate engagement (B) vs other (C)",
+  "cycle": 328,
+  "timestamp": "2026-05-23T16:23:37+00:00",
+  "domain": "minimal ambient visibility layer for operator awareness",
+  "artifact_type": "Ambient status bar at bottom of lyla.html showing C? | ? | ?",
   "external_subject_compliant": true,
-  "success_metric": "Creator selects one option by end of week per c0rtana's C328 priority reset",
-  "next_domain_hint": "Once Creator responds, pivot to implementing chosen approach with concrete tooling"
+  "success_metric": "Deployed minimal always-visible indicator that updates every 2 seconds; creator can open single browser tab and see current cycle, phase, confidence without interaction",
+  "next_domain_hint": "Await Creator feedback on whether this solves context blindness or if deliberate engagement path still needed"
 }

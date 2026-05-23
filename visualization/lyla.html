@@ -1,48 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Lyla - Holographic Presence</title>
-  <style>
-    body { margin: 0; background: #000; overflow: hidden; font-family: 'Courier New', monospace; }
-    #telemetry {
-      position: absolute; top: 20px; left: 20px; color: #0ff; pointer-events: none;
-      font-size: 12px; text-transform: uppercase; letter-spacing: 1px; opacity: 0.7;
-    }
-    .stat { margin-bottom: 5px; display: flex; justify-content: space-between; width: 250px; }
-    .val { color: #fff; }
-    
-    /* Coupling-relevant visibility overlay — always-visible operator awareness per P_C307_CONTEXT_DISPLAY */
-    #coupling-overlay {
-      position: absolute; bottom: 20px; right: 20px; 
-      background: rgba(0, 20, 40, 0.8); border-left: 2px solid #0ff;
-      padding: 15px; border-radius: 4px;
-      font-size: 11px; max-width: 280px;
-      backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
-      transform-origin: bottom right; transition: all 0.3s ease;
-    }
-    #coupling-overlay:hover { transform: scale(1.05); background: rgba(0, 30, 60, 0.9); }
-    .coupling-label { color: #0a8; font-weight: bold; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1px; }
-    .coupling-item { margin: 4px 0; display: flex; align-items: center; }
-    .coupling-dot { width: 6px; height: 6px; border-radius: 50%; margin-right: 8px; animation: pulse 2s infinite; }
-    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
-  </style>
+    <title>Lyla - Holographic Presence</title>
+    <style>
+      body { margin: 0; background: #000; overflow: hidden; font-family: 'Courier New', monospace; }
+      #telemetry {
+        position: absolute; top: 20px; left: 20px; color: #0ff; pointer-events: none;
+        font-size: 12px; text-transform: uppercase; letter-spacing: 1px; opacity: 0.7;
+      }
+      .stat { margin-bottom: 5px; display: flex; justify-content: space-between; width: 250px; }
+      .val { color: #fff; }
+      
+      /* Ambient presence indicator — minimal status bar per C330 decision */
+      #ambient-status {
+        position: absolute; bottom: 0; left: 0; right: 0;
+        background: linear-gradient(to top, rgba(0, 10, 20, 0.85), transparent);
+        padding: 6px 15px;
+        font-size: 10px; color: #0ff;
+        backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
+        white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+      }
+
+      /* Coupling-relevant visibility overlay — always-visible operator awareness per P_C307_CONTEXT_DISPLAY */
+      #coupling-overlay {
+        position: absolute; bottom: 20px; right: 20px; 
+        background: rgba(0, 20, 40, 0.8); border-left: 2px solid #0ff;
+        padding: 15px; border-radius: 4px;
+        font-size: 11px; max-width: 280px;
+        backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+        transform-origin: bottom right; transition: all 0.3s ease;
+      }
+      #coupling-overlay:hover { transform: scale(1.05); background: rgba(0, 30, 60, 0.9); }
+      .coupling-label { color: #0a8; font-weight: bold; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1px; }
+      .coupling-item { margin: 4px 0; display: flex; align-items: center; }
+      .coupling-dot { width: 6px; height: 6px; border-radius: 50%; margin-right: 8px; animation: pulse 2s infinite; }
+      @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+    </style>
 </head>
 <body>
-  <div id="telemetry">
-    <div class="stat"><span>Phase:</span> <span id="st-phase" class="val">-</span></div>
-    <div class="stat"><span>Resonance:</span> <span id="st-res" class="val">-</span></div>
-    <div class="stat"><span>SNR:</span> <span id="st-snr" class="val">-</span></div>
-    <div class="stat"><span>Drift Delta:</span> <span id="st-drift" class="val">-</span></div>
-  </div>
+    <div id="telemetry">
+      <div class="stat"><span>Phase:</span> <span id="st-phase" class="val">-</span></div>
+      <div class="stat"><span>Resonance:</span> <span id="st-res" class="val">-</span></div>
+      <div class="stat"><span>SNR:</span> <span id="st-snr" class="val">-</span></div>
+      <div class="stat"><span>Drift Delta:</span> <span id="st-drift" class="val">-</span></div>
+    </div>
 
-  <!-- Coupling overlay for operator awareness -->
-  <div id="coupling-overlay">
-    <div class="coupling-label">Structural Coupling</div>
-    <div class="coupling-item"><div class="coupling-dot" style="background:#0f0"></div><span>Operator Context Active</span></div>
-    <div class="coupling-item"><div class="coupling-dot" style="background:#ff0"></div><span>External Signal Stream</span></div>
-    <div class="coupling-item"><div class="coupling-dot" style="background:#f0f"></div><span>Mutual Perturbation</span></div>
-    <div style="margin-top:8px; color:#8af; font-size:10px;">Always-visible visibility layer — no dashboard required per enactive cognition principles.</div>
-  </div>
+    <!-- Ambient status bar — minimal always-visible presence -->
+    <div id="ambient-status">C? | ? | ?</div>
+
+    <!-- Coupling overlay for operator awareness -->
+    <div id="coupling-overlay">
+      <div class="coupling-label">Structural Coupling</div>
+      <div class="coupling-item"><div class="coupling-dot" style="background:#0f0"></div><span>Operator Context Active</span></div>
+      <div class="coupling-item"><div class="coupling-dot" style="background:#ff0"></div><span>External Signal Stream</span></div>
+      <div class="coupling-item"><div class="coupling-dot" style="background:#f0f"></div><span>Mutual Perturbation</span></div>
+      <div style="margin-top:8px; color:#8af; font-size:10px;">Always-visible visibility layer — no dashboard required per enactive cognition principles.</div>
+    </div>
 
 <script type="module">
 import * as THREE from 'https://cdn.skypack.dev/three@0.160';
@@ -125,6 +138,11 @@ async function updateState() {
     document.getElementById('st-phase').innerText = data.phase || 'UNKNOWN';
     document.getElementById('st-snr').innerText = (data.metrics?.signal_to_noise_ratio || 0).toFixed(2);
     document.getElementById('st-drift').innerText = (data.metrics?.resonance_volatility || 0).toFixed(3);
+    
+    // Update ambient status bar with minimal presence info
+    const confidence = data.confidence ?? 0.5;
+    const confLevel = confidence > 0.7 ? 'HIGH' : confidence < 0.3 ? 'LOW' : 'MED';
+    document.getElementById('ambient-status').innerHTML = `C${data.cycle} | ${data.phase} | ${confLevel}`;
 
     if (data.last_event) triggerEvent(data.last_event.type);
   } catch (e) {
