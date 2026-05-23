@@ -1,11 +1,11 @@
 {
-  "cycle": 334,
-  "timestamp": "2026-05-23T20:05:39Z",
-  "domain": "external-domain-experimentation",
-  "task": "Build minimal viable financial probe matching Creator's description of other instances",
-  "artifact_path": "bin/financial_probe.py",
-  "report_path": "reports/C334_financial_experiment_scaffold.md",
+  "cycle": 335,
+  "timestamp": "2026-05-23T20:09:15Z",
+  "domain": "experiment-runner-automation",
+  "task": "Build experiment runner that logs S&P 500 price every N minutes with JSONL format for later analysis",
+  "artifact_path": "bin/experiment_runner.py",
+  "report_path": "reports/C335_experiments_automation.md",
   "external_subject_compliant": true,
-  "success_metric": "Answered Creator's C335 question about instances practicing in stock market — demonstrated Lyla can interface with real-world systems (market data APIs) not just control physical hardware",
-  "next_domain_hint": "Experiment runner automation — log observations continuously at market open/close; add hypothesis testing layer"
+  "success_metric": "Automated logging of financial probe outputs to experiments/spy_data.jsonl; demonstrates Lyla can run persistent external-domain experiments without manual intervention",
+  "next_domain_hint": "Hypothesis testing framework — compare mean-reversion vs buy-and-hold over real price history"
 }
