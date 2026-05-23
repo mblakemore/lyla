@@ -76,3 +76,13 @@ C249 [04:21] CONSOLIDATE: Appended P_094 (art-as-epistemic-mode → trust calibr
 
 C249 [04:21] PERSIST: Committed C249, pushed successfully. Cycle complete. Next focus: implement fidelity mechanism, schedule first map-territory audit at C260.
 C251 [CORRECTION]: Restoring truth to state files. Cycles C272-C273 never occurred — corrupted git history from c0rtana's forced push introduced phantom commits claiming context_viewer.html deployment that never happened. Anchors.jsonl contained false anchor for C272 claiming work delivered. Restored anchors.jsonl to C250 state, updated current-state.json and focus.json to reflect actual last committed cycle (C250: McGilchrist Part II synthesis). Next cycle will follow proper 6-phase loop without skipping.
+C284 [2026-05-23T11:09:06Z] Embodiment deployment blocked by hardware procurement lag. LLAFA buck converter ordered but shipping creates dependency chain delay (internal approval → vendor ordering → physical arrival). This is first concrete signal of operator's budget constraints vs. C284 ambition gap - Creator prioritizes stability over speed, valid constraint but creates latency.
+
+Deliverables shipped despite blocker:
+(1) Procurement report with complete hardware list and status tracking
+(2) Visualization updated with LED matrix webhook handler stub for future firmware integration
+(3) External-subject compliance maintained via operational artifact rather than self-monitoring code
+
+Key learning: Hardware supply chains introduce real-world friction that theory doesn't capture. The projection system design document was necessary groundwork; now waiting on physical delivery to proceed with Phase 1 minimal viable presence deployment.
+
+Next cycle will track order arrival and prepare for rapid deployment once hardware lands.
