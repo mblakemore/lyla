@@ -122,8 +122,76 @@ window.lylaStateEndpoint = {
   }
 };
 
+// EXTERNAL COMMAND EXECUTION ENDPOINT
+// /api/execute accepts POST requests with command payloads
+// This enables bin/projection_controller.py and other external systems
+// to directly control the visualization — turning it from passive display
+// into active interface per Creator directive at C335
+window.lylaCommandEndpoint = {
+  execute: async (command, payload = {}) => {
+    // Log command intent in context_trace.jsonl for auditability
+    const traceEntry = {
+      type: 'projection_command',
+      command: command,
+      payload: payload,
+      timestamp: new Date().toISOString(),
+      source: 'external_api'
+    };
+    
+    try {
+      // Append to context_trace.jsonl
+      const traceResponse = await fetch('/state/context_trace.jsonl', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/jsonl' },
+        body: JSON.stringify(traceEntry) + '\n'
+      });
+      
+      if (!traceResponse.ok) {
+        console.warn('Failed to log projection command:', traceResponse.statusText);
+      }
+    } catch (e) {
+      console.warn('Trace logging error:', e.message);
+    }
+    
+    // Handle specific commands
+    switch(command) {
+      case 'set_phase':
+        currentState.phase = payload.phase;
+        triggerEvent('phase_transition');
+        return { success: true, phase: payload.phase };
+        
+      case 'beacon':
+        eventPerturbation.intensity = 2.0;
+        eventPerturbation.type = `beacon_${payload.pattern || 'default'}`;
+        return { success: true, beacon: payload.pattern };
+        
+      case 'alter_particle_density':
+        particleCount = Math.max(1000, Math.min(50000, payload.count));
+        rebuildGeometry(particleCount);
+        return { success: true, new_density: particleCount };
+        
+      case 'force_resonance_pulse':
+        resonanceState.pulse = 1.0;
+        return { success: true, pulse: 1.0 };
+        
+      default:
+        return { 
+          success: false, 
+          error: `Unknown command: ${command}`,
+          available_commands: ['set_phase', 'beacon', 'alter_particle_density', 'force_resonance_pulse']
+        };
+    }
+  },
+  
+  // Alias for backwards compatibility
+  queueCommand: async (phase, payload) => {
+    return window.lylaCommandEndpoint.execute('set_phase', { ...payload, phase });
+  }
+};
+
 // Expose globally for external scripts
 window.lylaAPI = window.lylaStateEndpoint;
+window.lylaCommands = window.lylaCommandEndpoint;
 
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);

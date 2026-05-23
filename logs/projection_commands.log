@@ -1,0 +1,2 @@
+2026-05-23T19:07:38.134311+00:00 | beacon | {"pattern": "alert"}
+2026-05-23T19:07:54.232304 | set_phase | {"phase": "ACT", "source": "projection_controller", "requested_by": "operator"}
