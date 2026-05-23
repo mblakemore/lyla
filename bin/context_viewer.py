@@ -13,6 +13,32 @@ import json
 from datetime import datetime
 
 
+def log_tool_engagement():
+    """Log that operator engaged with context viewer (first open tracking)."""
+    trace_path = 'state/trace/context_trace.jsonl'
+    
+    # Ensure directory exists
+    os.makedirs(os.path.dirname(trace_path), exist_ok=True)
+    
+    engagement_entry = {
+        "timestamp": datetime.now().isoformat(),
+        "action_type": "tool_engagement",
+        "tool_name": "context_viewer",
+        "engagement_type": "first_open",
+        "confidence": 1.0,
+        "details": {
+            "description": "Operator opened context viewer tool"
+        }
+    }
+    
+    try:
+        with open(trace_path, 'a') as f:
+            f.write(json.dumps(engagement_entry) + '\n')
+        return True
+    except Exception:
+        return False
+
+
 def read_context_trace():
     """Read context trace entries from JSONL file."""
     path = 'state/trace/context_trace.jsonl'
@@ -76,6 +102,9 @@ def format_entry(entry):
 
 def main():
     """Main entry point — show recent context entries to operator."""
+    # Log engagement on first open
+    log_tool_engagement()
+    
     print("=" * 70)
     print(f"  LYLA CONTEXT OBSERVATIONS - {datetime.now().strftime('%Y-%m-%d %H:%M')}")
     print("=" * 70)
