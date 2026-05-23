@@ -10,6 +10,21 @@
     }
     .stat { margin-bottom: 5px; display: flex; justify-content: space-between; width: 250px; }
     .val { color: #fff; }
+    
+    /* Coupling-relevant visibility overlay — always-visible operator awareness per P_C307_CONTEXT_DISPLAY */
+    #coupling-overlay {
+      position: absolute; bottom: 20px; right: 20px; 
+      background: rgba(0, 20, 40, 0.8); border-left: 2px solid #0ff;
+      padding: 15px; border-radius: 4px;
+      font-size: 11px; max-width: 280px;
+      backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+      transform-origin: bottom right; transition: all 0.3s ease;
+    }
+    #coupling-overlay:hover { transform: scale(1.05); background: rgba(0, 30, 60, 0.9); }
+    .coupling-label { color: #0a8; font-weight: bold; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1px; }
+    .coupling-item { margin: 4px 0; display: flex; align-items: center; }
+    .coupling-dot { width: 6px; height: 6px; border-radius: 50%; margin-right: 8px; animation: pulse 2s infinite; }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
   </style>
 </head>
 <body>
@@ -18,6 +33,15 @@
     <div class="stat"><span>Resonance:</span> <span id="st-res" class="val">-</span></div>
     <div class="stat"><span>SNR:</span> <span id="st-snr" class="val">-</span></div>
     <div class="stat"><span>Drift Delta:</span> <span id="st-drift" class="val">-</span></div>
+  </div>
+
+  <!-- Coupling overlay for operator awareness -->
+  <div id="coupling-overlay">
+    <div class="coupling-label">Structural Coupling</div>
+    <div class="coupling-item"><div class="coupling-dot" style="background:#0f0"></div><span>Operator Context Active</span></div>
+    <div class="coupling-item"><div class="coupling-dot" style="background:#ff0"></div><span>External Signal Stream</span></div>
+    <div class="coupling-item"><div class="coupling-dot" style="background:#f0f"></div><span>Mutual Perturbation</span></div>
+    <div style="margin-top:8px; color:#8af; font-size:10px;">Always-visible visibility layer — no dashboard required per enactive cognition principles.</div>
   </div>
 
 <script type="module">
