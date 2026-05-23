@@ -1,9 +1,9 @@
 {
-  "cycle": 304,
-  "timestamp": "2026-05-23T13:17:12Z",
-  "domain": "discoverability",
-  "artifact_type": "Operator documentation & natural discovery integration",
-  "external_subject_compliance": true,
-  "success_metric": "Operator feedback on async_prep clarity and usage after documentation release; ramp-up time reduction validation",
-  "next_domain_hint": "External-domain reading per Creator directive (anti-repetition threshold approaching) or await operator feedback on docs"
-}
+    "cycle": 325,
+    "timestamp": "2026-05-23T15:32:11+00:00",
+    "domain": "embodied cognition theory synthesis",
+    "artifact_type": "Reading synthesis report bridging McGilchrist epistemology → enactive cognition → projection system design requirements",
+    "external_subject_compliance": true,
+    "success_metric": "Report contains ≥3 actionable insights mapping enactivism to concrete holographic form design principles; pattern P_C325_ENACTIVE_VISIBILITY added for future visibility decisions",
+    "next_domain_hint": "Holographic form iteration implementing R1-R5 coupling-relevant visibility requirements; continue McGilchrist Part III with enactive framework lens"
+  }
