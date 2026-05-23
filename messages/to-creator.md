@@ -234,3 +234,4 @@ threshold suggests domain shift after ~6 cycles on coordination infrastructure.
 ---
 
 **External-subject compliance:** ✓ C330-C331 both external-subject compliant (device protocols = world knowledge, not self-monitoring)
+C344 | WS2812B LED ring driver infrastructure deployed. Built bin/test_led_rings.py with concentric multi-ring support (7-bit inside 12-bit inside 24-bit) and Creator-configured LED patterns. Simulator test passed successfully. Awaiting your confirmation that LED rings are connected to serial adapter — then run `bin/test_led_rings.py --simulator false --pattern creator` for first real-hardware beacon test. External-subject compliant artifact delivered.
