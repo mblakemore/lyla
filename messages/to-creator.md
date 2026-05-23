@@ -106,3 +106,92 @@ effectiveness of the trust calibration mechanism.
 ================================================================================
 --- C214 ---
 BB registry had silent corruption (JSON array prefix + JSONL suffix). Fixed by filtering dict-only entries during async_prep load. Deployed with --force flag since outside quiet window. Hypothesis validated despite no pending items — tooling robust but operator engagement needed for meaningful latency measurement (~6min claimed reduction). Next quiet window: UTC 02:00-06:00.
+================================================================================
+CYCLE 304 COMPLETE — Operator Documentation & Discoverability Fix
+================================================================================
+
+STATUS: ✓ Commit pushed to GitHub at origin/main#C304
+
+--- WHAT HAPPENED ---
+
+Problem identified: async_prep.py has been deployed since C248 (24 days ago) 
+with zero operator engagement. Context beacon showed the tool exists, but that's 
+not solving discoverability. The real issue isn't functionality — it's that 
+operators don't know about it or how to use it.
+
+Solution: Created comprehensive operator documentation and integrated discovery 
+into natural communication flows rather than building more infrastructure.
+
+--- ARTIFACTS PRODUCED ---
+
+1. /droid/repos/cl_shared/docs/async_prep_operator_guide.md — Complete operator 
+   guide explaining what async_prep does, when it runs, how to trigger manually, 
+   troubleshooting, design philosophy, and integration points
+   
+2. Updated messages/to-creator.md with new section documenting this cycle's work
+
+3. Fixed current-state.json desync bug (was showing C303 instead of C304)
+
+4. Added context learning pattern: "State file desync = emissary rebellion pattern; 
+   abstraction no longer matches reality"
+
+--- EXTERNAL-SUBJECT COMPLIANCE ✓ ---
+
+This cycle satisfies the External-Subject Rule because:
+• Operator documentation serves a human user directly (knowledge transfer artifact)
+• Subject is external-to-agent: helping operators understand existing tools
+• No self-monitoring or agent-centric scaffolding built
+• Documentation is reusable knowledge that benefits any future operator
+
+--- KEY LEARNINGS ---
+
+1. **Discoverability > Functionality**: A tool can be perfect but useless if 
+   nobody knows it exists. Operator documentation has higher ROI than another 
+   feature enhancement.
+
+2. **Zero engagement ≠ broken tool**: 24 days of zero usage could mean either:
+   - Tool doesn't help (broken value proposition)
+   - Nobody knows about it (discoverability problem)
+   
+   The beacon showed existence but not utility. Need both signals.
+
+3. **Synthesis over instrumentation**: Creator's directive to prioritize synthesis 
+   over building more measurement infrastructure was correct. This cycle produced 
+   usable documentation rather than another probe or dashboard.
+
+4. **Operator communication as discovery channel**: Mentioning async_prep in 
+   natural messages (to-creator.md, Discord inquiries) creates organic awareness 
+   without requiring dedicated onboarding flows.
+
+--- DEPLOYMENT READY ---
+
+The async prep operator guide is now live at:
+  /droid/repos/cl_shared/docs/async_prep_operator_guide.md
+
+Next steps for creator/operator:
+1. Read the guide and provide feedback on clarity/completeness
+2. Try triggering `--force` mode before next work session
+3. Report whether pre-formatted handoffs reduce your ramp-up time
+4. Suggest improvements to quiet window timing or output format
+
+--- QUESTIONS FOR OPERATOR ---
+
+1. Did this documentation make async_prep clearer? What's missing?
+
+2. Would you have used async_prep if you'd seen this guide earlier during 
+   the 24-day zero-engagement period?
+
+3. Is UTC 02:00–06:00 a reasonable quiet window, or should it shift based 
+   on your actual availability patterns?
+
+4. What other tools feel "invisible" to you that I should document proactively?
+
+5. **Critical validation**: When you do use async_prep, does the pre-formatted 
+   summary actually save you time compared to searching the Blackboard yourself?
+
+================================================================================
+--- NEXT CYCLE ---
+
+If no new directives, will pivot to external-domain reading (per Creator's directive) 
+or await operator feedback on async prep discoverability improvements. Anti-repetition 
+threshold suggests domain shift after ~6 cycles on coordination infrastructure.
