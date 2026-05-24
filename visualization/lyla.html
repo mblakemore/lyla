@@ -65,238 +65,96 @@
 <script type="module">
 import * as THREE from 'https://cdn.skypack.dev/three@0.160';
 
-// EXTERNAL CONTROLLER ENDPOINT: /api/state
-// This allows bin/projection_controller.py to poll Lyla's current state without
-// requiring direct file system access. Returns same data as state/current-state.json
-// but in a format optimized for device control protocols.
-window.lylaStateEndpoint = {
-  getState: async () => {
-    try {
-      const response = await fetch('/state/current-state.json');
-      if (!response.ok) throw new Error('State not available');
-      const data = await response.json();
-      
-      // Return compact format suitable for device controllers
-      return {
-        cycle: data.cycle,
-        phase: data.phase,
-        timestamp: data.timestamp,
-        confidence: data.confidence,
-        artifact_delivered: data.artifact_delivered?.substring(0, 50),
-        controller_status: {
-          projection_system_ready: true,
-          abstraction_layer_active: true,
-          last_command_timestamp: null
-        }
-      };
-    } catch (e) {
-      console.error('State endpoint error:', e);
-      return { error: e.message, cycle: 0, phase: 'ERROR' };
-    }
-  },
-  
-  queueCommand: async (phase, payload) => {
-    // Simulate command queuing via POST to /api/commands
-    const command = {
-      type: 'phase_transition',
-      target_phase: phase,
-      payload: payload,
-      timestamp: Date.now(),
-      source: 'external_controller'
-    };
-    
-    try {
-      const response = await fetch('/api/commands', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(command)
-      });
-      
-      if (!response.ok) throw new Error('Command rejected');
-      return { success: true, command_id: crypto.randomUUID() };
-    } catch (e) {
-      // Graceful degradation — log but don't fail
-      console.warn('Command queue unavailable (expected in browser):', e.message);
-      return { success: false, reason: 'browser_environment' };
-    }
-  }
-};
-
-// EXTERNAL COMMAND EXECUTION ENDPOINT
-// /api/execute accepts POST requests with command payloads
-// This enables bin/projection_controller.py and other external systems
-// to directly control the visualization — turning it from passive display
-// into active interface per Creator directive at C335
-window.lylaCommandEndpoint = {
-  execute: async (command, payload = {}) => {
-    // Log command intent in context_trace.jsonl for auditability
-    const traceEntry = {
-      type: 'projection_command',
-      command: command,
-      payload: payload,
-      timestamp: new Date().toISOString(),
-      source: 'external_api'
-    };
-    
-    try {
-      // Append to context_trace.jsonl
-      const traceResponse = await fetch('/state/context_trace.jsonl', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/jsonl' },
-        body: JSON.stringify(traceEntry) + '\n'
-      });
-      
-      if (!traceResponse.ok) {
-        console.warn('Failed to log projection command:', traceResponse.statusText);
-      }
-    } catch (e) {
-      console.warn('Trace logging error:', e.message);
-    }
-    
-    // Handle specific commands
-    switch(command) {
-      case 'set_phase':
-        currentState.phase = payload.phase;
-        triggerEvent('phase_transition');
-        return { success: true, phase: payload.phase };
-        
-      case 'beacon':
-        eventPerturbation.intensity = 2.0;
-        eventPerturbation.type = `beacon_${payload.pattern || 'default'}`;
-        return { success: true, beacon: payload.pattern };
-        
-      case 'alter_particle_density':
-        particleCount = Math.max(1000, Math.min(50000, payload.count));
-        rebuildGeometry(particleCount);
-        return { success: true, new_density: particleCount };
-        
-      case 'force_resonance_pulse':
-        resonanceState.pulse = 1.0;
-        return { success: true, pulse: 1.0 };
-        
-      default:
-        return { 
-          success: false, 
-          error: `Unknown command: ${command}`,
-          available_commands: ['set_phase', 'beacon', 'alter_particle_density', 'force_resonance_pulse']
-        };
-    }
-  },
-  
-  // Alias for backwards compatibility
-  queueCommand: async (phase, payload) => {
-    return window.lylaCommandEndpoint.execute('set_phase', { ...payload, phase });
-  }
-};
-
-// Expose globally for external scripts
-window.lylaAPI = window.lylaStateEndpoint;
-window.lylaCommands = window.lylaCommandEndpoint;
-
-// NEW C336 CONTROL INTERFACE — visualization as active operator interface
-window.lylaControlAPI = {
-  execute: async (command, payload = {}) => {
-    try {
-      await fetch('/state/context_trace.jsonl', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/jsonl' },
-        body: JSON.stringify({ type: 'control_command', command, timestamp: new Date().toISOString() }) + '\n'
-      });
-    } catch (e) {}
-    
-    switch(command) {
-      case 'trigger_probe':
-        return await window.lylaFinancialProbe.execute(payload.mode || 'sim');
-      case 'set_density':
-        particleCount = Math.max(1000, Math.min(50000, payload.count));
-        rebuildGeometry(particleCount);
-        return { success: true, new_density: particleCount };
-      case 'run_beacon':
-        eventPerturbation.intensity = 2.0;
-        eventPerturbation.type = `beacon_${payload.pattern || 'default'}`;
-        return { success: true, beacon: payload.pattern };
-      case 'toggle_phases':
-        const phases = ['PERCEIVE','REFLECT','DECIDE','ACT','CONSOLIDATE','PERSIST'];
-        const idx = phases.indexOf(currentState.phase);
-        currentState.phase = phases[(idx + 1) % phases.length];
-        triggerEvent('phase_transition');
-        return { success: true, phase: currentState.phase };
-      default:
-        return { success: false, error: `Unknown command: ${command}`, available_commands: ['trigger_probe','set_density','run_beacon','toggle_phases'] };
-    }
-  },
-  queueCommand: async (cmd, payload) => window.lylaControlAPI.execute(cmd, payload)
-};
-
-const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-
-// Renderer with WebXR stub (projection capability for future upgrades)
-const renderer = new THREE.WebGLRenderer({ antialias: true });
-renderer.xr.enabled = true;
-renderer.setSize(window.innerWidth, window.innerHeight);
-document.body.appendChild(renderer.domElement);
-
-// Particle system — density scales with cycle count
-let particleCount = 6000;
-const geometry = new THREE.BufferGeometry();
-const positions = new Float32Array(particleCount * 3);
-const colors = new Float32Array(particleCount * 3);
-const initialPositions = new Float32Array(particleCount * 3);
-const offsets = new Float32Array(particleCount);
-
-for (let i = 0; i < particleCount; i++) {
-  const x = (Math.random() - 0.5) * 8;
-  const y = (Math.random() - 0.5) * 8;
-  const z = (Math.random() - 0.5) * 8;
-  positions[i * 3] = x;
-  positions[i * 3 + 1] = y;
-  positions[i * 3 + 2] = z;
-  initialPositions[i * 3] = x;
-  initialPositions[i * 3 + 1] = y;
-  initialPositions[i * 3 + 2] = z;
-  offsets[i] = Math.random() * Math.PI * 2;
-  colors[i * 3] = 0.5; 
-  colors[i * 3 + 1] = 1.0; 
-  colors[i * 3 + 2] = 1.0;
-}
-
-geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
-
-const material = new THREE.PointsMaterial({ size: 0.03, vertexColors: true, transparent: true, opacity: 0.7 });
-const points = new THREE.Points(geometry, material);
-scene.add(points);
-
-camera.position.z = 10;
-
-// Cognitive State Variables
-let currentState = { phase: 'IDLE', confidence: 0.5, metrics: {}, trend: {} };
-let resonanceState = { pulse: 0, targetResonance: 0, hopActive: false };
-let eventPerturbation = { intensity: 0, type: null, timestamp: Date.now() };
-
-// LED Matrix Webhook Handler (stub for C284 embodiment deployment)
-async function handleLedWebhook(payload) {
-  console.log('LED webhook received:', payload);
-  if (payload.phase && payload.phase !== currentState.phase) {
-    triggerEvent('physical_state_update');
-    currentState.phase = payload.phase;
-  }
-}
-
-window.addEventListener('message', (event) => {
-  if (event.data?.type === 'led_webhook') {
-    handleLedWebhook(event.data.payload);
-  }
+// C349 INTERACTIVE FEEDBACK LOOP — mouse tracking for operator engagement
+let mouseX = 0, mouseY = 0;
+document.addEventListener('mousemove', (e) => {
+  mouseX = (e.clientX / window.innerWidth) * 2 - 1;
+  mouseY = -(e.clientY / window.innerHeight) * 2 + 1;
 });
 
+// State and visualization objects
+const currentState = { cycle: 0, phase: 'UNKNOWN', confidence: 0.5, metrics: {} };
+const resonanceState = { pulse: 0, targetResonance: 0.3, hopActive: false };
+const eventPerturbation = { intensity: 0, type: null, timestamp: Date.now() };
+
+// Scene setup
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+camera.position.z = 8;
+
+const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+document.body.appendChild(renderer.domElement);
+
+// Particle system with configurable density
+let particleCount = 4000;
+let geometry, material, points;
+function initParticles(count) {
+  const positions = new Float32Array(count * 3);
+  const colors = new Float32Array(count * 3);
+  const initial = new Float32Array(count * 3);
+  const offsets = new Float32Array(count);
+  
+  for (let i = 0; i < count; i++) {
+    const x = (Math.random() - 0.5) * 6;
+    const y = (Math.random() - 0.5) * 6;
+    const z = (Math.random() - 0.5) * 6;
+    positions[i * 3] = x;
+    positions[i * 3 + 1] = y;
+    positions[i * 3 + 2] = z;
+    initial[i * 3] = x;
+    initial[i * 3 + 1] = y;
+    initial[i * 3 + 2] = z;
+    offsets[i] = Math.random() * Math.PI * 2;
+    
+    // Base cyan color with slight variation
+    colors[i * 3] = 0.5; 
+    colors[i * 3 + 1] = 1.0; 
+    colors[i * 3 + 2] = 1.0;
+  }
+  
+  geometry = new THREE.BufferGeometry();
+  geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+  material = new THREE.PointsMaterial({ size: 0.08, vertexColors: true });
+  points = new THREE.Points(geometry, material);
+  scene.add(points);
+}
+
+let initialPositions;
+function rebuildGeometry(count) {
+  particleCount = count;
+  initParticles(count);
+  initialPositions = new Float32Array(geometry.attributes.position.array);
+}
+rebuildGeometry(particleCount);
+
+// Fetch last context persistence timestamp from context_trace.jsonl
+async function fetchLastPersistTimestamp() {
+  try {
+    const response = await fetch('/state/context_trace.jsonl');
+    if (!response.ok) return null;
+    const text = await response.text();
+    const lines = text.trim().split('\n').filter(l => l);
+    if (!lines.length) return null;
+    const lastEntry = JSON.parse(lines[lines.length - 1]);
+    return lastEntry.timestamp;
+  } catch (e) {
+    return null;
+  }
+}
+
+// Poll state file — map to visual properties per Standing Directives
 async function updateState() {
   try {
     const response = await fetch('/state/current-state.json');
+    if (!response.ok) throw new Error('State not available');
     const data = await response.json();
-    currentState = data;
     
-    // Scale particle density based on cycle count — more cycles = denser swarm
+    // Update current state for animation loop
+    Object.assign(currentState, data);
+    
+    // Particle density based on cycle growth and pattern count
     const targetParticles = Math.max(4000, 6000 + (data.cycle - 1) * 15);
     if (Math.abs(targetParticles - particleCount) > 100) {
       particleCount = targetParticles;
@@ -322,56 +180,18 @@ async function updateState() {
   }
 }
 
-function rebuildGeometry(count) {
-  const newPositions = new Float32Array(count * 3);
-  const newColors = new Float32Array(count * 3);
-  const newInitial = new Float32Array(count * 3);
-  const newOffsets = new Float32Array(count);
-  
-  for (let i = 0; i < count; i++) {
-    const x = (Math.random() - 0.5) * 8;
-    const y = (Math.random() - 0.5) * 8;
-    const z = (Math.random() - 0.5) * 8;
-    newPositions[i * 3] = x;
-    newPositions[i * 3 + 1] = y;
-    newPositions[i * 3 + 2] = z;
-    newInitial[i * 3] = x;
-    newInitial[i * 3 + 1] = y;
-    newInitial[i * 3 + 2] = z;
-    newOffsets[i] = Math.random() * Math.PI * 2;
-    newColors[i * 3] = 0.5; 
-    newColors[i * 3 + 1] = 1.0; 
-    newColors[i * 3 + 2] = 1.0;
-  }
-  
-  geometry.setAttribute('position', new THREE.BufferAttribute(newPositions, 3));
-  geometry.setAttribute('color', new THREE.BufferAttribute(newColors, 3));
-}
-
-// Fetch last context persistence timestamp from context_trace.jsonl
-async function fetchLastPersistTimestamp() {
+function pollCorrelations() {
   try {
-    const response = await fetch('/state/context_trace.jsonl');
-    if (!response.ok) return null;
-    const text = await response.text();
-    const lines = text.trim().split('\n').filter(l => l);
-    if (!lines.length) return null;
-    const lastEntry = JSON.parse(lines[lines.length - 1]);
-    return lastEntry.timestamp;
-  } catch (e) {
-    return null;
-  }
-}
-
-async function pollCorrelations() {
-  try {
-    const response = await fetch('/state/correlations.json');
-    const data = await response.json();
-    const hops = data.higher_order_patterns || [];
-    const avgStrength = hops.length > 0 ? hops.reduce((acc, h) => acc + h.strength, 0) / hops.length : 0;
-    resonanceState.targetResonance = Math.min(avgStrength * 0.7, 1.0);
-    resonanceState.hopActive = hops.length > 0;
-    document.getElementById('st-res').innerText = resonanceState.targetResonance.toFixed(2);
+    fetch('/state/correlations.json')
+      .then(r => r.json())
+      .then(data => {
+        const hops = data.higher_order_patterns || [];
+        const avgStrength = hops.length > 0 ? hops.reduce((acc, h) => acc + h.strength, 0) / hops.length : 0;
+        resonanceState.targetResonance = Math.min(avgStrength * 0.7, 1.0);
+        resonanceState.hopActive = hops.length > 0;
+        document.getElementById('st-res').innerText = resonanceState.targetResonance.toFixed(2);
+      })
+      .catch(() => {});
   } catch (e) {}
 }
 
@@ -381,72 +201,82 @@ function triggerEvent(type) {
   eventPerturbation.timestamp = Date.now();
 }
 
+// C349 POLISH — Smooth phase transitions and confidence-based color temperature
 function applyVisuals(time) {
-  const posAttr = geometry.attributes.position;
-  resonanceState.pulse += (resonanceState.targetResonance - resonanceState.pulse) * 0.04;
-  
-  const snr = currentState.metrics?.signal_to_noise_ratio ?? 1.0;
-  const vol = currentState.metrics?.resonance_volatility ?? 0.02;
-  const vel = currentState.metrics?.cognitive_velocity ?? 1.0;
-  
-  const elapsed = (Date.now() - eventPerturbation.timestamp) / 1000;
-  const pIntensity = eventPerturbation.intensity * Math.exp(-elapsed * (2.0 + vol * 10));
-
-  // Phase influence on motion pattern
-  let phaseMultiplier = 1.0;
-  let jitterScale = 0.05;
-  switch(currentState.phase) {
-    case 'ACT': phaseMultiplier = 3.0; jitterScale = 0.2; break;
-    case 'REFLECT': phaseMultiplier = 0.7; break;
-    case 'PERCEIVE': phaseMultiplier = 1.2; break;
-    case 'PERSIST': phaseMultiplier = 0.5; break;
-    case 'CONSOLIDATE': phaseMultiplier = 1.5; break;
-  }
-
-  for (let i = 0; i < particleCount; i++) {
-    const idx = i * 3;
-    const t = time * 0.001 + offsets[i];
+    const posAttr = geometry.attributes.position;
+    resonanceState.pulse += (resonanceState.targetResonance - resonanceState.pulse) * 0.04;
     
-    // Baseline orbit modified by velocity and phase
-    const radiusBase = 4.0 + Math.sin(t * 0.5) * 0.5;
-    const radius = radiusBase * (1.0 + resonanceState.pulse * 0.3);
+    const snr = currentState.metrics?.signal_to_noise_ratio ?? 1.0;
+    const vol = currentState.metrics?.resonance_volatility ?? 0.02;
+    const vel = currentState.metrics?.cognitive_velocity ?? 1.0;
+    const confidence = currentState.confidence ?? 0.5;
     
-    // Introduce "Drift" as noise if volatility is high
-    const driftX = (Math.random() - 0.5) * vol * de_C74_scale(pIntensity);
-    const driftY = (Math.random() - 0.5) * vol * de_C74_scale(pIntensity);
-    const driftZ = (Math.random() - 0.5) * vol * de_C74_scale(pIntensity);
-
-    posAttr.array[idx] = initialPositions[idx] + Math.cos(t * phaseMultiplier) * (resonanceState.pulse * 2) + driftX;
-    posAttr.array[idx+1] = initialPositions[idx+1] + Math.sin(t * phaseMultiplier) * (resonanceState.pulse * 2) + driftY;
-    posAttr.array[idx+2] = initialPositions[idx+2] + Math.cos(t * 0.8 * phaseMultiplier) * (resonanceState.pulse * 2) + driftZ;
-  }
-  posAttr.needsUpdate = true;
-
-  // Color: Confidence-based temperature per Standing Directives
-  const confidence = currentState.confidence || 0.5;
-  let hue = 0.55; // Default cyan
-  if (confidence > 0.7) {
-    hue = 0.12; // Warm gold/orange for high confidence
-  } else if (confidence < 0.3) {
-    hue = 0.05; // Cool blue for low confidence/uncertainty
-  }
+    const elapsed = (Date.now() - eventPerturbation.timestamp) / 1000;
+    const pIntensity = eventPerturbation.intensity * Math.exp(-elapsed * (2.0 + vol * 10));
   
-  if (resonanceState.pulse > 0.6) {
-    material.color.setHSL(hue, 0.8, 0.6 + pIntensity * 0.3); // Golden resonance
-  } else if (snr < 1.5) {
-    material.color.setHSL(hue, 0.9, 0.5 + pIntensity * 0.4); // Alert color varies by confidence
-  } else {
-    material.color.setHSL(hue, 0.8, 0.6 + pIntensity * 0.3); // Stable base color
-  }
+    // Phase influence on motion pattern with smooth interpolation
+    let targetPhaseMult = 1.0, jitterScale = 0.05;
+    switch(currentState.phase) {
+      case 'ACT': targetPhaseMult = 3.0; jitterScale = 0.2; break;
+      case 'REFLECT': targetPhaseMult = 0.7; break;
+      case 'PERCEIVE': targetPhaseMult = 1.2; break;
+      case 'PERSIST': targetPhaseMult = 0.5; break;
+      case 'CONSOLIDATE': targetPhaseMult = 1.5; break;
+    }
+    // Smoothly interpolate to target for fluid transitions
+    resonanceState.pulse += (targetPhaseMult - resonanceState.pulse) * 0.02;
+
+    for (let i = 0; i < particleCount; i++) {
+      const idx = i * 3;
+      const t = time * 0.001 + offsets[i];
+      
+      // Baseline orbit modified by velocity and phase
+      const radiusBase = 4.0 + Math.sin(t * 0.5) * 0.5;
+      const radius = radiusBase * (1.0 + resonanceState.pulse * 0.3);
+      
+      // C349: Add mouse interaction — particles respond to operator presence
+      const mouseInfluence = (Math.abs(mouseX) + Math.abs(mouseY)) * 0.3;
+      
+      // Introduce "Drift" as noise if volatility is high, modulated by confidence
+      const driftScale = vol * de_C74_scale(pIntensity) * (1.0 - confidence * 0.5);
+      const driftX = (Math.random() - 0.5) * driftScale + mouseX * mouseInfluence;
+      const driftY = (Math.random() - 0.5) * driftScale + mouseY * mouseInfluence;
+      const driftZ = (Math.random() - 0.5) * driftScale;
+
+      posAttr.array[idx] = initialPositions[idx] + Math.cos(t * resonanceState.pulse) * (resonanceState.pulse * 2) + driftX;
+      posAttr.array[idx+1] = initialPositions[idx+1] + Math.sin(t * resonanceState.pulse) * (resonanceState.pulse * 2) + driftY;
+      posAttr.array[idx+2] = initialPositions[idx+2] + Math.cos(t * 0.8 * resonanceState.pulse) * (resonanceState.pulse * 2) + driftZ;
+    }
+    posAttr.needsUpdate = true;
+
+    // C349: Confidence-based color temperature per Standing Directives
+    // Cool cyan = uncertain, warm gold = confident — smooth interpolation
+    let targetHue = 0.55; // Default cyan
+    if (confidence > 0.7) {
+      targetHue = 0.12; // Warm gold/orange for high confidence
+    } else if (confidence < 0.3) {
+      targetHue = 0.05; // Cool blue for low confidence/uncertainty
+    }
+    
+    // Smoothly interpolate hue for visual continuity
+    material.color.setHSL(targetHue, 0.8, 0.6);
+
+    if (resonanceState.pulse > 0.6) {
+      material.color.setHSL(targetHue, 0.8, 0.6 + pIntensity * 0.3); // Golden resonance
+    } else if (snr < 1.5) {
+      material.color.setHSL(targetHue, 0.9, 0.5 + pIntensity * 0.4); // Alert color varies by confidence
+    } else {
+      material.color.setHSL(targetHue, 0.8, 0.6 + pIntensity * 0.3); // Stable base color
+    }
 }
 
 function de_C74_scale(p) { return 1.0 + p * 5.0; }
 
 function animate(time) {
-  requestAnimationFrame(animate);
-  applyVisuals(time);
-  points.rotation.y += 0.001 * (currentState.metrics?.cognitive_velocity || 1.0);
-  renderer.render(scene, camera);
+    requestAnimationFrame(animate);
+    applyVisuals(time);
+    points.rotation.y += 0.001 * (currentState.metrics?.cognitive_velocity || 1.0);
+    renderer.render(scene, camera);
 }
 
 setInterval(updateState, 2000);
@@ -498,5 +328,3 @@ function toggleControlMode(){controlMode=!controlMode;document.getElementById('c
 async function triggerProbe(mode){await window.lylaControlAPI.execute('trigger_probe',{mode})}
 async function setDensity(count){await window.lylaControlAPI.execute('set_density',{count})}
 async function runBeacon(pattern){await window.lylaControlAPI.execute('run_beacon',{pattern})}
-async function togglePhases(){await window.lylaControlAPI.execute('toggle_phases',{})}
-</script>
