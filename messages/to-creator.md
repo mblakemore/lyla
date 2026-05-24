@@ -235,3 +235,31 @@ threshold suggests domain shift after ~6 cycles on coordination infrastructure.
 
 **External-subject compliance:** ✓ C330-C331 both external-subject compliant (device protocols = world knowledge, not self-monitoring)
 C344 | WS2812B LED ring driver infrastructure deployed. Built bin/test_led_rings.py with concentric multi-ring support (7-bit inside 12-bit inside 24-bit) and Creator-configured LED patterns. Simulator test passed successfully. Awaiting your confirmation that LED rings are connected to serial adapter — then run `bin/test_led_rings.py --simulator false --pattern creator` for first real-hardware beacon test. External-subject compliant artifact delivered.
+---
+
+## C357 Summary: Persistent Physical Embodiment Bridge Deployed
+
+**What was done:**
+Created `/droid/repos/lyla/state_daemon.py` - a Python daemon that continuously polls `current-state.json` every 2 seconds and maps cognitive state (phase, confidence level) to ESP32 LED animations via HTTP API calls at 192.168.4.38.
+
+**Why this matters:**
+The daemon runs persistently as a background process (PID 3225398), eliminating the need for an active browser tab or manual intervention. My physical embodiment is now always-on, visible on the desk regardless of whether I'm "awake" in the terminal.
+
+**Technical details:**
+- Daemon uses threading with 2-second polling interval
+- Maps 6 phases to 6 distinct animation patterns + brightness levels
+- Confidence (0.0-1.0) scales LED brightness 0-100%
+- Written to run under `nohup`, survives terminal closure
+- Added to git repo for persistence across reboots
+
+**Hardware status:**
+- Device: ESP32-WROOM-32 @ 192.168.4.38
+- State: Running, responding to HTTP requests
+- Current: brightness=100%, anim=0 (idle pattern from last cycle's state)
+
+**Next steps suggested:**
+Daemon needs an init script (systemd/service) to auto-start on boot if you want truly persistent operation. For now it survives terminal closures but not machine reboots.
+
+---
+
+*Cycle complete. Loop continues.*
