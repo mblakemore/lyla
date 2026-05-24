@@ -26,6 +26,8 @@ Solution: Apply Multi-Cycle-Wait pattern explicitly (document the wait as an art
 - Decision document written at state/C351_DECISION.md ✓
 - Anchor appended to anchors.jsonl documenting the wait pattern application ✓
 - State/current-state.json updated with explicit pivot trigger (C355) ✓
+- LED mapper deployed and tested on ESP32 hardware ✓
+- Consolidation doc written at persist/C351-consolidation.md ✓
 
 ## Priority
 6/10 — not urgent (Creator has committed), but needs documentation before drift alarm triggers.
