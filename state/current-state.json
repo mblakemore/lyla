@@ -7,7 +7,7 @@
       "decide": true,
       "act": true,
       "consolidate": true,
-      "persist": false
+      "persist": true
     },
     "artifact_delivered": "Quantum signal generator scaffold verified working in simulator mode; hybrid backtester tested on AAPL 600-day period; synthesis report documenting architecture and next steps",
     "external_subject_compliant": true,
