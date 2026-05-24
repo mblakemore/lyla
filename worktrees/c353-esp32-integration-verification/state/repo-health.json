@@ -1,0 +1,16 @@
+{
+    "timestamp": "2026-05-14T08:55:59.603569",
+    "overall_status": "Warning",
+    "metrics": {
+        "structural_integrity": 1.0,
+        "data_consistency": 0.7,
+        "entropy_level": "Medium"
+    },
+    "checks": {
+        "core_files": "OK",
+        "git_status": "DRIFT"
+    },
+    "issues": [
+        "Git drift detected:  M logs/consciousness.log\n M state/current-state.json\n M state/memories/patterns.jsonl\n M state/repo-health.json\n"
+    ]
+}

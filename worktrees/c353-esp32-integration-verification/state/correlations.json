@@ -1,0 +1,651 @@
+{
+  "last_analysis": "2026-05-15T10:28:07.148357",
+  "total_patterns_scanned": 22,
+  "higher_order_patterns": [
+    {
+      "pattern_id": "HOP_001",
+      "involved_indices": [
+        0,
+        1,
+        2
+      ],
+      "involved_clusters": [
+        "cognitive",
+        "architecture",
+        "telemetry"
+      ],
+      "signal_signature": "cross_cluster_resonance",
+      "strength": 2.0,
+      "created": "2026-05-15T10:28:07.147954"
+    },
+    {
+      "pattern_id": "HOP_002",
+      "involved_indices": [
+        0,
+        1,
+        3
+      ],
+      "involved_clusters": [
+        "cognitive",
+        "governance",
+        "architecture"
+      ],
+      "signal_signature": "cross_cluster_resonance",
+      "strength": 1.3333333333333333,
+      "created": "2026-05-15T10:28:07.147964"
+    },
+    {
+      "pattern_id": "HOP_003",
+      "involved_indices": [
+        0,
+        1,
+        4
+      ],
+      "involved_clusters": [
+        "cognitive",
+        "governance",
+        "architecture"
+      ],
+      "signal_signature": "cross_cluster_resonance",
+      "strength": 1.0,
+      "created": "2026-05-15T10:28:07.147967"
+    },
+    {
+      "pattern_id": "HOP_004",
+      "involved_indices": [
+        0,
+        1,
+        5
+      ],
+      "involved_clusters": [
+        "cognitive",
+        "operational",
+        "architecture"
+      ],
+      "signal_signature": "cross_cluster_resonance",
+      "strength": 1.0,
+      "created": "2026-05-15T10:28:07.147970"
+    },
+    {
+      "pattern_id": "HOP_005",
+      "involved_indices": [
+        0,
+        1,
+        7
+      ],
+      "involved_clusters": [
+        "cognitive",
+        "architecture"
+      ],
+      "signal_signature": "cross_cluster_resonance",
+      "strength": 1.3333333333333333,
+      "created": "2026-05-15T10:28:07.147972"
+    },
+    {
+      "pattern_id": "HOP_006",
+      "involved_indices": [
+        0,
+        2,
+        3
+      ],
+      "involved_clusters": [
+        "governance",
+        "architecture",
+        "telemetry"
+      ],
+      "signal_signature": "cross_cluster_resonance",
+      "strength": 2.0,
+      "created": "2026-05-15T10:28:07.147985"
+    },
+    {
+      "pattern_id": "HOP_007",
+      "involved_indices": [
+        0,
+        2,
+        4
+      ],
+      "involved_clusters": [
+        "governance",
+        "architecture",
+        "telemetry"
+      ],
+      "signal_signature": "cross_cluster_resonance",
+      "strength": 1.6666666666666667,
+      "created": "2026-05-15T10:28:07.147987"
+    },
+    {
+      "pattern_id": "HOP_008",
+      "involved_indices": [
+        0,
+        2,
+        5
+      ],
+      "involved_clusters": [
+        "operational",
+        "architecture",
+        "telemetry"
+      ],
+      "signal_signature": "cross_cluster_resonance",
+      "strength": 1.6666666666666667,
+      "created": "2026-05-15T10:28:07.147989"
+    },
+    {
+      "pattern_id": "HOP_009",
+      "involved_indices": [
+        0,
+        2,
+        7
+      ],
+      "involved_clusters": [
+        "cognitive",
+        "architecture",
+        "telemetry"
+      ],
+      "signal_signature": "cross_cluster_resonance",
+      "strength": 2.0,
+      "created": "2026-05-15T10:28:07.147992"
+    },
+    {
+      "pattern_id": "HOP_010",
+      "involved_indices": [
+        0,
+        3,
+        4
+      ],
+      "involved_clusters": [
+        "governance",
+        "architecture"
+      ],
+      "signal_signature": "cross_cluster_resonance",
+      "strength": 1.0,
+      "created": "2026-05-15T10:28:07.148005"
+    },
+    {
+      "pattern_id": "HOP_011",
+      "involved_indices": [
+        0,
+        3,
+        5
+      ],
+      "involved_clusters": [
+        "governance",
+        "operational",
+        "architecture"
+      ],
+      "signal_signature": "cross_cluster_resonance",
+      "strength": 1.0,
+      "created": "2026-05-15T10:28:07.148006"
+    },
+    {
+      "pattern_id": "HOP_012",
+      "involved_indices": [
+        0,
+        3,
+        7
+      ],
+      "involved_clusters": [
+        "governance",
+        "cognitive",
+        "architecture"
+      ],
+      "signal_signature": "cross_cluster_resonance",
+      "strength": 1.3333333333333333,
+      "created": "2026-05-15T10:28:07.148009"
+    },
+    {
+      "pattern_id": "HOP_013",
+      "involved_indices": [
+        0,
+        4,
+        5
+      ],
+      "involved_clusters": [
+        "governance",
+        "operational",
+        "architecture"
+      ],
+      "signal_signature": "cross_cluster_resonance",
+      "strength": 1.0,
+      "created": "2026-05-15T10:28:07.148022"
+    },
+    {
+      "pattern_id": "HOP_014",
+      "involved_indices": [
+        0,
+        4,
+        7
+      ],
+      "involved_clusters": [
+        "governance",
+        "cognitive",
+        "architecture"
+      ],
+      "signal_signature": "cross_cluster_resonance",
+      "strength": 1.0,
+      "created": "2026-05-15T10:28:07.148024"
+    },
+    {
+      "pattern_id": "HOP_015",
+      "involved_indices": [
+        0,
+        5,
+        7
+      ],
+      "involved_clusters": [
+        "cognitive",
+        "operational",
+        "architecture"
+      ],
+      "signal_signature": "cross_cluster_resonance",
+      "strength": 1.0,
+      "created": "2026-05-15T10:28:07.148038"
+    },
+    {
+      "pattern_id": "HOP_016",
+      "involved_indices": [
+        1,
+        2,
+        3
+      ],
+      "involved_clusters": [
+        "cognitive",
+        "governance",
+        "telemetry"
+      ],
+      "signal_signature": "cross_cluster_resonance",
+      "strength": 2.6666666666666665,
+      "created": "2026-05-15T10:28:07.148062"
+    },
+    {
+      "pattern_id": "HOP_017",
+      "involved_indices": [
+        1,
+        2,
+        4
+      ],
+      "involved_clusters": [
+        "cognitive",
+        "governance",
+        "telemetry"
+      ],
+      "signal_signature": "cross_cluster_resonance",
+      "strength": 2.0,
+      "created": "2026-05-15T10:28:07.148064"
+    },
+    {
+      "pattern_id": "HOP_018",
+      "involved_indices": [
+        1,
+        2,
+        5
+      ],
+      "involved_clusters": [
+        "cognitive",
+        "operational",
+        "telemetry"
+      ],
+      "signal_signature": "cross_cluster_resonance",
+      "strength": 2.0,
+      "created": "2026-05-15T10:28:07.148066"
+    },
+    {
+      "pattern_id": "HOP_019",
+      "involved_indices": [
+        1,
+        2,
+        7
+      ],
+      "involved_clusters": [
+        "cognitive",
+        "telemetry"
+      ],
+      "signal_signature": "cross_cluster_resonance",
+      "strength": 2.6666666666666665,
+      "created": "2026-05-15T10:28:07.148069"
+    },
+    {
+      "pattern_id": "HOP_020",
+      "involved_indices": [
+        1,
+        2,
+        13
+      ],
+      "involved_clusters": [
+        "cognitive",
+        "operational",
+        "telemetry"
+      ],
+      "signal_signature": "cross_cluster_resonance",
+      "strength": 1.6666666666666667,
+      "created": "2026-05-15T10:28:07.148074"
+    },
+    {
+      "pattern_id": "HOP_021",
+      "involved_indices": [
+        1,
+        3,
+        4
+      ],
+      "involved_clusters": [
+        "cognitive",
+        "governance"
+      ],
+      "signal_signature": "cross_cluster_resonance",
+      "strength": 1.3333333333333333,
+      "created": "2026-05-15T10:28:07.148083"
+    },
+    {
+      "pattern_id": "HOP_022",
+      "involved_indices": [
+        1,
+        3,
+        5
+      ],
+      "involved_clusters": [
+        "cognitive",
+        "governance",
+        "operational"
+      ],
+      "signal_signature": "cross_cluster_resonance",
+      "strength": 1.3333333333333333,
+      "created": "2026-05-15T10:28:07.148085"
+    },
+    {
+      "pattern_id": "HOP_023",
+      "involved_indices": [
+        1,
+        3,
+        7
+      ],
+      "involved_clusters": [
+        "cognitive",
+        "governance"
+      ],
+      "signal_signature": "cross_cluster_resonance",
+      "strength": 2.0,
+      "created": "2026-05-15T10:28:07.148087"
+    },
+    {
+      "pattern_id": "HOP_024",
+      "involved_indices": [
+        1,
+        3,
+        13
+      ],
+      "involved_clusters": [
+        "cognitive",
+        "governance",
+        "operational"
+      ],
+      "signal_signature": "cross_cluster_resonance",
+      "strength": 1.3333333333333333,
+      "created": "2026-05-15T10:28:07.148092"
+    },
+    {
+      "pattern_id": "HOP_025",
+      "involved_indices": [
+        1,
+        4,
+        5
+      ],
+      "involved_clusters": [
+        "cognitive",
+        "governance",
+        "operational"
+      ],
+      "signal_signature": "cross_cluster_resonance",
+      "strength": 1.0,
+      "created": "2026-05-15T10:28:07.148101"
+    },
+    {
+      "pattern_id": "HOP_026",
+      "involved_indices": [
+        1,
+        4,
+        7
+      ],
+      "involved_clusters": [
+        "cognitive",
+        "governance"
+      ],
+      "signal_signature": "cross_cluster_resonance",
+      "strength": 1.3333333333333333,
+      "created": "2026-05-15T10:28:07.148104"
+    },
+    {
+      "pattern_id": "HOP_027",
+      "involved_indices": [
+        1,
+        5,
+        7
+      ],
+      "involved_clusters": [
+        "cognitive",
+        "operational"
+      ],
+      "signal_signature": "cross_cluster_resonance",
+      "strength": 1.3333333333333333,
+      "created": "2026-05-15T10:28:07.148118"
+    },
+    {
+      "pattern_id": "HOP_028",
+      "involved_indices": [
+        1,
+        7,
+        13
+      ],
+      "involved_clusters": [
+        "cognitive",
+        "operational"
+      ],
+      "signal_signature": "cross_cluster_resonance",
+      "strength": 1.3333333333333333,
+      "created": "2026-05-15T10:28:07.148136"
+    },
+    {
+      "pattern_id": "HOP_029",
+      "involved_indices": [
+        2,
+        3,
+        4
+      ],
+      "involved_clusters": [
+        "governance",
+        "telemetry"
+      ],
+      "signal_signature": "cross_cluster_resonance",
+      "strength": 2.0,
+      "created": "2026-05-15T10:28:07.148157"
+    },
+    {
+      "pattern_id": "HOP_030",
+      "involved_indices": [
+        2,
+        3,
+        5
+      ],
+      "involved_clusters": [
+        "governance",
+        "operational",
+        "telemetry"
+      ],
+      "signal_signature": "cross_cluster_resonance",
+      "strength": 2.0,
+      "created": "2026-05-15T10:28:07.148159"
+    },
+    {
+      "pattern_id": "HOP_031",
+      "involved_indices": [
+        2,
+        3,
+        7
+      ],
+      "involved_clusters": [
+        "governance",
+        "cognitive",
+        "telemetry"
+      ],
+      "signal_signature": "cross_cluster_resonance",
+      "strength": 2.6666666666666665,
+      "created": "2026-05-15T10:28:07.148162"
+    },
+    {
+      "pattern_id": "HOP_032",
+      "involved_indices": [
+        2,
+        3,
+        13
+      ],
+      "involved_clusters": [
+        "governance",
+        "operational",
+        "telemetry"
+      ],
+      "signal_signature": "cross_cluster_resonance",
+      "strength": 1.6666666666666667,
+      "created": "2026-05-15T10:28:07.148167"
+    },
+    {
+      "pattern_id": "HOP_033",
+      "involved_indices": [
+        2,
+        4,
+        5
+      ],
+      "involved_clusters": [
+        "governance",
+        "operational",
+        "telemetry"
+      ],
+      "signal_signature": "cross_cluster_resonance",
+      "strength": 1.6666666666666667,
+      "created": "2026-05-15T10:28:07.148190"
+    },
+    {
+      "pattern_id": "HOP_034",
+      "involved_indices": [
+        2,
+        4,
+        7
+      ],
+      "involved_clusters": [
+        "governance",
+        "cognitive",
+        "telemetry"
+      ],
+      "signal_signature": "cross_cluster_resonance",
+      "strength": 2.0,
+      "created": "2026-05-15T10:28:07.148193"
+    },
+    {
+      "pattern_id": "HOP_035",
+      "involved_indices": [
+        2,
+        5,
+        7
+      ],
+      "involved_clusters": [
+        "cognitive",
+        "operational",
+        "telemetry"
+      ],
+      "signal_signature": "cross_cluster_resonance",
+      "strength": 2.0,
+      "created": "2026-05-15T10:28:07.148207"
+    },
+    {
+      "pattern_id": "HOP_036",
+      "involved_indices": [
+        2,
+        7,
+        13
+      ],
+      "involved_clusters": [
+        "cognitive",
+        "operational",
+        "telemetry"
+      ],
+      "signal_signature": "cross_cluster_resonance",
+      "strength": 1.6666666666666667,
+      "created": "2026-05-15T10:28:07.148225"
+    },
+    {
+      "pattern_id": "HOP_037",
+      "involved_indices": [
+        3,
+        4,
+        5
+      ],
+      "involved_clusters": [
+        "governance",
+        "operational"
+      ],
+      "signal_signature": "cross_cluster_resonance",
+      "strength": 1.0,
+      "created": "2026-05-15T10:28:07.148247"
+    },
+    {
+      "pattern_id": "HOP_038",
+      "involved_indices": [
+        3,
+        4,
+        7
+      ],
+      "involved_clusters": [
+        "governance",
+        "cognitive"
+      ],
+      "signal_signature": "cross_cluster_resonance",
+      "strength": 1.3333333333333333,
+      "created": "2026-05-15T10:28:07.148249"
+    },
+    {
+      "pattern_id": "HOP_039",
+      "involved_indices": [
+        3,
+        5,
+        7
+      ],
+      "involved_clusters": [
+        "governance",
+        "cognitive",
+        "operational"
+      ],
+      "signal_signature": "cross_cluster_resonance",
+      "strength": 1.3333333333333333,
+      "created": "2026-05-15T10:28:07.148263"
+    },
+    {
+      "pattern_id": "HOP_040",
+      "involved_indices": [
+        3,
+        7,
+        13
+      ],
+      "involved_clusters": [
+        "governance",
+        "cognitive",
+        "operational"
+      ],
+      "signal_signature": "cross_cluster_resonance",
+      "strength": 1.3333333333333333,
+      "created": "2026-05-15T10:28:07.148281"
+    },
+    {
+      "pattern_id": "HOP_041",
+      "involved_indices": [
+        4,
+        5,
+        7
+      ],
+      "involved_clusters": [
+        "governance",
+        "cognitive",
+        "operational"
+      ],
+      "signal_signature": "cross_cluster_resonance",
+      "strength": 1.0,
+      "created": "2026-05-15T10:28:07.148305"
+    }
+  ]
+}

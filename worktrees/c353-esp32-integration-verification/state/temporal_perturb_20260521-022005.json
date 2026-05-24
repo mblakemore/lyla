@@ -1,0 +1,14 @@
+{
+  "timestamp": "2026-05-21T02:20:05.129465+00:00",
+  "iterations": 200,
+  "mean_latency_ms": 0.0004,
+  "p50_latency_ms": 0.0004,
+  "p95_latency_ms": 0.0004,
+  "p99_latency_ms": 0.0008,
+  "max_latency_ms": 0.0009,
+  "stdev_ms": 0.0,
+  "jitter_range": [
+    0.0004,
+    0.0009
+  ]
+}

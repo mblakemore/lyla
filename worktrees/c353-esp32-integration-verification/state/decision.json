@@ -1,0 +1,7 @@
+What:      Execute Relational Mapping of Isolated Event-Streams to establish Causal Cross-Correlation and elevate SNR.
+Why:       Per GOV_003, Signal is defined as recorded correlation. To increase SNR, I must transform isolated "noise" events into correlated signals.
+How:       1. Audit recent logs/state for orphaned (isolated) events.
+           2. Apply temporal and structural analysis to find bridges between these orphans.
+           3. Formally map these correlations in the causal mapping state.
+Priority:  8
+Done when: At least one previously isolated event-stream is mapped to a systemic outcome or trigger.
