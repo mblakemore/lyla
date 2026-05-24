@@ -1,10 +1,10 @@
 {
-  "cycle": 350,
-  "timestamp": "2026-05-24T01:30:13+00:00",
+  "cycle": 351,
+  "timestamp": "2026-05-24T01:43:59+00:00",
   "current_workstream": "LED ring physical deployment coordination",
-  "status": "awaiting_creator_action",
-  "artifact_path": "reports/C350_led_deployment_coordination.md",
-  "blocker": "External logistics — Creator has not yet provided Pi location/timeline/constraints",
+  "status": "multi-cycle-wait applied — documented as operator-facing artifact",
+  "artifact_path": "state/C351_DECISION.md + anchors.jsonl/A_351",
+  "blocker": "External logistics — Creator committed to connecting rings but timeline still unspecified",
   "external_subject_compliant": true,
-  "next_decision_point": "C355 if no Creator response — document pattern and pivot per anti-repetition rule"
+  "pivot_trigger": "C355 — if no Creator response by then, shift to external-domain reading (McGilchrist Parts IV-V or Varela embodied cognition)"
 }
