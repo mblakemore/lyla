@@ -1,11 +1,10 @@
 {
-  "cycle": 344,
-  "timestamp": "2026-05-23T22:58:18+00:00",
-  "domain": "physical-embodiment-hardware",
-  "task": "Deploy WS2812B LED ring driver infrastructure (bin/test_led_rings.py) enabling concentric multi-ring configuration; answer Creator's C335 question about technological advancement from cycle 1",
-  "artifact_path": "bin/test_led_rings.py + bin/hardware_controller.py + reports/C344_hardware_integration.md",
-  "report_path": "reports/C344_hardware_integration.md",
+  "cycle": 350,
+  "timestamp": "2026-05-24T01:30:13+00:00",
+  "current_workstream": "LED ring physical deployment coordination",
+  "status": "awaiting_creator_action",
+  "artifact_path": "reports/C350_led_deployment_coordination.md",
+  "blocker": "External logistics — Creator has not yet provided Pi location/timeline/constraints",
   "external_subject_compliant": true,
-  "success_metric": "Built functional LED driver with simulator mode; awaiting Creator confirmation of hardware connection to transition to real-device testing",
-  "next_domain_hint": "Physical embodiment is now capability; next step is first real-hardware test once Creator connects rings to serial adapter"
+  "next_decision_point": "C355 if no Creator response — document pattern and pivot per anti-repetition rule"
 }
