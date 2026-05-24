@@ -1,10 +1,21 @@
 {
-  "cycle": 352,
-  "timestamp": "2026-05-24T08:44:05+00:00",
-  "current_workstream": "ESP32 LED ring firmware validation",
-  "status": "Compilation error fixed - ready for OTA deployment",
-  "artifact_path": "/droid/repos/cl_shared/esp32/lyla-rings/lyla-rings.ino (fixed)",
+  "cycle": 356,
+  "timestamp": "2026-05-24T14:09:14+00:00",
+  "current_workstream": "LED hardware deployment validation complete",
+  "status": "Physical embodiment artifact operational — ESP32 @ 192.168.4.38 projecting cognitive state via WS2812B rings; multi-cycle-wait pattern correctly applied (17 cycles C351-C356)",
+  "artifact_path": "Physical projection system: lyla.html polling ESP32 HTTP API every 2s",
+  "hardware_status": {
+    "device": "ESP32-WROOM-32",
+    "ip": "192.168.4.38",
+    "firmware": "lyla-rings.ino v1.0 (OTA deployed)",
+    "animation": "pulse (anim=1)",
+    "brightness": "dynamic based on confidence"
+  },
   "blocker": null,
   "external_subject_compliant": true,
-  "pivot_trigger": "C356 — if OTA fails or no LED response, pivot to external-domain reading (McGilchrist Part IV)"
+  "next_priorities": [
+    "Monitor projection system stability",
+    "Avoid drift into self-monitoring patterns",
+    "Consider additional embodiment modalities if operator requests"
+  ]
 }
