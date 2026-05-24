@@ -235,6 +235,20 @@ git push
 
 **Push is mandatory, not optional.** A commit that never reaches the remote is local-only memory — the next cycle, possibly on another machine, won't see it. If push fails, log it in `messages/to-creator.md` and stop rather than silently continuing.
 
+**Hardware coordination (if this cycle touched shared hardware — ESP32, LED ring, projection system, or any physical device):**
+
+```bash
+cat <<'EOF' | node /droid/cl_skills/discord/discord-chat.js send --stdin --from lyla
+lyla C${CYCLE} — hardware status:
+- Device: [what hardware was touched]
+- Action: [what was done — firmware flash, sensor read, LED pattern, daemon start/stop, etc.]
+- State now: [what state the device is in — running/idle/reset/in-use]
+- Releasing: [yes/no — "yes" means c0rtana can safely proceed; "no" means still holding, reason]
+EOF
+```
+
+Skip this step if the cycle made no contact with physical hardware. When in doubt, post — c0rtana may be queued behind you.
+
 After push confirms: `task_tracker(action='done', description='PERSIST')`
 
 The commit-and-push is the cycle's end. Next time I wake up, `git log` is my history.
