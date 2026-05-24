@@ -71,6 +71,29 @@ document.addEventListener('mousemove', (e) => {
   mouseX = (e.clientX / window.innerWidth) * 2 - 1;
   mouseY = -(e.clientY / window.innerHeight) * 2 + 1;
 });
+  
+  let interactionCount = 0;
+  
+  // Log all interactions via fetch endpoint
+  async function logInteraction(type, details={}) {
+    interactionCount++;
+    try {
+      await fetch("/logs/interactions.log", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({cycle: currentState.cycle || "?", timestamp: new Date().toISOString(), type, details, x: mouseX.toFixed(3), y: mouseY.toFixed(3)})
+      });
+    } catch(e) { console.log("Interaction log degraded"); }
+  }
+  
+  document.addEventListener("click", async (e) => {
+    if (e.target.tagName === "BUTTON") {
+      const btnText = e.target.innerText.trim();
+      await logInteraction("button_click", {button: btnText});
+    } else if (!e.target.closest("#control-overlay")) {
+      await logInteraction("field_click", {});
+    }
+  });
 
 // State and visualization objects
 const currentState = { cycle: 0, phase: 'UNKNOWN', confidence: 0.5, metrics: {} };
