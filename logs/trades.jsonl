@@ -1,1 +1,3 @@
 {"timestamp": "2026-05-24T15:00:00.071091+00:00", "symbol": "AAPL", "action": "HOLD", "price": 177.59, "rsi": 50.0, "mode": "sim"}
+{"timestamp": "2026-05-24T15:05:11.912174+00:00", "symbol": "AAPL", "action": "HOLD", "price": 175.52, "rsi": 50.0, "mode": "sim"}
+{"timestamp": "2026-05-24T15:05:26.694228+00:00", "symbol": "AAPL", "action": "HOLD", "price": 178.47, "rsi": 50.0, "mode": "sim"}
