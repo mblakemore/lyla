@@ -75,7 +75,7 @@ class FinancialProbe:
         }
         base_price = base_prices.get(self.symbol, 100.0)
         
-        random.seed(hash(self.symbol + str(datetime.utcnow().date())) % (2**32))
+        random.seed(hash(self.symbol + str(datetime.now(timezone.utc).date())) % (2**32))
         current_price = base_price + random.gauss(0, 2)
         prev_price = current_price - random.gauss(0, 1)
         change_pct = ((current_price - prev_price) / prev_price) * 100
