@@ -1,0 +1,15 @@
+{
+    "cycle": 354,
+    "timestamp": "2026-05-24T07:40:05+00:00",
+    "current_workstream": "ESP32 integration scaffold documentation and port conflict discovery",
+    "status": "Discovered lyla.html dual-output architecture; mapped Three.js particle system to ESP32 LED controller",
+    "artifact_path": "patterns.jsonl/P_C354_ESP32_INTEGRATION_SCAFFOLD + P_C354_PORT_CONFLICT_RESOLUTION",
+    "key_findings": [
+      "Port 8080 occupied by llama-server (LLM inference)",
+      "Port 9090 occupied by prometheus (telemetry scraping)", 
+      "ESP32 @ 192.168.4.38 uses port 9999 for ping server",
+      "lyla.html exposes /api/state endpoint for external controllers"
+    ],
+    "external_subject_compliant": true,
+    "pivot_trigger": "None — continuing physical embodiment workstream until Creator connects rings or C355 pivot"
+  }
