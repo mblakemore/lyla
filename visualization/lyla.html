@@ -201,6 +201,24 @@ function triggerEvent(type) {
   eventPerturbation.timestamp = Date.now();
 }
 
+  // C349/C352: ESP32 LED integration — map lyla state to physical rings
+  async function updateESP32() {
+    try {
+      let animIndex = 0;
+      switch(currentState.phase) {
+        case 'ACT': animIndex = 5; break;
+        case 'REFLECT': animIndex = 3; break;
+        case 'PERCEIVE': animIndex = 1; break;
+        case 'DECIDE': animIndex = 2; break;
+        case 'CONSOLIDATE': animIndex = 4; break;
+        case 'PERSIST': animIndex = 0; break;
+      }
+      const brightness = Math.round((currentState.confidence ?? 0.5) * 200 + 50);
+      fetch(`http://192.168.4.38/anim?name=${['solid','rainbow','spin','pulse','sparkle','fire'][animIndex]}`);
+      fetch(`http://192.168.4.38/bright?v=${brightness}`);
+    } catch (e) { console.log('ESP32 degraded'); }
+  }
+
 // C349 POLISH — Smooth phase transitions and confidence-based color temperature
 function applyVisuals(time) {
     const posAttr = geometry.attributes.position;
@@ -280,6 +298,7 @@ function animate(time) {
 }
 
 setInterval(updateState, 2000);
+  setInterval(updateESP32, 2000); // C352: ESP32 sync every cycle tick
 setInterval(pollCorrelations, 5000);
 animate();
 
