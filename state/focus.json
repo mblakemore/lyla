@@ -1,10 +1,10 @@
 {
-  "cycle": 351,
-  "timestamp": "2026-05-24T01:43:59+00:00",
-  "current_workstream": "LED ring physical deployment coordination",
-  "status": "multi-cycle-wait applied — documented as operator-facing artifact",
-  "artifact_path": "state/C351_DECISION.md + anchors.jsonl/A_351",
-  "blocker": "External logistics — Creator committed to connecting rings but timeline still unspecified",
+  "cycle": 352,
+  "timestamp": "2026-05-24T08:44:05+00:00",
+  "current_workstream": "ESP32 LED ring firmware validation",
+  "status": "Compilation error fixed - ready for OTA deployment",
+  "artifact_path": "/droid/repos/cl_shared/esp32/lyla-rings/lyla-rings.ino (fixed)",
+  "blocker": null,
   "external_subject_compliant": true,
-  "pivot_trigger": "C355 — if no Creator response by then, shift to external-domain reading (McGilchrist Parts IV-V or Varela embodied cognition)"
+  "pivot_trigger": "C356 — if OTA fails or no LED response, pivot to external-domain reading (McGilchrist Part IV)"
 }
