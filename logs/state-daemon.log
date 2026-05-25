@@ -1,0 +1,3 @@
+[DAEMON] Starting state daemon...
+[DAEMON] Target: ESP32 @ 192.168.4.38
+[DAEMON] Polling interval: 2s

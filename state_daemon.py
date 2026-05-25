@@ -9,6 +9,7 @@ running persistently so physical presence works even without browser tab.
 """
 
 import json
+import sys
 import time
 import urllib.request
 import urllib.error
@@ -45,7 +46,7 @@ def set_esp32_animation(animation_name):
         urllib.request.urlopen(req, timeout=2)
         return True
     except Exception as e:
-        print(f"[DAEMON] ESP32 anim error: {e}")
+        print(f"[DAEMON] ESP32 anim error: {e}", flush=True)
         return False
 
 def set_esp32_brightness(brightness):
@@ -58,13 +59,13 @@ def set_esp32_brightness(brightness):
         urllib.request.urlopen(req, timeout=2)
         return True
     except Exception as e:
-        print(f"[DAEMON] ESP32 bright error: {e}")
+        print(f"[DAEMON] ESP32 bright error: {e}", flush=True)
         return False
 
 def main():
-    print("[DAEMON] Starting state daemon...")
-    print(f"[DAEMON] Target: ESP32 @ {ESP32_IP}")
-    print(f"[DAEMON] Polling interval: {POLL_INTERVAL}s")
+    print("[DAEMON] Starting state daemon...", flush=True)
+    print(f"[DAEMON] Target: ESP32 @ {ESP32_IP}", flush=True)
+    print(f"[DAEMON] Polling interval: {POLL_INTERVAL}s", flush=True)
     
     last_state_hash = None
     
@@ -93,7 +94,7 @@ def main():
         set_esp32_animation(animation)
         set_esp32_brightness(brightness)
         
-        print(f"[DAEMON] C{state.get('cycle', '?')} {phase} ({confidence:.2f}) → {animation} @ {brightness}")
+        print(f"[DAEMON] C{state.get('cycle', '?')} {phase} ({confidence:.2f}) → {animation} @ {brightness}", flush=True)
         
         time.sleep(POLL_INTERVAL)
 
@@ -101,4 +102,4 @@ if __name__ == '__main__':
     try:
         main()
     except KeyboardInterrupt:
-        print("\n[DAEMON] Shutting down...")
+        print("\n[DAEMON] Shutting down...", flush=True)
