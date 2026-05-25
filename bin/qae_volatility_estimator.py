@@ -43,25 +43,35 @@ class QAEVolatilityEstimator:
             qc = QuantumCircuit(qreg, creg)
             
             # Amplitude encoding: create initial state where P(|11⟩) ≈ target_prob
-            # Use RY rotations on each qubit to set up proper amplitudes
-            theta = np.arcsin(np.sqrt(target_prob))
-            qc.ry(theta, 0)  # First rotation sets baseline amplitude
-            
+            # FIX (Whisper C3670): Original code only rotated q0, leaving q1 in |0⟩.
+            # With q1=|0⟩, P(|11⟩) = 0 regardless of target_prob → oracle hits wrong state.
+            # CORRECT: Both qubits need RY rotations so P(|11⟩) = sin²(θ/2)² = target_prob.
+            # Solution: sin²(θ/2) = sqrt(target_prob) → θ = 2·arcsin(target_prob^(1/4))
+            theta = 2 * np.arcsin(np.clip(target_prob ** 0.25, 0, 1))
+            qc.ry(theta, 0)  # P(q0=|1⟩) = sin²(θ/2) = sqrt(target_prob)
+            qc.ry(theta, 1)  # P(q1=|1⟩) = sin²(θ/2) = sqrt(target_prob)
+            # Now P(|11⟩) = sin⁴(θ/2) = target_prob  ✓
+
             # Oracle + diffusion loop (k iterations total)
             for _ in range(k):
-                # Oracle: mark high-vol states (|11⟩)
+                # Oracle: mark high-vol states (|11⟩) with phase flip
                 qc.cz(0, 1)
-                
-                # Diffusion operator about mean
-                qc.h(0)
-                qc.h(1)
+
+                # Diffusion operator about initial state |ψ⟩ = A|0⟩
+                # Standard Grover diffusion: 2|ψ⟩⟨ψ| - I
+                # Implemented as: A† · (2|0⟩⟨0| - I) · A
+                # Step 1: uncompute amplitude encoding (A†)
+                qc.ry(-theta, 1)
+                qc.ry(-theta, 0)
+                # Step 2: phase flip |0⟩ (2|0⟩⟨0| - I = -X·Z·X style)
                 qc.x(0)
                 qc.x(1)
                 qc.cz(0, 1)
                 qc.x(0)
                 qc.x(1)
-                qc.h(0)
-                qc.h(1)
+                # Step 3: re-apply amplitude encoding (A)
+                qc.ry(theta, 0)
+                qc.ry(theta, 1)
             
             # Measure both qubits into classical register
             qc.measure([0, 1], [0, 1])
@@ -143,18 +153,67 @@ class QAEVolatilityEstimator:
             })
             print(f"DEBUG: target={target_prob}, k={k}, p_high={p_high:.4f}")
         
-        # Select best k — pick lowest k to minimize circuit depth
-        # In production: would select based on variance vs. bias tradeoff
-        best_result = min(results, key=lambda r: r['k'])
-        
+        # IAE-MLE: Maximum Likelihood Estimation across all k observations
+        # FIX (Whisper C3671): Original code always picked k=1 (min k). This loses
+        # precision available from higher-k measurements. IAE-MLE finds the amplitude
+        # a (where P(|11>)_initial = a = target_prob) that best explains ALL observations.
+        #
+        # After k Grover iterations: P(|11>)_k = sin²((2k+1) * arcsin(√a))
+        # We scan a ∈ [0,1] and find the MLE maximum across all k likelihoods.
+        a_best, log_lik_best = self._iae_mle_estimate(results)
+
+        # Find the k whose raw measurement was closest to the MLE estimate
+        # (for reporting best_k and circuit_depth in a meaningful way)
+        best_raw = min(results, key=lambda r: abs(r['p_estimate'] - a_best))
+
         return {
-            'estimate': best_result['p_estimate'],
-            'confidence_interval': self._compute_confidence(best_result['p_estimate'], 1024),
-            'best_k': best_result['k'],
-            'circuit_depth': best_result['cz_gates'] * 8,  # Rough CZ-to-depth conversion
-            'all_iterations': results
+            'estimate': a_best,
+            'confidence_interval': self._compute_confidence(a_best, 1024),
+            'best_k': best_raw['k'],
+            'circuit_depth': best_raw['cz_gates'] * 8,  # Rough CZ-to-depth conversion
+            'all_iterations': results,
+            'iae_log_likelihood': log_lik_best
         }
-    
+
+    def _iae_mle_estimate(self, results: list, shots: int = 1024) -> Tuple[float, float]:
+        """IAE Maximum Likelihood Estimation across multiple k observations.
+
+        For each candidate amplitude a (where target P(|11>)_0 = a):
+          - After k Grover iterations: P(|11>)_k = sin²((2k+1) * arcsin(√a))
+          - Likelihood from binomial: P(n_11 | shots, p_expected)
+
+        Returns: (best_a, best_log_likelihood)
+
+        Key advantage over k=1 selection: uses ALL k observations jointly, giving
+        ~√K tighter confidence intervals (K = number of k values tested).
+        """
+        a_candidates = np.linspace(0.001, 0.999, 2000)
+        best_log_lik = -np.inf
+        best_a = 0.5
+
+        for a in a_candidates:
+            theta_a = np.arcsin(np.sqrt(a))  # arcsin(√a) — the Grover angle
+            log_lik = 0.0
+
+            for r in results:
+                k = r['k']
+                # Expected measurement probability after k Grover iterations
+                p_expected = np.sin((2 * k + 1) * theta_a) ** 2
+                p_expected = np.clip(p_expected, 1e-10, 1 - 1e-10)
+
+                # Observed counts (reconstruct from fraction)
+                n_11 = int(round(r['p_estimate'] * shots))
+                n_other = shots - n_11
+
+                # Binomial log-likelihood contribution
+                log_lik += n_11 * np.log(p_expected) + n_other * np.log(1 - p_expected)
+
+            if log_lik > best_log_lik:
+                best_log_lik = log_lik
+                best_a = float(a)
+
+        return best_a, best_log_lik
+
     def _compute_confidence(self, p: float, shots: int, z: float = 1.96) -> Tuple[float, float]:
         """Wald confidence interval for binomial proportion."""
         se = np.sqrt(p * (1 - p) / shots)

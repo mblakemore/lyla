@@ -15,7 +15,7 @@ import json
 import logging
 import sys
 import time
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 
 import requests
@@ -133,7 +133,7 @@ class SensorCoordinator:
 
     def run_loop(self):
         """Main polling loop."""
-        logger.info(f"Starting sensor coordinator (ESP: {self.esp_ip}, interval: {self.poll_interval_ms}ms)")
+        logger.info(f"Starting sensor coordinator (ESP: {self.esp_ip}, interval: {int(self.poll_interval_sec * 1000)}ms)")
         
         while self.running:
             # Reload state for fresh context

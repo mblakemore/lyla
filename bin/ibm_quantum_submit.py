@@ -41,45 +41,57 @@ except ImportError as e:
 
 def build_grover_circuit(n_qubits: int = 2, k_steps: int = 1):
     """Build Grover search circuit with k amplification steps.
-    
+
+    FIXED (Whisper C3671): Original circuit had two bugs:
+    1. Oracle bug: CZ(0,1) is the complete oracle for |11>. The original code
+       appended an X-Z-X sandwich that added spurious phase marks on |00> and |10>,
+       causing Grover to amplify |01> instead of |11>. Confirmed on HW: P(|11>)=0.5%.
+       Fix: CZ(0,1) only — verified P(|11>)=100% on simulator for k=1.
+    2. Diffusion bug: original code interleaved H and X per qubit (H(0),X(0),H(1),X(1))
+       instead of applying all H then all X. Correct: H^n -> X^n -> CZ -> X^n -> H^n.
+
+    For n=2, k=1: search space N=4, M=1 marked state → optimal k=1 → P(|11>)≈100%
     DC Network Finding: k≤4 optimal on Heron-r2; deeper circuits lose accuracy.
     """
     qc = QuantumCircuit(n_qubits, n_qubits)
-    
-    # Initialize superposition
+
+    # Initialize uniform superposition
     for i in range(n_qubits):
         qc.h(i)
-    
-    # Oracle: mark |11...1⟩ state
-    if n_qubits >= 2:
-        qc.cz(0, 1)
-        # Apply Z to all |1⟩ states (phase flip oracle)
-        for i in range(n_qubits):
-            qc.x(i)
-        qc.mcx(list(range(n_qubits)), n_qubits % (n_qubits + 1)) if n_qubits > 2 else qc.z(0)
-        for i in range(n_qubits):
-            qc.x(i)
-    
-    # Amplitude amplification (k iterations)
+
+    # k Grover iterations: each = oracle + diffusion
     for _ in range(k_steps):
-        # Diffusion operator
-        for i in range(n_qubits):
-            qc.h(i)
-            qc.x(i)
-        if n_qubits >= 2:
+        # === ORACLE: mark |11...1> with phase -1 ===
+        # For 2 qubits: CZ(0,1) = I - 2|11><11| (marks |11> with -1, others +1)
+        # For n>2 qubits: use H-MCX-H (multi-controlled Z via Toffoli trick)
+        if n_qubits == 2:
             qc.cz(0, 1)
-            for i in range(n_qubits - 1):
-                qc.x(i)
-            qc.mcx(list(range(n_qubits - 1)), n_qubits - 1) if n_qubits > 3 else qc.z(0)
-            for i in range(n_qubits - 1):
-                qc.x(i)
+        else:
+            qc.h(n_qubits - 1)
+            qc.mcx(list(range(n_qubits - 1)), n_qubits - 1)
+            qc.h(n_qubits - 1)
+
+        # === DIFFUSION: 2|psi><psi| - I where |psi> = H^n|0^n> ===
+        # Implementation (up to global phase -1, irrelevant to measurements):
+        #   H^n -> X^n -> [multi-controlled Z on |11...1>] -> X^n -> H^n
         for i in range(n_qubits):
             qc.h(i)
-    
+        for i in range(n_qubits):
+            qc.x(i)
+        if n_qubits == 2:
+            qc.cz(0, 1)
+        else:
+            qc.h(n_qubits - 1)
+            qc.mcx(list(range(n_qubits - 1)), n_qubits - 1)
+            qc.h(n_qubits - 1)
+        for i in range(n_qubits):
+            qc.x(i)
+        for i in range(n_qubits):
+            qc.h(i)
+
     # Measure
-    for i in range(n_qubits):
-        qc.measure(i, i)
-    
+    qc.measure(list(range(n_qubits)), list(range(n_qubits)))
+
     return qc
 
 

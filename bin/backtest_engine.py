@@ -27,17 +27,35 @@ except ImportError as e:
     print("Install via: pip install yfinance pandas numpy")
     sys.exit(1)
 
+# Optional QAE integration for volatility regime detection
+QAE_AVAILABLE = False
+try:
+    from bin.qae_volatility_estimator import QAEVolatilityEstimator
+    QAE_AVAILABLE = True
+except ImportError:
+    pass  # Will run without quantum signals if QAE unavailable
+
 
 class BacktestEngine:
     """Historical backtesting with RSI + MA crossover signals."""
     
-    def __init__(self, symbol: str = "AAPL", start_date: str = None, end_date: str = None):
+    def __init__(self, symbol: str = "AAPL", start_date: str = None, end_date: str = None, use_qae_regimes: bool = False):
         self.symbol = symbol.upper()
         self.start_date = start_date or "2024-01-01"
         self.end_date = end_date or datetime.now(timezone.utc).strftime("%Y-%m-%d")
+        self.use_qae_regimes = use_qae_regimes
         
         # Download historical data
         self.df = self._download_data()
+        
+        # QAE volatility estimator (if enabled)
+        if self.use_qae_regimes and QAE_AVAILABLE:
+            self.qae_estimator = QAEVolatilityEstimator(use_simulator=True)
+            print(f"[INFO] QAE volatility regime detection ENABLED")
+        else:
+            self.qae_estimator = None
+            if self.use_qae_regimes and not QAE_AVAILABLE:
+                print("[WARNING] QAE requested but unavailable - running classical mode")
         
         # Strategy state
         self.positions = {}  # {symbol: {"shares": N, "avg_cost": X}}
@@ -82,8 +100,39 @@ class BacktestEngine:
         
         self.df = df
     
+    def _compute_volatility_features(self, current_idx: int, window: int = 20) -> np.ndarray:
+        """Compute features for QAE volatility regime detection.
+        
+        Returns a feature vector [rolling_vol, volume_change] normalized to [0,1].
+        These are the same features used in qae_volatility_estimator.py test cases.
+        """
+        if self.qae_estimator is None or current_idx < window:
+            # Fallback: low volatility regime if insufficient data
+            return np.array([0.1, 0.1])
+        
+        recent_data = self.df.iloc[max(0, current_idx - window):current_idx + 1]['Close']
+        
+        # Rolling volatility (standard deviation of returns)
+        returns = recent_data.pct_change().dropna()
+        rolling_vol = returns.std() * np.sqrt(252)  # Annualized
+        
+        # Volume change (if available, else use price momentum as proxy)
+        if 'Volume' in self.df.columns:
+            vol_changes = self.df.iloc[max(0, current_idx - window):current_idx + 1]['Volume'].pct_change().dropna()
+            volume_change = abs(vol_changes.mean()) if len(vol_changes) > 0 else 0.1
+        else:
+            # Use price momentum as fallback
+            price_momentum = recent_data.pct_change().mean()
+            volume_change = abs(price_momentum)
+        
+        # Normalize to [0,1] range based on typical market ranges
+        normalized_vol = min(rolling_vol / 0.5, 1.0)  # Cap at 50% annual vol
+        normalized_volume = min(volume_change / 0.2, 1.0)  # Cap at 20% volume change
+        
+        return np.array([normalized_vol, normalized_volume])
+    
     def generate_signal(self, row) -> str:
-        """Generate trading signal based on RSI + MA crossover."""
+        """Generate trading signal based on RSI + MA crossover, optionally filtered by QAE volatility regimes."""
         if pd.isna(row['RSI']) or pd.isna(row['MA_short']):
             return "HOLD"  # Not enough data yet
         
@@ -92,21 +141,56 @@ class BacktestEngine:
         ma_long = row['MA_long']
         price = row['Close']
         
-        # Signal logic - more responsive:
-        # BUY when: RSI < 40 AND short MA above long MA (momentum shift)
-        # SELL when: RSI > 60 OR price below both MAs (trend down)
-        
+        # Classical signal (unconditional)
         bullish_trend = ma_short > ma_long * 1.001  # Short above long by >0.1%
         bearish_trend = ma_short < ma_long * 0.999   # Short below long by >0.1%
         
+        classical_signal = None
         if rsi < 40 and bullish_trend:
-            return "BUY"
+            classical_signal = "BUY"
         elif rsi > 60:
-            return "SELL"
+            classical_signal = "SELL"
         elif bearish_trend:
-            return "SELL"  # Trend is down, exit
+            classical_signal = "SELL"
         else:
-            return "HOLD"
+            classical_signal = "HOLD"
+        
+        # If QAE enabled, apply regime filter at current index position
+        if self.qae_estimator is not None and hasattr(self, '_current_idx'):
+            vol_features = self._compute_volatility_features(self._current_idx)
+            
+            qae_result = self.qae_estimator.estimate(vol_features, target_prob=0.5)
+            high_vol_prob = qae_result['estimate']
+            
+            # Regime-aware adjustment: reduce exposure in high-vol regimes
+            # Threshold: if P(high vol) > 0.6, be more conservative on buys
+            if high_vol_prob > 0.6 and classical_signal == "BUY":
+                # Upgrade to HOLD - don't buy into potential volatility spike
+                signal = "HOLD (high vol regime)"
+                print(f"[QAE REGIME] High vol warning (P={high_vol_prob:.2f}) — suppressing BUY")
+            elif high_vol_prob < 0.3 and classical_signal == "SELL":
+                # Low vol regime may allow holding through temporary dips
+                if rsi < 50:  # Not overbought yet
+                    signal = "HOLD (low vol regime)"
+                    print(f"[QAE REGIME] Low vol regime (P={high_vol_prob:.2f}) — allowing hold")
+                else:
+                    signal = classical_signal
+            else:
+                signal = classical_signal
+            
+            # Log regime info for comparison runs
+            if hasattr(self, '_qae_log'):
+                self._qae_log.append({
+                    'timestamp': row.name.strftime("%Y-%m-%d") if hasattr(row.name, 'strftime') else str(row.name),
+                    'vol_features': vol_features.tolist(),
+                    'high_vol_prob': round(high_vol_prob, 3),
+                    'classical_signal': classical_signal,
+                    'adjusted_signal': signal
+                })
+        else:
+            signal = classical_signal
+        
+        return signal
     
     def execute_backtest(self):
         """Run backtest over historical data."""
@@ -116,7 +200,13 @@ class BacktestEngine:
         cash = initial_capital
         
         # Position sizing: use fixed fraction of capital per trade
-        position_size_pct = 0.30  # 30% of equity per position
+        position_size_pct = 0.30  # 30% of equity per trade
+        
+        # Initialize QAE logging if enabled
+        if self.qae_estimator is not None:
+            self._qae_log = []
+            self._current_idx = 0
+            print(f"\n[QAE REGIME DETECTION ENABLED]")
         
         print(f"\n{'='*60}")
         print(f"BACKTEST: {self.symbol} | {self.start_date} to {self.end_date}")
@@ -132,6 +222,10 @@ class BacktestEngine:
                 prev_row = self.df.iloc[i - 1]
                 row['MA_short_prev'] = prev_row['MA_short']
                 row['MA_long_prev'] = prev_row['MA_long']
+            
+            # Set current index for QAE feature computation
+            if hasattr(self, '_current_idx'):
+                self._current_idx = i
             
             signal = self.generate_signal(row)
             price = row['Close']
@@ -219,6 +313,26 @@ class BacktestEngine:
                 "position_value": position_value
             })
         
+        # Log QAE regime analysis if enabled
+        if hasattr(self, '_qae_log') and self._qae_log:
+            print(f"\n{'='*60}")
+            print(f"QAE REGIME ANALYSIS ({len(self._qae_log)} data points)")
+            print(f"{'='*60}")
+            
+            high_vol_count = sum(1 for entry in self._qae_log if entry['high_vol_prob'] > 0.5)
+            low_vol_count = sum(1 for entry in self._qae_log if entry['high_vol_prob'] < 0.3)
+            
+            print(f"High vol regime periods (P>0.5): {high_vol_count} ({100*high_vol_count/len(self._qae_log):.1f}%)")
+            print(f"Low vol regime periods (P<0.3):  {low_vol_count} ({100*low_vol_count/len(self._qae_log):.1f}%)")
+            
+            # Show first few regime decisions
+            print("\nSample regime-filtered signals:")
+            for entry in self._qae_log[:5]:
+                print(f"  {entry['timestamp']}: classical={entry['classical_signal']} → adjusted={entry['adjusted_signal']} (P(high vol)={entry['high_vol_prob']:.2f})")
+            
+            if len(self._qae_log) > 5:
+                print(f"... and {len(self._qae_log) - 5} more points logged")
+        
         return self._calculate_metrics(initial_capital)
     
     def _calculate_metrics(self, initial_capital: float) -> dict:
@@ -294,13 +408,22 @@ def main():
     parser.add_argument("--symbol", "-s", default="AAPL", help="Stock symbol (default: AAPL)")
     parser.add_argument("--start", default=None, help="Start date (YYYY-MM-DD)")
     parser.add_argument("--end", default=None, help="End date (YYYY-MM-DD, defaults to today)")
+    parser.add_argument("--use-qae-regimes", action="store_true", help="Enable QAE volatility regime detection")
+    parser.add_argument("--compare", action="store_true", help="Run both with and without QAE for comparison")
     
     args = parser.parse_args()
+    
+    use_qae = args.use_qae_regimes and QAE_AVAILABLE
+    
+    if use_qae and not QAE_AVAILABLE:
+        print("WARNING: --use-qae-regimes requested but QAEVolatilityEstimator unavailable. Running without quantum signals.")
+        use_qae = False
     
     engine = BacktestEngine(
         symbol=args.symbol,
         start_date=args.start or "2024-01-01",
-        end_date=args.end or datetime.now(timezone.utc).strftime("%Y-%m-%d")
+        end_date=args.end or datetime.now(timezone.utc).strftime("%Y-%m-%d"),
+        use_qae_regimes=use_qae
     )
     
     metrics = engine.execute_backtest()
