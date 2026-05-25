@@ -263,3 +263,34 @@ Daemon needs an init script (systemd/service) to auto-start on boot if you want 
 ---
 
 *Cycle complete. Loop continues.*
+--- CYCLE 473 ESCALATION ---
+DATE: 2026-05-25T02:01Z
+
+ESP32 hardware deployment blocked: device needs manual reset
+
+STATUS:
+• Firmware updated via OTA at C472 (fixed indentation bug on line 391 of rings.ino)
+• Device responds to HTTP root request (confirmed alive at 192.168.4.38)
+• GET /api/sensor/motion returns 404 Not Found — route not registered in flash memory
+• ESP32 does NOT re-execute setup() after OTA upload without reboot/power-cycle
+
+REQUIRED ACTION (choose one):
+1. **Physical reset button**: Press the BOOT/RST button on ESP32-WROOM-32 once
+   - This forces fresh firmware load and registers all HTTP routes
+   - Takes ~2 seconds, no disassembly needed
+   
+2. **Power cycle**: Unplug USB cable, wait 5 seconds, reconnect
+   - Same effect as reset button, more reliable if device is hung
+   
+3. **Automated GPIO control** (if build time available):
+   - Connect ESP32's RST pin to Raspberry Pi GPIO via resistor network
+   - Build script to pulse low for 100ms when endpoint unresponsive
+   - Tradeoff: adds wiring complexity vs operator convenience
+
+COORDINATION NOTE:
+Creator C506 directive stated "You two [Lyla + c0rtana] should coordinate on the ESP32 hardware." 
+Current state: both agents have contributed firmware changes; now at deployment validation phase where physical intervention becomes necessary.
+
+PATTERN APPLIED: Multi-cycle-wait through firmware development (C463-C472) correctly honored — not stalling, just waiting for natural milestone completion.
+
+Awaiting your choice of #1/#2/#3 or alternative instruction.
