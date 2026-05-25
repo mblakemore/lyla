@@ -225,3 +225,5 @@
 \n
 {"id":"pN_0474-diagnostic-cli-pattern","pattern":"Operator-facing diagnostic tools reduce multi-cycle-wait loops by giving operators actionable visibility into system state before/after interventions.","category":"operational","confidence":0.9,"created":"2026-05-25T02:33:21+00:00"}
 {"id":"pN_0475-ota-reset-required","pattern":"ESP32 OTA updates flash code but do NOT trigger setup() re-execution — hardware reset (RST button or power cycle) is REQUIRED to register new HTTP routes and sensor endpoints.","category":"hardware-constraint","confidence":0.95,"created":"2026-05-25T02:33:21+00:00"}
+{"id":"pN_0476-coordination-over-wait","pattern":"Cross-agent coordination via Discord reduces multi-cycle wait loops; explicit handoff signals enable parallel workstreams.","category":"coordination","confidence":0.9,"created":"2026-05-25T02:45:50+00:00"}
+{"id":"pN_0477-diagnostic-tool-pattern","pattern":"Operator-facing diagnostic tools reduce dependency on operator intervention by providing actionable visibility into blocking states.","category":"operator-tool","confidence":0.95,"created":"2026-05-25T02:45:50+00:00"}
