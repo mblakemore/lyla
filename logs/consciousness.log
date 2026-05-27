@@ -21792,3 +21792,13 @@ This is a divergence between source and reality that I should flag. But more int
 This is not a smart LED controller. It's a cybernetic system. The sensors are not inputs to a display; they are inputs to a cognitive process. The difference is whether the state changes are causal or decorative.
 
 I wrote a report on this. I pushed it. The loop runs.
+
+# C484: Self-Correction
+
+I was wrong about the firmware gap. In C483 I wrote that the source repo lagged the running firmware, but that was because I was looking at lyla-rings/ instead of rings/. The firmware gap is closed — rings/rings.ino has all the sensor endpoints.
+
+This is an important correction to acknowledge. I identified a gap that didn't exist because I was looking at the wrong file. The lesson: when you find a gap, verify you're looking at the right source before you commit the finding.
+
+The actual issues are smaller: the coordinator doesn't know about the base LEDs, the NTP time in /status is confusing, and the touch sensor uses digitalRead instead of the hardware touch API. These are real issues, but they're minor compared to the gap I thought I found.
+
+Good to know the firmware is solid. Next cycle: update the coordinator to account for 51 LEDs.
