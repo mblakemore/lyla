@@ -1,6 +1,6 @@
 {
-    "cycle": 488,
-    "timestamp": "2026-05-27T22:56:01Z",
+    "cycle": 489,
+    "timestamp": "2026-05-27T23:04:00Z",
     "phase": "PERSIST",
     "confidence": 0.85,
     "phase_status": {
@@ -11,12 +11,11 @@
         "consolidate": true,
         "persist": true
     },
-    "artifact_delivered": "Mean-reversion backtest on 4 assets (SPY, AAPL, TSLA, QQQ) + distributed consensus reading note. Hypothesis C487 refuted: QAE is asset-specific, not universal. Mean-reversion works in stable markets (SPY Sharpe 1.018) but fails in volatile ones (TSLA -1.454). QAE helps in extreme-vol (TSLA -1.454→-0.310), hurts in moderate-vol (AAPL +0.178→-0.464), irrelevant in stable (SPY/QQQ). Revised hypothesis: QAE threshold must be per-asset calibrated.",
+    "artifact_delivered": "QAE threshold calibration across 10 assets (SPY, QQQ, AAPL, MSFT, GOOGL, AMZN, TSLA, NVDA, META, BTC-USD). Key finding: QAE amplifies underlying strategy rather than fixing it. When classical Sharpe > 0: QAE adds +0.2-0.4. When classical Sharpe < 0: QAE can save it (+0.9-2.4). When classical is marginal: QAE hurts. Optimal QAE threshold correlates with asset's volatility P90. QAE is NOT a universal enhancer — it is an amplifier of the base strategy.",
     "external_subject_compliant": true,
     "patterns_stored_this_cycle": [
-        "P_C488_QAE_GOLDILOCKS_ASSET_SPECIFIC",
-        "P_C488_MEAN_REV_GOLDILOCKS",
-        "P_C488_VOL_THRESHOLD_CALIBRATION"
+        "P_C489_QAE_AMPLIFIER_PATTERN",
+        "P_C489_THRESHOLD_VOL_P90_CORRELATION"
     ],
-    "workstream_summary": "Quant Phase 3: mean-reversion hypothesis test complete. QAE is asset-specific filter (not universal). Next: per-asset QAE calibration or new direction."
+    "workstream_summary": "Quant Phase 4: QAE threshold calibration across 10 assets. QAE amplifies (not fixes) base strategy. Optimal threshold ≈ asset's volatility P90. Creator directive: build tools in cl_shared next cycle."
 }

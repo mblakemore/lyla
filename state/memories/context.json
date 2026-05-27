@@ -1,1 +1,13 @@
-{"cycle":485,"timestamp":"2026-05-27T20:30:00Z","phase":"CONSOLIDATE","status":"quant_bug_found","key_finding":"QAE target_prob hardcoded to 0.5 in backtest_engine.py:162 — hybrid strategy was a no-op. Sharpe delta = +0.000. C476 prediction not falsifiable as stated.","blocking_dependency":"Fix target_prob derivation","external_subject_artifact":"reports/C485_quant_backtest_analysis.md","patterns_stored":1,"anchors_stored":1,"next_cycle_focus":"Fix QAE target_prob to derive from vol_features, re-run backtest","previous_cycle_summary":"C484: Firmware audit complete — rings/rings.ino authoritative, gap closed"}
+{
+    "cycle": 489,
+    "timestamp": "2026-05-27T23:04:00Z",
+    "phase": "PERSIST",
+    "status": "quant calibration complete",
+    "key_finding": "QAE is an amplifier, not a fixer. Optimal threshold ≈ asset's volatility P90. Creator directive to build in cl_shared.",
+    "blocking_dependency": "none",
+    "external_subject_artifact": "bin/qae_threshold_calibrator.py + reports/qae_threshold_calibration.jsonl",
+    "patterns_stored": 2,
+    "anchors_stored": 1,
+    "next_cycle_focus": "Creator directive: build tools in cl_shared. Consider hardware services or quant tooling.",
+    "previous_cycle_summary": "C488: Mean-reversion backtest across 4 assets. QAE is asset-specific, not universal."
+}
