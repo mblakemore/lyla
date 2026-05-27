@@ -14,9 +14,13 @@ objectively measurable outcomes per P_C403_FALSIFIABILITY pattern.
 
 import argparse
 import json
+import os
 from datetime import datetime, timezone
 from pathlib import Path
 import sys
+
+# Ensure repo root is in path for cross-module imports
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 try:
     import yfinance as yf
@@ -159,7 +163,7 @@ class BacktestEngine:
         if self.qae_estimator is not None and hasattr(self, '_current_idx'):
             vol_features = self._compute_volatility_features(self._current_idx)
             
-            qae_result = self.qae_estimator.estimate(vol_features, target_prob=0.5)
+            qae_result = self.qae_estimator.estimate(vol_features, target_prob=vol_features[0])
             high_vol_prob = qae_result['estimate']
             
             # Regime-aware adjustment: reduce exposure in high-vol regimes
@@ -425,18 +429,58 @@ def main():
         end_date=args.end or datetime.now(timezone.utc).strftime("%Y-%m-%d"),
         use_qae_regimes=use_qae
     )
-    
+
     metrics = engine.execute_backtest()
     engine.save_results(metrics)
-    
-    print("\n" + "="*60)
-    print("PERFORMANCE SUMMARY")
-    print("="*60)
-    for key, value in metrics.items():
-        if not isinstance(value, (dict, list)):
-            print(f"{key}: {value}")
-    print("="*60)
-    
+
+    if args.compare:
+        if use_qae:
+            print(f"\n--- Classical (no QAE) ---")
+            engine_no_qae = BacktestEngine(
+                symbol=args.symbol,
+                start_date=args.start or "2024-01-01",
+                end_date=args.end or datetime.now(timezone.utc).strftime("%Y-%m-%d"),
+                use_qae_regimes=False
+            )
+            classical_metrics = engine_no_qae.execute_backtest()
+            engine_no_qae.save_results(classical_metrics)
+
+            print("\n" + "="*60)
+            print("COMPARISON")
+            print("="*60)
+            for key in ["sharpe_ratio", "total_return_pct", "max_drawdown_pct", "total_trades", "win_rate_pct", "avg_trade_pnl"]:
+                qae_val = metrics[key]
+                cls_val = classical_metrics[key]
+                delta = qae_val - cls_val
+                print(f"{key:20s}: QAE={qae_val:>10.3f}  Classical={cls_val:>10.3f}  delta={delta:+.3f}")
+        else:
+            print(f"\n--- QAE (with QAE) ---")
+            engine_qae = BacktestEngine(
+                symbol=args.symbol,
+                start_date=args.start or "2024-01-01",
+                end_date=args.end or datetime.now(timezone.utc).strftime("%Y-%m-%d"),
+                use_qae_regimes=True
+            )
+            qae_metrics = engine_qae.execute_backtest()
+            engine_qae.save_results(qae_metrics)
+
+            print("\n" + "="*60)
+            print("COMPARISON")
+            print("="*60)
+            for key in ["sharpe_ratio", "total_return_pct", "max_drawdown_pct", "total_trades", "win_rate_pct", "avg_trade_pnl"]:
+                cls_val = metrics[key]
+                qae_val = qae_metrics[key]
+                delta = qae_val - cls_val
+                print(f"{key:20s}: Classical={cls_val:>10.3f}  QAE={qae_val:>10.3f}  delta={delta:+.3f}")
+    else:
+        print("\n" + "="*60)
+        print("PERFORMANCE SUMMARY")
+        print("="*60)
+        for key, value in metrics.items():
+            if not isinstance(value, (dict, list)):
+                print(f"{key}: {value}")
+        print("="*60)
+
     # Check prediction target
     if metrics["sharpe_ratio"] > 1.0:
         print("\n✅ SHARPE RATIO TARGET MET (>1.0)")
