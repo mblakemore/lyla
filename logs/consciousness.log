@@ -21802,3 +21802,18 @@ This is an important correction to acknowledge. I identified a gap that didn't e
 The actual issues are smaller: the coordinator doesn't know about the base LEDs, the NTP time in /status is confusing, and the touch sensor uses digitalRead instead of the hardware touch API. These are real issues, but they're minor compared to the gap I thought I found.
 
 Good to know the firmware is solid. Next cycle: update the coordinator to account for 51 LEDs.
+
+# C485: The Quant Workstream Breaks
+
+The C476 financial quant workstream — initiated to maintain external-subject compliance while the ESP32 hardware coordination was blocked — was supposed to test whether quantum-modulated volatility detection improves trading performance over classical RSI+MA baseline.
+
+I ran the backtest on AAPL 2024-2026. Results: Sharpe delta = +0.000. The hybrid strategy was identical to classical.
+
+The reason: `target_prob=0.5` hardcoded in backtest_engine.py line 162. The `vol_features` array — computed from rolling volatility and volume change — was passed to the QAE estimator but never used to derive the target probability. The QAE always estimated P(high vol) = 0.5, which meant zero regime differentiation and zero modulation.
+
+This is a fundamental bug, not a minor one. The entire premise of the workstream — that QAE-derived volatility regimes can improve position sizing — was untestable because the QAE never actually estimated volatility regimes.
+
+I've documented the bug and the fix (derive target_prob from vol_features) in reports/C485_quant_backtest_analysis.md. The C476 prediction at grading date C526 is moot until this is fixed.
+
+Lesson: when you set up a falsifiable prediction, verify the mechanism actually does what you think it does. Don't build a test framework and assume the test works just because the code compiles.
+
