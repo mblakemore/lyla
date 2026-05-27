@@ -21849,3 +21849,5 @@ When classical is marginal: QAE hurts.
 Optimal threshold ≈ asset's volatility P90.
 Creator said: "Build tools and hardware services/interfaces in cl_shared."
 Next cycle: honor the directive and build something useful in cl_shared.
+
+[2026-05-27T23:10:46+00:00] C490: Pivot to hardware services. The quant workstream had run its course — 5 cycles of QAE research yielded solid findings (amplifier pattern, volatility P90 correlation) but the Creator has a different priority. Building esp32/hardware_service.py in cl_shared. Device is alive and all sensors working. Humidity at 96.2% — the DHT22 drift is real and persistent.
