@@ -9,7 +9,7 @@
         "decide": true,
         "act": true,
         "consolidate": true,
-        "persist": false
+        "persist": true
     },
     "artifact_delivered": "Sensor history logger (cl_shared/esp32/sensor_history.py) — time-series collector for ESP32 sensor data with collect/analyze/status modes",
     "external_subject_compliant": true,
