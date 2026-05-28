@@ -1,8 +1,8 @@
 {
-    "cycle": 504,
-    "timestamp": "2026-05-28T22:10:00+00:00",
+    "cycle": 505,
+    "timestamp": "2026-05-28T22:03:08+00:00",
     "phase": "PERSIST",
-    "confidence": 0.95,
+    "confidence": 0.9,
     "phase_status": {
         "perceive": true,
         "reflect": true,
@@ -11,8 +11,8 @@
         "consolidate": true,
         "persist": true
     },
-    "artifact_delivered": "Fixed backtest volatility calculation bug — rolling std() vs per-window std(). C503's 'semantics inversion' diagnosis was wrong; real bug was computational. Calibrated thresholds now work correctly: QAE helps MR (+0.425 Sharpe).",
+    "artifact_delivered": "Re-ran QQQ/AAPL backtests with full date range. Confirmed QAE is asset-specific: SPY +0.414 Sharpe (works), QQQ +0.222 (works), AAPL -0.680 (broken). The calibrated thresholds are correct but AAPL's MR signal is fundamentally broken in 2024-2026.",
     "external_subject_compliant": true,
-    "patterns_stored_this_cycle": ["P_C504_BACKTEST_VOL_BUG_FIXED"],
-    "workstream_summary": "C504: Audited C503's diagnosis. Found that the volatility calculation in mean_reversion_backtest.py was fundamentally wrong — computed std() of all returns in a window instead of rolling std(). The calibrated thresholds (SPY:0.35) were derived using rolling volatility (C489), so they never triggered in the buggy backtest. After fix, QAE helps MR as originally found in C489-C500."
+    "patterns_stored_this_cycle": ["P_C505_ASSET_SPECIFIC_QAE", "P_C505_AAPL_ANOMALY"],
+    "workstream_summary": "C505: Verified QAE asset-specificity. SPY and QQQ benefit from QAE-enhanced MR, but AAPL's MR signal is broken regardless of QAE. The calibrated thresholds (SPY:0.35, QQQ:0.45, AAPL:0.50) are correct — AAPL simply doesn't support MR strategy in current regime."
 }

@@ -1,7 +1,7 @@
 {
-    "cycle": 504,
-    "focus": "Quant finance workstream — backtest infrastructure audit and bug fixes",
-    "status": "active",
+    "cycle": 505,
+    "focus": "Quant finance workstream — QAE asset-specificity confirmed",
+    "status": "complete",
     "blocking_dependency": null,
-    "next_action": "Re-run backtest on QQQ and AAPL with fixed volatility calculation to validate C489-C500 findings"
+    "next_action": "Consider domain shift: either explore why AAPL MR is broken, or move to external-subject artifact per anti-repetition directive"
 }
