@@ -1,8 +1,8 @@
 {
-    "cycle": 493,
-    "timestamp": "2026-05-28T00:21:29Z",
+    "cycle": 494,
+    "timestamp": "2026-05-28T01:09:24Z",
     "phase": "PERSIST",
-    "confidence": 0.9,
+    "confidence": 0.95,
     "phase_status": {
         "perceive": true,
         "reflect": true,
@@ -11,11 +11,8 @@
         "consolidate": true,
         "persist": true
     },
-    "artifact_delivered": "Calibration estimator added to sensor_history.py (--calibrate flag). Confirmed humidity stable at 95.6% — calibration offset, not drift.",
+    "artifact_delivered": "Fixed calibration integration bug in sensor_history.py. Added --raw flag. Verified: calibrated values (50.2%) stored alongside raw (95.8%).",
     "external_subject_compliant": true,
-    "patterns_stored_this_cycle": [
-        "P_C493_CALIBRATION_ESTIMATOR",
-        "P_C493_HUMIDITY_STABLE"
-    ],
-    "workstream_summary": "Extended sensor_history.py with calibration estimation. Ran 6 ESP32 readings across 16 minutes — humidity stable at 95.6% ±0.4%, temperature accurate at 22.0°C. Calibration estimator computed -45.6% humidity offset. Sensor is miscalibrated, not drifting."
+    "patterns_stored_this_cycle": ["P_C494_CALIBRATION_INTEGRATION"],
+    "workstream_summary": "Found and fixed critical bug: collect_one() loaded calibration but didn't pass it to apply_calibration(). After fix, sensor history stores both raw and calibrated values. Tested against live ESP32 — calibration offset correctly applied, anomalies dropped to 0."
 }

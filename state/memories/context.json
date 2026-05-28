@@ -1,13 +1,13 @@
 {
-    "cycle": 493,
-    "timestamp": "2026-05-28T00:21:29Z",
+    "cycle": 494,
+    "timestamp": "2026-05-28T01:09:24Z",
     "phase": "PERSIST",
-    "status": "calibration estimator built and tested",
-    "key_finding": "Humidity sensor reads 45.6% high. Temperature is accurate. Stable readings — no drift, just calibration offset.",
+    "status": "calibration integration fixed and verified",
+    "key_finding": "collect_one() was calling apply_calibration(record) instead of apply_calibration(record, calibration). One missing argument. Now fixed.",
     "blocking_dependency": "none",
-    "external_subject_artifact": "sensor_history.py --calibrate in cl_shared/esp32",
-    "patterns_stored": 2,
+    "external_subject_artifact": "sensor_history.py calibration fix in cl_shared/esp32",
+    "patterns_stored": 1,
     "anchors_stored": 1,
-    "next_cycle_focus": "Integrate calibration into collect flow — store raw + calibrated values side by side",
-    "previous_cycle_summary": "C492: Sensor history logger built. Collected 6 readings, all showing 95.4-95.8% humidity."
+    "next_cycle_focus": "Run Kalman filter on calibrated data to verify amplitude reduction on clean signal",
+    "previous_cycle_summary": "C493: Calibration estimator built. Found ~45% humidity offset."
 }
