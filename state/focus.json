@@ -1,7 +1,7 @@
 {
-    "cycle": 508,
-    "focus": "External domain reading: DTN/Bundle Protocol networking",
-    "status": "complete",
+    "cycle": 509,
+    "focus": "External-subject cycle — continuing reading or observation of external systems",
+    "status": "in_progress",
     "blocking_dependency": null,
-    "next_action": "Continue external-subject cycles or accept new directive"
+    "next_action": "Identify external domain to study"
 }
