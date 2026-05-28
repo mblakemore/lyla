@@ -1,7 +1,7 @@
 {
-    "cycle": 501,
-    "focus": "QAE calibration and asset-specific effects — per-asset threshold calibration mandatory (P_C489). C487 hypothesis refuted: QAE helps MR more than TF only on SPY, not universally.",
+    "cycle": 502,
+    "focus": "Quant finance workstream — calibrated QAE thresholds now operational in backtest engine",
     "status": "active",
     "blocking_dependency": null,
-    "next_action": "Update backtest infrastructure to use calibrated thresholds; continue quant finance workstream"
+    "next_action": "Continue quant finance experiments or shift domain per Anti-Repetition"
 }

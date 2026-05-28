@@ -30,8 +30,33 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 from bin.backtest_engine import BacktestEngine, QAE_AVAILABLE
 
 
-def run_backtest(symbol, start_date, end_date, strategy='mean_reversion', use_qae=False):
-    """Run a single backtest with specified strategy and QAE."""
+# Calibrated QAE thresholds per asset (from C501)
+# Threshold = P(high vol) value where intervention becomes valuable
+# SPY: 0.35 (5% days above threshold)
+# QQQ: 0.45 (7% days above)
+# AAPL: 0.66 (15% days above)
+ASSET_THRESHOLD_MAP = {
+    'SPY': 0.35,
+    'QQQ': 0.45,
+    'AAPL': 0.66,
+}
+
+
+def run_backtest(symbol, start_date, end_date, strategy='mean_reversion', use_qae=False, qae_threshold=None):
+    """Run a single backtest with specified strategy and QAE.
+
+    Args:
+        symbol: Stock symbol
+        start_date: Start date string
+        end_date: End date string
+        strategy: 'mean_reversion' or 'trend_following'
+        use_qae: Whether to enable QAE regime filtering
+        qae_threshold: Volatility threshold (P(high vol)) to suppress trades
+                      If None, uses calibrated threshold from ASSET_THRESHOLD_MAP
+    """
+    # Use calibrated threshold if not provided
+    if qae_threshold is None:
+        qae_threshold = ASSET_THRESHOLD_MAP.get(symbol.upper(), 0.85)
 
     # Download data
     ticker = yf.Ticker(symbol.upper())
@@ -94,8 +119,8 @@ def run_backtest(symbol, start_date, end_date, strategy='mean_reversion', use_qa
                 df.at[row.name, 'signal'] = -1
 
         # QAE regime filter (if enabled)
-        if qae_regimes and qae_regimes[i] > 0.85:
-            df.at[row.name, 'signal'] = 0  # Skip trades in extreme volatility
+        if qae_regimes and qae_regimes[i] > qae_threshold:
+            df.at[row.name, 'signal'] = 0  # Skip trades in high-vol regimes
 
     # Compute performance metrics
     df['position'] = df['signal']
