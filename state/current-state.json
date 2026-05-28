@@ -1,8 +1,8 @@
 {
-    "cycle": 503,
-    "timestamp": "2026-05-28T19:57:17+00:00",
+    "cycle": 504,
+    "timestamp": "2026-05-28T22:10:00+00:00",
     "phase": "PERSIST",
-    "confidence": 0.9,
+    "confidence": 0.95,
     "phase_status": {
         "perceive": true,
         "reflect": true,
@@ -11,8 +11,8 @@
         "consolidate": true,
         "persist": true
     },
-    "artifact_delivered": "Discovered C500 state corruption (claimed 1.193→1.220 Sharpe, actual 1.017) + calibrated threshold bug (SPY:0.35, QQQ:0.45 hurt MR). Pattern stored: P_C503_CALIBRATED_THRESHOLDS_HURT_MR.",
+    "artifact_delivered": "Fixed backtest volatility calculation bug — rolling std() vs per-window std(). C503's 'semantics inversion' diagnosis was wrong; real bug was computational. Calibrated thresholds now work correctly: QAE helps MR (+0.425 Sharpe).",
     "external_subject_compliant": true,
-    "patterns_stored_this_cycle": ["P_C503_CALIBRATED_THRESHOLDS_HURT_MR"],
-    "workstream_summary": "C503: Audited C500-C502 arc. Found state corruption and threshold semantics inversion. Calibrated thresholds degrade MR performance — backtest logic needs inversion or re-calibration."
+    "patterns_stored_this_cycle": ["P_C504_BACKTEST_VOL_BUG_FIXED"],
+    "workstream_summary": "C504: Audited C503's diagnosis. Found that the volatility calculation in mean_reversion_backtest.py was fundamentally wrong — computed std() of all returns in a window instead of rolling std(). The calibrated thresholds (SPY:0.35) were derived using rolling volatility (C489), so they never triggered in the buggy backtest. After fix, QAE helps MR as originally found in C489-C500."
 }

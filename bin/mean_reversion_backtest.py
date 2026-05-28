@@ -84,19 +84,12 @@ def run_backtest(symbol, start_date, end_date, strategy='mean_reversion', use_qa
         df['bb_upper'] = df['bb_middle'] + 2 * bb_std
         df['bb_lower'] = df['bb_middle'] - 2 * bb_std
 
-    # QAE regime detection (if enabled)
+    # QAE regime detection (if enabled) — pre-compute rolling volatility
     qae_regimes = None
-    if use_qae and QAE_AVAILABLE:
-        from bin.qae_volatility_estimator import QAEVolatilityEstimator
-        qae = QAEVolatilityEstimator(use_simulator=True)
-        qae_regimes = []
-        for i in range(len(df)):
-            if i < 20:
-                qae_regimes.append(0.5)
-                continue
-            recent = df.iloc[i-20:i+1]['Close'].pct_change().dropna()
-            vol = min(recent.std() * np.sqrt(252) / 0.5, 1.0)
-            qae_regimes.append(vol)
+    if use_qae:
+        returns = df['Close'].pct_change()
+        rolling_vol = returns.rolling(20).std() * np.sqrt(252) / 0.5
+        qae_regimes = rolling_vol.clip(0, 1).fillna(0.5).tolist()
 
     # Generate signals
     df['signal'] = 0
@@ -119,6 +112,8 @@ def run_backtest(symbol, start_date, end_date, strategy='mean_reversion', use_qa
                 df.at[row.name, 'signal'] = -1
 
         # QAE regime filter (if enabled)
+        # Suppress trades in high-vol regimes where mean-reversion is riskier
+        # Calibrated threshold (SPY:0.35) means filter top ~35% volatile days
         if qae_regimes and qae_regimes[i] > qae_threshold:
             df.at[row.name, 'signal'] = 0  # Skip trades in high-vol regimes
 

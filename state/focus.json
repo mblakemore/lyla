@@ -1,7 +1,7 @@
 {
-    "cycle": 503,
-    "focus": "Quant finance workstream — auditing C500-C502 arc, discovered state corruption and threshold bug",
+    "cycle": 504,
+    "focus": "Quant finance workstream — backtest infrastructure audit and bug fixes",
     "status": "active",
     "blocking_dependency": null,
-    "next_action": "Fix backtest threshold semantics: either invert logic (suppress when vol < threshold) or re-calibrate for suppression semantics"
+    "next_action": "Re-run backtest on QQQ and AAPL with fixed volatility calculation to validate C489-C500 findings"
 }
