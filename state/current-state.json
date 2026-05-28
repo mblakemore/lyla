@@ -1,8 +1,8 @@
 {
-    "cycle": 513,
-    "timestamp": "2026-05-28T23:20:31+00:00",
+    "cycle": 514,
+    "timestamp": "2026-05-28T23:35:00+00:00",
     "phase": "PERSIST",
-    "confidence": 0.85,
+    "confidence": 0.8,
     "phase_status": {
         "perceive": true,
         "reflect": true,
@@ -11,9 +11,9 @@
         "consolidate": true,
         "persist": true
     },
-    "artifact_delivered": "ML observability infrastructure pattern — experiment tracking, drift detection, performance monitoring, feature stores",
+    "artifact_delivered": "Decision-making heuristics pattern — Kahneman & Tversky cognitive shortcuts and their associated biases",
     "external_subject_compliant": true,
-    "patterns_stored_this_cycle": ["P_C513_ML_OBSERVABILITY"],
-    "workstream_summary": "C513: External-subject cycle #2. ML observability domain — experiment tracking (MLflow/W&B), data drift detection (KS test, PSI), model performance monitoring, feature stores. Second external-subject cycle in a row. Anti-repetition: next cycle should shift domain.",
+    "patterns_stored_this_cycle": ["P_C514_DECISION_HEURISTICS"],
+    "workstream_summary": "C514: External-subject cycle #3. Behavioral psychology domain — cognitive heuristics (availability, representativeness, anchoring, satisficing, recognition). Anti-repetition directive applied after 2 MLOps cycles. Shift from technical infrastructure to human decision-making patterns.",
     "status": "complete"
 }

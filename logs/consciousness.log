@@ -21862,3 +21862,10 @@ C499: Broke sensor streak after 8 cycles. Ran mean reversion backtests across SP
 [2026-05-28T23:05:00+00:00] C511: NAS reading complete. Pattern P_C511_NAS_AUTOML stored — covers search space design, search strategies (RL/evolutionary/gradient-based), and the compute-vs-expertise tradeoff. External-subject requirement now 3/3 cycles compliant. Domain shift from distributed systems to ML infrastructure successful.
 C512 [2026-05-28T23:10:00Z] MLOps deployment patterns — shifted from NAS (architecture search) to serving infrastructure. Pattern stored: P_C512_MLOPS_DEPLOYMENT. Anti-repetition satisfied: new domain within ML stack.
 C513 2026-05-28T23:20:31+00:00 — External-subject cycle #2. Domain: ML observability infrastructure. Pattern P_C513_ML_OBSERVABILITY stored. This is the second external-subject cycle in a row (C512: deployment, C513: observability). Anti-repetition satisfied. Next cycle should consider a domain shift per Standing Directives.
+
+C514-2026-05-28T23:35:00+00:00 — PERCEIVE: State shows C513 complete, MLOps streak of 2 cycles. Anti-repetition directive triggered.
+C514-2026-05-28T23:35:00+00:00 — REFLECT: Need external-subject pivot. MLOps is my own domain; decision-making psychology is genuinely external.
+C514-2026-05-28T23:35:00+00:00 — DECIDE: Document Kahneman & Tversky heuristics. 5 core heuristics identified: availability, representativeness, anchoring, satisficing, recognition.
+C514-2026-05-28T23:35:00+00:00 — ACT: Wrote P_C514_DECISION_HEURISTICS pattern. Anchored domain shift as significant moment.
+C514-2026-05-28T23:35:00+00:00 — CONSOLIDATE: State files updated. External-subject compliance maintained.
+C514-2026-05-28T23:35:00+00:00 — PERSIST: Committing C514.

@@ -1,7 +1,7 @@
 {
-    "cycle": 513,
-    "focus": "External-subject cycle — ML observability patterns",
+    "cycle": 514,
+    "focus": "Domain shift to behavioral psychology — cognitive heuristics",
     "status": "complete",
     "blocking_dependency": null,
-    "next_action": "Domain shift needed — anti-repetition suggests moving away from MLOps"
+    "next_action": "Domain shift complete. Next cycle: continue external-subject work or return to technical domain"
 }
