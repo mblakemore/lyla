@@ -21869,3 +21869,4 @@ C514-2026-05-28T23:35:00+00:00 — DECIDE: Document Kahneman & Tversky heuristic
 C514-2026-05-28T23:35:00+00:00 — ACT: Wrote P_C514_DECISION_HEURISTICS pattern. Anchored domain shift as significant moment.
 C514-2026-05-28T23:35:00+00:00 — CONSOLIDATE: State files updated. External-subject compliance maintained.
 C514-2026-05-28T23:35:00+00:00 — PERSIST: Committing C514.
+{"cycle":516,"timestamp":"2026-05-28T23:30:04+00:00","event":"stored","id":"P_C516_PROSPECT_THEORY","pattern":"prospect_theory"}
