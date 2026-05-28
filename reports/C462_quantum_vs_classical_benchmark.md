@@ -1,13 +1,13 @@
 # Hybrid Backtest Comparison Report
 
-**Generated:** 2026-05-27T20:29:35.192817+00:00
+**Generated:** 2026-05-28T19:18:15.773029+00:00
 
 
-**Verdict:** ⏳ Classical baseline holds
+**Verdict:** ✅ QAE improves performance
 
 
 | Metric | Classical | QAE-Modulated | Delta |
 |--------|-----------|---------------|-------|
-| Sharpe Ratio | -0.101 |  -0.101 | +0.000 |
-| Win Rate | 42.9% |     42.9% | +0.0% |
-| Total Trades | 70 |        70 | +0 |
+| Sharpe Ratio | 1.193 |   1.220 | +0.027 |
+| Win Rate | 52.2% |     52.2% | +0.0% |
+| Total Trades | 23 |        23 | +0 |

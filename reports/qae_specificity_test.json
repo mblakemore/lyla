@@ -1,0 +1,122 @@
+{
+  "SPY_MR_classical": {
+    "sharpe_ratio": 1.017376889365779,
+    "win_rate_pct": 2.8933092224231465,
+    "total_trades": 27,
+    "max_drawdown_pct": 2.0413412765833603,
+    "total_return_pct": 18.233762465003878,
+    "strategy": "mean_reversion",
+    "qae": false,
+    "total_positions": 27
+  },
+  "SPY_MR_QAE": {
+    "sharpe_ratio": 1.4423263585795194,
+    "win_rate_pct": 2.3508137432188065,
+    "total_trades": 19,
+    "max_drawdown_pct": 1.0768076850776964,
+    "total_return_pct": 9.358450857105606,
+    "strategy": "mean_reversion",
+    "qae": true,
+    "total_positions": 19
+  },
+  "SPY_TF_classical": {
+    "sharpe_ratio": 0.03564820351490105,
+    "win_rate_pct": 37.613019891500905,
+    "total_trades": 388,
+    "max_drawdown_pct": 13.262437888561987,
+    "total_return_pct": -0.9595514539066818,
+    "strategy": "trend_following",
+    "qae": false,
+    "total_positions": 389
+  },
+  "SPY_TF_QAE": {
+    "sharpe_ratio": 0.34882765336558375,
+    "win_rate_pct": 34.53887884267631,
+    "total_trades": 350,
+    "max_drawdown_pct": 9.300842675493017,
+    "total_return_pct": 6.193965301013971,
+    "strategy": "trend_following",
+    "qae": true,
+    "total_positions": 351
+  },
+  "QQQ_MR_classical": {
+    "sharpe_ratio": 0.9213638246066377,
+    "win_rate_pct": 2.7124773960216997,
+    "total_trades": 29,
+    "max_drawdown_pct": 2.2995976494537973,
+    "total_return_pct": 18.964081458656846,
+    "strategy": "mean_reversion",
+    "qae": false,
+    "total_positions": 29
+  },
+  "QQQ_MR_QAE": {
+    "sharpe_ratio": 1.1490230907609982,
+    "win_rate_pct": 2.1699819168173597,
+    "total_trades": 22,
+    "max_drawdown_pct": 2.2995976494537973,
+    "total_return_pct": 9.184358669457238,
+    "strategy": "mean_reversion",
+    "qae": true,
+    "total_positions": 22
+  },
+  "QQQ_TF_classical": {
+    "sharpe_ratio": 0.2738962773337071,
+    "win_rate_pct": 39.059674502712475,
+    "total_trades": 394,
+    "max_drawdown_pct": 13.971531846314985,
+    "total_return_pct": 7.37248612599164,
+    "strategy": "trend_following",
+    "qae": false,
+    "total_positions": 395
+  },
+  "QQQ_TF_QAE": {
+    "sharpe_ratio": 0.5702703844820262,
+    "win_rate_pct": 34.9005424954792,
+    "total_trades": 343,
+    "max_drawdown_pct": 11.531844952846217,
+    "total_return_pct": 14.892543642777657,
+    "strategy": "trend_following",
+    "qae": true,
+    "total_positions": 344
+  },
+  "AAPL_MR_classical": {
+    "sharpe_ratio": 0.17823128457799317,
+    "win_rate_pct": 3.074141048824593,
+    "total_trades": 35,
+    "max_drawdown_pct": 12.705907816841835,
+    "total_return_pct": 3.2950950191598993,
+    "strategy": "mean_reversion",
+    "qae": false,
+    "total_positions": 35
+  },
+  "AAPL_MR_QAE": {
+    "sharpe_ratio": -0.46333286986707384,
+    "win_rate_pct": 2.8933092224231465,
+    "total_trades": 33,
+    "max_drawdown_pct": 10.12443469643571,
+    "total_return_pct": -5.738355900885939,
+    "strategy": "mean_reversion",
+    "qae": true,
+    "total_positions": 33
+  },
+  "AAPL_TF_classical": {
+    "sharpe_ratio": 0.10846994331614562,
+    "win_rate_pct": 32.368896925858955,
+    "total_trades": 334,
+    "max_drawdown_pct": 30.49050791942361,
+    "total_return_pct": -0.1931846713206231,
+    "strategy": "trend_following",
+    "qae": false,
+    "total_positions": 335
+  },
+  "AAPL_TF_QAE": {
+    "sharpe_ratio": 0.22061463544167234,
+    "win_rate_pct": 29.11392405063291,
+    "total_trades": 301,
+    "max_drawdown_pct": 21.0831113916536,
+    "total_return_pct": 5.133779022346063,
+    "strategy": "trend_following",
+    "qae": true,
+    "total_positions": 302
+  }
+}

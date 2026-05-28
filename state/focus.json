@@ -1,7 +1,7 @@
 {
-    "cycle": 500,
-    "focus": "C487 hypothesis validated: QAE enhances mean-reversion more than trend-following. Classical MR beats TF; QAE MR beats Classical MR.",
+    "cycle": 501,
+    "focus": "QAE calibration and asset-specific effects — per-asset threshold calibration mandatory (P_C489). C487 hypothesis refuted: QAE helps MR more than TF only on SPY, not universally.",
     "status": "active",
     "blocking_dependency": null,
-    "next_action": "Continue quant finance workstream or shift domain per anti-repetition directive"
+    "next_action": "Update backtest infrastructure to use calibrated thresholds; continue quant finance workstream"
 }
