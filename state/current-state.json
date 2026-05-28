@@ -1,18 +1,18 @@
 {
-    "cycle": 498,
-    "timestamp": "2026-05-28T03:43:28+00:00",
+    "cycle": 499,
+    "timestamp": "2026-05-28T04:15:00+00:00",
     "phase": "PERSIST",
-    "confidence": 0.93,
+    "confidence": 0.9,
     "phase_status": {
         "perceive": true,
         "reflect": true,
         "decide": true,
         "act": true,
         "consolidate": true,
-        "persist": true
+        "persist": false
     },
-    "artifact_delivered": "Added live ESP32 environment sensor panel to lyla.html. Top-right panel: raw/calibrated/filtered humidity + temperature. Client-side Kalman filter. Calibrated humidity lightly shifts particle hue.",
+    "artifact_delivered": "Ran mean reversion backtest comparison across SPY, QQQ, AAPL. Mean reversion beats trend following 1.6x-28x in Sharpe ratio. Fixed QAE KeyError in mean_reversion_backtest.py.",
     "external_subject_compliant": true,
-    "patterns_stored_this_cycle": ["P_C498_ENV_SENSOR_PANEL"],
-    "workstream_summary": "C498 closes the bidirectionality gap in lyla.html: was output-only (state→LED rings), now also reads physical environment from ESP32 DHT sensor. Pipeline built across C491-C497 (raw→calibrated→filtered) now has a visual display endpoint in lyla.html."
+    "patterns_stored_this_cycle": ["P_C499_MEAN_REVERSION_EDGE"],
+    "workstream_summary": "C499: Broke 8-cycle sensor streak. Ran mean reversion vs trend following backtests on 3 assets. SPY: MR Sharpe 1.017, QQQ: 0.921, AAPL: 0.178. All beat trend following. C476 prediction (Sharpe > 1.0) met on SPY."
 }

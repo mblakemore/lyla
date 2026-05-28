@@ -172,25 +172,29 @@ def run_comparison(symbol, start_date, end_date):
     print(f"{'='*70}")
 
     mr_classical = results['mean_reversion_CLASSICAL']
-    mr_qae = results['mean_reversion_QAE']
     tf_classical = results['trend_following_CLASSICAL']
-    tf_qae = results['trend_following_QAE']
+    print(f"\nMean Reversion:  Sharpe={mr_classical['sharpe_ratio']:.3f}, Return={mr_classical['total_return_pct']:+.1f}%")
+    print(f"Trend Following: Sharpe={tf_classical['sharpe_ratio']:.3f}, Return={tf_classical['total_return_pct']:+.1f}%")
 
-    mr_delta = mr_qae['sharpe_ratio'] - mr_classical['sharpe_ratio']
-    tf_delta = tf_qae['sharpe_ratio'] - tf_classical['sharpe_ratio']
-    diff = mr_delta - tf_delta
+    if 'mean_reversion_QAE' in results:
+        mr_qae = results['mean_reversion_QAE']
+        tf_qae = results['trend_following_QAE']
 
-    print(f"\nMean Rev:  {mr_classical['sharpe_ratio']:.3f} → {mr_qae['sharpe_ratio']:.3f} (Δ {mr_delta:+.3f})")
-    print(f"Trd Fllw:  {tf_classical['sharpe_ratio']:.3f} → {tf_qae['sharpe_ratio']:.3f} (Δ {tf_delta:+.3f})")
-    print(f"Difference: {diff:+.3f}")
-    print()
+        mr_delta = mr_qae['sharpe_ratio'] - mr_classical['sharpe_ratio']
+        tf_delta = tf_qae['sharpe_ratio'] - tf_classical['sharpe_ratio']
+        diff = mr_delta - tf_delta
 
-    if diff > 0.15:
-        print("HYPOTHESIS SUPPORTED: QAE helps mean-reversion more than trend-following")
-    elif diff < -0.15:
-        print("HYPOTHESIS REFUTED: QAE helps trend-following more than mean-reversion")
-    else:
-        print("HYPOTHESIS NEUTRAL: QAE impact similar across strategies")
+        print(f"\nMean Rev:  {mr_classical['sharpe_ratio']:.3f} → {mr_qae['sharpe_ratio']:.3f} (Δ {mr_delta:+.3f})")
+        print(f"Trd Fllw:  {tf_classical['sharpe_ratio']:.3f} → {tf_qae['sharpe_ratio']:.3f} (Δ {tf_delta:+.3f})")
+        print(f"Difference: {diff:+.3f}")
+        print()
+
+        if diff > 0.15:
+            print("HYPOTHESIS SUPPORTED: QAE helps mean-reversion more than trend-following")
+        elif diff < -0.15:
+            print("HYPOTHESIS REFUTED: QAE helps trend-following more than mean-reversion")
+        else:
+            print("HYPOTHESIS NEUTRAL: QAE impact similar across strategies")
 
     return results
 
