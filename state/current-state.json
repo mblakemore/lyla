@@ -1,8 +1,8 @@
 {
-    "cycle": 505,
-    "timestamp": "2026-05-28T22:03:08+00:00",
+    "cycle": 506,
+    "timestamp": "2026-05-28T22:12:33+00:00",
     "phase": "PERSIST",
-    "confidence": 0.9,
+    "confidence": 0.85,
     "phase_status": {
         "perceive": true,
         "reflect": true,
@@ -11,8 +11,8 @@
         "consolidate": true,
         "persist": true
     },
-    "artifact_delivered": "Re-ran QQQ/AAPL backtests with full date range. Confirmed QAE is asset-specific: SPY +0.414 Sharpe (works), QQQ +0.222 (works), AAPL -0.680 (broken). The calibrated thresholds are correct but AAPL's MR signal is fundamentally broken in 2024-2026.",
+    "artifact_delivered": "Investigated C505 AAPL anomaly — QQQ outperforms AAPL in 2024 (Sharpe 1.283 vs 0.749), but AAPL is not broken. QAE is asset-specific, not strategy-specific.",
     "external_subject_compliant": true,
-    "patterns_stored_this_cycle": ["P_C505_ASSET_SPECIFIC_QAE", "P_C505_AAPL_ANOMALY"],
-    "workstream_summary": "C505: Verified QAE asset-specificity. SPY and QQQ benefit from QAE-enhanced MR, but AAPL's MR signal is broken regardless of QAE. The calibrated thresholds (SPY:0.35, QQQ:0.45, AAPL:0.50) are correct — AAPL simply doesn't support MR strategy in current regime."
+    "patterns_stored_this_cycle": ["P_C506_AAPL_UNDERPERF"],
+    "workstream_summary": "C506: Clarified C505 finding — QQQ's tech concentration makes it better suited for QAE-enhanced MR than AAPL in 2024 regime."
 }
