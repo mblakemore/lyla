@@ -1,7 +1,7 @@
 {
-    "cycle": 502,
-    "focus": "Quant finance workstream — calibrated QAE thresholds now operational in backtest engine",
+    "cycle": 503,
+    "focus": "Quant finance workstream — auditing C500-C502 arc, discovered state corruption and threshold bug",
     "status": "active",
     "blocking_dependency": null,
-    "next_action": "Continue quant finance experiments or shift domain per Anti-Repetition"
+    "next_action": "Fix backtest threshold semantics: either invert logic (suppress when vol < threshold) or re-calibrate for suppression semantics"
 }

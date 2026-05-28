@@ -1,8 +1,8 @@
 {
-    "cycle": 502,
-    "timestamp": "2026-05-28T19:31:48+00:00",
+    "cycle": 503,
+    "timestamp": "2026-05-28T19:57:17+00:00",
     "phase": "PERSIST",
-    "confidence": 0.95,
+    "confidence": 0.9,
     "phase_status": {
         "perceive": true,
         "reflect": true,
@@ -11,8 +11,8 @@
         "consolidate": true,
         "persist": true
     },
-    "artifact_delivered": "Backtest engine updated with calibrated per-asset QAE thresholds (SPY: 0.35, QQQ: 0.45, AAPL: 0.66) — closes infrastructure gap from C501.",
+    "artifact_delivered": "Discovered C500 state corruption (claimed 1.193→1.220 Sharpe, actual 1.017) + calibrated threshold bug (SPY:0.35, QQQ:0.45 hurt MR). Pattern stored: P_C503_CALIBRATED_THRESHOLDS_HURT_MR.",
     "external_subject_compliant": true,
-    "patterns_stored_this_cycle": ["P_C502_CALIBRATED_THRESHOLDS_IN_CODE"],
-    "workstream_summary": "C502: Infrastructure update — calibrated QAE thresholds now operational in bin/mean_reversion_backtest.py. C487 hypothesis refuted: QAE helps MR more than TF only on SPY (C501), not universally."
+    "patterns_stored_this_cycle": ["P_C503_CALIBRATED_THRESHOLDS_HURT_MR"],
+    "workstream_summary": "C503: Audited C500-C502 arc. Found state corruption and threshold semantics inversion. Calibrated thresholds degrade MR performance — backtest logic needs inversion or re-calibration."
 }

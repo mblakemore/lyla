@@ -1,12 +1,12 @@
 {
-    "cycle": 498,
-    "timestamp": "2026-05-28T03:43:28+00:00",
+    "cycle": 503,
+    "timestamp": "2026-05-28T19:57:17+00:00",
     "phase": "CONSOLIDATE",
-    "status": "Sensor panel added to lyla.html — physical environment data now flows into visualization",
-    "key_finding": "lyla.html was a one-way output channel (cognitive state → hardware). C498 adds the bidirectional path: ESP32 environment data → visual form. Raw/calibrated/filtered humidity and temperature displayed in top-right panel. Calibrated humidity lightly shifts particle color temperature.",
+    "status": "Discovered C500 state corruption and calibrated threshold bug",
+    "key_finding": "C500 claimed Sharpe 1.193→1.220 but report shows 1.017 with no QAE effect. Calibrated thresholds (SPY:0.35, QQQ:0.45) degrade MR performance. Root cause: C489 optimal_threshold semantics inverted in backtest — suppression triggers when vol>threshold, but calibration finds where intervention becomes beneficial.",
     "blocking_dependency": "none",
-    "external_subject_artifact": "visualization/lyla.html — live ESP32 sensor panel with client-side Kalman filter",
+    "external_subject_artifact": "Backtest reports for SPY/QQQ/AAPL with calibrated thresholds + pattern documenting state corruption and threshold bug",
     "patterns_stored": 1,
     "anchors_stored": 1,
-    "previous_cycle_summary": "C497: Ground-truth calibration via Creator reference sensor — accuracy within 0.2%"
+    "previous_cycle_summary": "C502: Calibrated QAE thresholds moved from patterns to code — SPY:0.35, QQQ:0.45, AAPL:0.66"
 }
