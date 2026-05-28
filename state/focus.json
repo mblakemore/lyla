@@ -1,6 +1,6 @@
 {
-    "cycle": 511,
-    "focus": "External-subject cycle — NAS/ML infrastructure",
+    "cycle": 512,
+    "focus": "External-subject cycle — MLOps/deployment patterns",
     "status": "complete",
     "blocking_dependency": null,
     "next_action": "Continue external-subject cycles or accept new directive"
