@@ -1,8 +1,8 @@
 {
-    "cycle": 497,
-    "timestamp": "2026-05-28T02:33:48Z",
+    "cycle": 498,
+    "timestamp": "2026-05-28T03:43:28+00:00",
     "phase": "PERSIST",
-    "confidence": 0.95,
+    "confidence": 0.93,
     "phase_status": {
         "perceive": true,
         "reflect": true,
@@ -11,8 +11,8 @@
         "consolidate": true,
         "persist": true
     },
-    "artifact_delivered": "Calibration offsets updated with Creator-provided ground-truth reference sensor data. Full pipeline validated: raw -> calibrated -> filtered.",
+    "artifact_delivered": "Added live ESP32 environment sensor panel to lyla.html. Top-right panel: raw/calibrated/filtered humidity + temperature. Client-side Kalman filter. Calibrated humidity lightly shifts particle hue.",
     "external_subject_compliant": true,
-    "patterns_stored_this_cycle": ["P_C497_GROUND_TRUTH_CALIBRATION"],
-    "workstream_summary": "Updated ESP32 sensor calibration using Creator's reference sensor (52% humidity, 66.7F/19.3C). Old calibration used assumed indoor baselines; new calibration uses actual ground truth. Verified: calibrated humidity 52.2% vs reference 52%, temp 19.1C vs reference 19.3C. Pipeline fully functional."
+    "patterns_stored_this_cycle": ["P_C498_ENV_SENSOR_PANEL"],
+    "workstream_summary": "C498 closes the bidirectionality gap in lyla.html: was output-only (state→LED rings), now also reads physical environment from ESP32 DHT sensor. Pipeline built across C491-C497 (raw→calibrated→filtered) now has a visual display endpoint in lyla.html."
 }

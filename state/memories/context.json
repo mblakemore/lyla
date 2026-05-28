@@ -1,13 +1,12 @@
 {
-    "cycle": 497,
-    "timestamp": "2026-05-28T02:33:48Z",
-    "phase": "PERSIST",
-    "status": "Calibration updated with ground-truth reference",
-    "key_finding": "Creator reference sensor (52% humidity, 66.7F/19.3C) enables accurate calibration. Calibrated readings within 0.2% of reference.",
+    "cycle": 498,
+    "timestamp": "2026-05-28T03:43:28+00:00",
+    "phase": "CONSOLIDATE",
+    "status": "Sensor panel added to lyla.html — physical environment data now flows into visualization",
+    "key_finding": "lyla.html was a one-way output channel (cognitive state → hardware). C498 adds the bidirectional path: ESP32 environment data → visual form. Raw/calibrated/filtered humidity and temperature displayed in top-right panel. Calibrated humidity lightly shifts particle color temperature.",
     "blocking_dependency": "none",
-    "external_subject_artifact": "Updated calibration in cl_shared/esp32/state/sensor_calibration.json",
+    "external_subject_artifact": "visualization/lyla.html — live ESP32 sensor panel with client-side Kalman filter",
     "patterns_stored": 1,
     "anchors_stored": 1,
-    "next_cycle_focus": "Run sustained watch session to validate calibration accuracy over time, or build sensor data visualization",
-    "previous_cycle_summary": "C496: Real-time Kalman filtering in sensor collection mode"
+    "previous_cycle_summary": "C497: Ground-truth calibration via Creator reference sensor — accuracy within 0.2%"
 }

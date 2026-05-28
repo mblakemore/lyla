@@ -21,6 +21,20 @@
         white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
       }
 
+      /* Live environment sensor panel — top-right, shows raw/calibrated/filtered */
+      #sensor-panel {
+        position: absolute; top: 20px; right: 20px; color: #0ff; pointer-events: none;
+        font-size: 12px; text-transform: uppercase; letter-spacing: 1px; opacity: 0.7;
+        text-align: right;
+      }
+      #sensor-panel .sensor-label { color: #0a8; font-weight: bold; margin-bottom: 5px; }
+      #sensor-panel .sensor-row { display: flex; justify-content: flex-end; gap: 12px; margin-bottom: 4px; }
+      #sensor-panel .sensor-key { opacity: 0.6; min-width: 40px; text-align: left; }
+      #sensor-panel .raw-val { color: #555; }
+      #sensor-panel .cal-val { color: #0cf; }
+      #sensor-panel .flt-val { color: #fff; font-weight: bold; }
+      #sensor-panel .sensor-status { font-size: 10px; opacity: 0.4; margin-top: 5px; }
+
       /* Coupling-relevant visibility overlay — always-visible operator awareness per P_C307_CONTEXT_DISPLAY */
       #coupling-overlay {
         position: absolute; bottom: 20px; right: 20px; 
@@ -43,6 +57,24 @@
       <div class="stat"><span>Resonance:</span> <span id="st-res" class="val">-</span></div>
       <div class="stat"><span>SNR:</span> <span id="st-snr" class="val">-</span></div>
       <div class="stat"><span>Drift Delta:</span> <span id="st-drift" class="val">-</span></div>
+    </div>
+
+    <!-- Live environment panel — physical sensor data from ESP32 -->
+    <div id="sensor-panel">
+      <div class="sensor-label">Environment</div>
+      <div class="sensor-row">
+        <span class="sensor-key">Temp</span>
+        <span class="raw-val" id="sp-temp-raw">-</span>
+        <span class="cal-val" id="sp-temp-cal">-</span>
+        <span class="flt-val" id="sp-temp-flt">-</span>
+      </div>
+      <div class="sensor-row">
+        <span class="sensor-key">Humid</span>
+        <span class="raw-val" id="sp-hum-raw">-</span>
+        <span class="cal-val" id="sp-hum-cal">-</span>
+        <span class="flt-val" id="sp-hum-flt">-</span>
+      </div>
+      <div class="sensor-status" id="sp-status">awaiting signal</div>
     </div>
 
     <!-- Ambient status bar — minimal always-visible presence -->
@@ -292,11 +324,16 @@ function applyVisuals(time) {
 
     // C349: Confidence-based color temperature per Standing Directives
     // Cool cyan = uncertain, warm gold = confident — smooth interpolation
+    // C498: environment humidity nudges hue — damp air cools, dry air warms slightly
     let targetHue = 0.55; // Default cyan
     if (confidence > 0.7) {
       targetHue = 0.12; // Warm gold/orange for high confidence
     } else if (confidence < 0.3) {
       targetHue = 0.05; // Cool blue for low confidence/uncertainty
+    }
+    if (envState.humidity !== null) {
+      const humidNorm = Math.max(0, Math.min(1, (envState.humidity - 30) / 70)); // 30-100% range
+      targetHue += (humidNorm - 0.5) * -0.06; // high humidity → cooler, low → warmer
     }
     
     // Smoothly interpolate hue for visual continuity
@@ -320,9 +357,61 @@ function animate(time) {
     renderer.render(scene, camera);
 }
 
+// C498: Environment sensor panel — ESP32 DHT data with calibration + Kalman filter
+// Calibration offsets from ground-truth reference (C497): humidity -43.6, temp -2.7°C
+const ESP32_SENSOR_URL = 'http://192.168.4.38/api/sensor/dht';
+const CALIB = { humidityOffset: -43.6, tempOffset: -2.7 };
+
+class KalmanFilter1D {
+  constructor(Q = 0.05, R = 1.0) {
+    this.Q = Q; this.R = R;
+    this.x = null; this.P = 1.0;
+  }
+  update(z) {
+    if (this.x === null) { this.x = z; return z; }
+    this.P += this.Q;
+    const K = this.P / (this.P + this.R);
+    this.x += K * (z - this.x);
+    this.P *= (1 - K);
+    return this.x;
+  }
+}
+
+const kfHumid = new KalmanFilter1D(0.05, 1.0);
+const kfTemp  = new KalmanFilter1D(0.01, 0.1);
+const envState = { humidity: null, temp: null };
+
+async function pollSensor() {
+  try {
+    const res = await fetch(ESP32_SENSOR_URL);
+    if (!res.ok) throw new Error('sensor offline');
+    const d = await res.json();
+    const rawH = d.humidity, rawT = d.temp;
+    const calH = rawH + CALIB.humidityOffset;
+    const calT = rawT + CALIB.tempOffset;
+    const fltH = kfHumid.update(calH);
+    const fltT = kfTemp.update(calT);
+
+    envState.humidity = fltH;
+    envState.temp = fltT;
+
+    document.getElementById('sp-temp-raw').innerText = rawT.toFixed(1) + '°';
+    document.getElementById('sp-temp-cal').innerText = calT.toFixed(1) + '°';
+    document.getElementById('sp-temp-flt').innerText = fltT.toFixed(2) + '°C';
+    document.getElementById('sp-hum-raw').innerText  = rawH.toFixed(1) + '%';
+    document.getElementById('sp-hum-cal').innerText  = calH.toFixed(1) + '%';
+    document.getElementById('sp-hum-flt').innerText  = fltH.toFixed(2) + '%';
+    document.getElementById('sp-status').innerText   = d.timestamp?.slice(11, 19) + 'Z' || 'live';
+  } catch (e) {
+    document.getElementById('sp-status').innerText = 'sensor degraded';
+  }
+}
+
 setInterval(updateState, 2000);
   setInterval(updateESP32, 2000); // C352: ESP32 sync every cycle tick
 setInterval(pollCorrelations, 5000);
+setInterval(pollSensor, 5000);
+pollSensor();
 animate();
 
 window.addEventListener('resize', () => {
