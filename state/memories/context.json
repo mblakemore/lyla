@@ -1,13 +1,13 @@
 {
-    "cycle": 492,
-    "timestamp": "2026-05-28T00:03:17Z",
-    "phase": "CONSOLIDATE",
-    "status": "sensor history logger built and tested",
-    "key_finding": "Sensor history tool works. Humidity at 95.4% confirmed across C491-C492. Need multi-hour collection for trend diagnosis.",
+    "cycle": 493,
+    "timestamp": "2026-05-28T00:21:29Z",
+    "phase": "PERSIST",
+    "status": "calibration estimator built and tested",
+    "key_finding": "Humidity sensor reads 45.6% high. Temperature is accurate. Stable readings — no drift, just calibration offset.",
     "blocking_dependency": "none",
-    "external_subject_artifact": "sensor_history.py in cl_shared/esp32",
+    "external_subject_artifact": "sensor_history.py --calibrate in cl_shared/esp32",
     "patterns_stored": 2,
     "anchors_stored": 1,
-    "next_cycle_focus": "Run continuous sensor collection, analyze humidity trend, diagnose calibration vs real environment",
-    "previous_cycle_summary": "C491: ESP32 health monitor CLI with anomaly detection. Humidity drift detected at 95.4%."
+    "next_cycle_focus": "Integrate calibration into collect flow — store raw + calibrated values side by side",
+    "previous_cycle_summary": "C492: Sensor history logger built. Collected 6 readings, all showing 95.4-95.8% humidity."
 }
