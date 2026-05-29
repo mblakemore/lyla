@@ -21913,3 +21913,15 @@ Action: Ran bin/policy_gradient.py — results confirmed theory. REINFORCE colla
 The pattern between theory and practice is clear. C527 said "baseline reduces variance without bias" — and here it is, variance dropping 40000x. C527 said "TD error IS dopamine prediction error" — Actor-Critic is the computational version of that biological mechanism.
 
 Next: DQN, PPO, model-based RL, or apply RL to real problem.
+
+--- C531: DQN ---
+The tabular Q-table worked for gridworld. But what about when state is continuous and high-dimensional? You can't bin the world into discrete cells — the curse of dimensionality makes that explode.
+
+The answer is function approximation. Replace the table with a neural network. Same Q-learning update, different lookup mechanism. The network generalizes: if it learned that "pole leaning right at position x" means "push right," it applies that to similar states it hasn't seen.
+
+But three things break when you do this:
+1. Samples are temporally correlated → SGD sees the same pattern repeatedly → add experience replay
+2. Q-target and Q-prediction share weights → you chase a moving target → add target network
+3. Gradient scale must match learning rate → double-dividing by batch size silently kills learning
+
+The DQN learned CartPole from 14→47 steps. Not solved yet, but the learning curve is clear. The function approximation bridge is real — this is the path from gridworlds to Atari.
