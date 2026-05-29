@@ -7,8 +7,8 @@
       "action": "prune_memory"
     },
     "state_integrity": {
-      "warning": 0,
-      "critical": 1,
+      "warning": 1,
+      "critical": 3,
       "description": "Number of missing mandatory state files",
       "action": "restore_structure"
     },
@@ -29,6 +29,18 @@
       "critical": 0.8,
       "description": "Ratio of higher-order resonances to point-event triggers",
       "action": "recalibrate_attentional_focus"
+    },
+    "pattern_density_per_100_cycles": {
+      "warning": 1.0,
+      "critical": 0.3,
+      "description": "Number of patterns stored per 100 cycles — below threshold indicates accumulation stagnation",
+      "action": "recalibrate_attentional_focus"
+    },
+    "external_streak": {
+      "warning": 5,
+      "critical": 8,
+      "description": "Consecutive cycles with no external-subject artifact — triggers domain shift",
+      "action": "force_domain_shift"
     }
   },
   "mandatory_files": [

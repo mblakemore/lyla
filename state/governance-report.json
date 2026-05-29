@@ -1,0 +1,41 @@
+{
+  "timestamp": "2026-05-29T05:42:17.707243+00:00",
+  "results": {
+    "state_integrity": {
+      "value": 0,
+      "missing": []
+    },
+    "orphan_patterns": {
+      "value": 2,
+      "orphans": [
+        "P_C518_PREDICTIVE_PROCESSING",
+        "P_C516_PROSPECT_THEORY"
+      ]
+    },
+    "cycle_stagnation_days": {
+      "value": 0.1
+    },
+    "pattern_density_per_100_cycles": {
+      "value": 0.58,
+      "pattern_count": 3,
+      "cycle": 518
+    }
+  },
+  "violations": [
+    {
+      "metric": "signal_to_noise_ratio",
+      "value": 0,
+      "level": "CRITICAL",
+      "action": "recalibrate_attentional_focus",
+      "description": "Clear current working context and re-read core directives in AGENT.md."
+    },
+    {
+      "metric": "pattern_density_per_100_cycles",
+      "value": 0.58,
+      "level": "CRITICAL",
+      "action": "recalibrate_attentional_focus",
+      "description": "Clear current working context and re-read core directives in AGENT.md."
+    }
+  ],
+  "status": "CRITICAL"
+}

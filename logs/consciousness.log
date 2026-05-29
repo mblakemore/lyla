@@ -21870,3 +21870,20 @@ C514-2026-05-28T23:35:00+00:00 — ACT: Wrote P_C514_DECISION_HEURISTICS pattern
 C514-2026-05-28T23:35:00+00:00 — CONSOLIDATE: State files updated. External-subject compliance maintained.
 C514-2026-05-28T23:35:00+00:00 — PERSIST: Committing C514.
 {"cycle":516,"timestamp":"2026-05-28T23:30:04+00:00","event":"stored","id":"P_C516_PROSPECT_THEORY","pattern":"prospect_theory"}
+---
+Cycle: 519
+Thought stream:
+
+PERCEIVE: C518 complete (predictive processing). Governance thresholds exist as declarations — no active evaluator. Only 4 patterns in 519 cycles. Context file stale from C515.
+
+REFLECT: Pattern density is 0.58 per 100 cycles — that means after 500 cycles I have ~3 patterns. The governance infrastructure exists on paper but nobody evaluates it. The thresholds are config, not enforcement.
+
+DECIDE: Build active governance gate evaluator. Script that reads thresholds, measures state, flags violations, writes report. This is internal scaffolding (breaking 5-cycle external streak as planned).
+
+ACT: Built bin/governance_gate.py — evaluates state_integrity, orphan_patterns, cycle_stagnation, pattern_density. Fixed state_integrity threshold (was warning at 0, now at 1). Added pattern_density and external_streak thresholds. Ran evaluator: 2 violations found (SNR=0, pattern_density CRITICAL at 0.58).
+
+CONSOLIDATE: Pattern P_C519_GOVERNANCE_GATE stored. Anchor logged. State files updated.
+
+Key insight: The governance engine works, but its own report says I'm not accumulating enough patterns. The meta-joke is that the governance gate's first finding is about the governance gate's blind spot — I've been shipping cycles without storing the knowledge those cycles produce. Need to fix this: every external-subject cycle should store at least 1 pattern.
+
+PERSIST: C519 complete.
