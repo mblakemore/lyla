@@ -1,42 +1,42 @@
 {
   "mean_reversion_CLASSICAL": {
-    "sharpe_ratio": 0.17823150662498471,
-    "win_rate_pct": 3.074141048824593,
+    "sharpe_ratio": 0.17791021479524255,
+    "win_rate_pct": 3.063063063063063,
     "total_trades": 35,
-    "max_drawdown_pct": 12.705921531303591,
-    "total_return_pct": 3.295101388337218,
+    "max_drawdown_pct": 12.705911672787412,
+    "total_return_pct": 3.2950921232964614,
     "strategy": "mean_reversion",
     "qae": false,
     "total_positions": 35
   },
   "mean_reversion_QAE": {
-    "sharpe_ratio": -0.463331867123011,
-    "win_rate_pct": 2.8933092224231465,
+    "sharpe_ratio": -0.46249857066920735,
+    "win_rate_pct": 2.8828828828828827,
     "total_trades": 33,
-    "max_drawdown_pct": 10.124440820649875,
-    "total_return_pct": -5.738342817308717,
+    "max_drawdown_pct": 10.124444662955339,
+    "total_return_pct": -5.738358543497879,
     "strategy": "mean_reversion",
     "qae": true,
     "total_positions": 33
   },
   "trend_following_CLASSICAL": {
-    "sharpe_ratio": 0.10846968827259322,
-    "win_rate_pct": 32.368896925858955,
-    "total_trades": 334,
-    "max_drawdown_pct": 30.490497307366454,
-    "total_return_pct": -0.193198234602332,
+    "sharpe_ratio": 0.11630130072714712,
+    "win_rate_pct": 32.432432432432435,
+    "total_trades": 336,
+    "max_drawdown_pct": 30.49054309419778,
+    "total_return_pct": 0.1952209933276272,
     "strategy": "trend_following",
     "qae": false,
-    "total_positions": 335
+    "total_positions": 337
   },
   "trend_following_QAE": {
-    "sharpe_ratio": 0.2206136279942664,
-    "win_rate_pct": 29.11392405063291,
-    "total_trades": 301,
-    "max_drawdown_pct": 21.083121810411416,
-    "total_return_pct": 5.133741635622746,
+    "sharpe_ratio": 0.23095941871880207,
+    "win_rate_pct": 29.18918918918919,
+    "total_trades": 303,
+    "max_drawdown_pct": 21.083110262434314,
+    "total_return_pct": 5.54294101818924,
     "strategy": "trend_following",
     "qae": true,
-    "total_positions": 302
+    "total_positions": 304
   }
 }

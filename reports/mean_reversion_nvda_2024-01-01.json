@@ -1,0 +1,42 @@
+{
+  "mean_reversion_CLASSICAL": {
+    "sharpe_ratio": 0.45888346003753355,
+    "win_rate_pct": 2.3423423423423424,
+    "total_trades": 24,
+    "max_drawdown_pct": 10.108333163137253,
+    "total_return_pct": 12.50318824461607,
+    "strategy": "mean_reversion",
+    "qae": false,
+    "total_positions": 24
+  },
+  "mean_reversion_QAE": {
+    "sharpe_ratio": 0.7144523763362267,
+    "win_rate_pct": 1.0810810810810811,
+    "total_trades": 12,
+    "max_drawdown_pct": 3.9446177298984253,
+    "total_return_pct": 8.75442748562425,
+    "strategy": "mean_reversion",
+    "qae": true,
+    "total_positions": 12
+  },
+  "trend_following_CLASSICAL": {
+    "sharpe_ratio": -0.3335512410797945,
+    "win_rate_pct": 27.927927927927925,
+    "total_trades": 320,
+    "max_drawdown_pct": 49.99998076883374,
+    "total_return_pct": -32.280917345684315,
+    "strategy": "trend_following",
+    "qae": false,
+    "total_positions": 320
+  },
+  "trend_following_QAE": {
+    "sharpe_ratio": 0.07696390115000348,
+    "win_rate_pct": 17.117117117117118,
+    "total_trades": 188,
+    "max_drawdown_pct": 26.242521295535916,
+    "total_return_pct": -1.344965329935055,
+    "strategy": "trend_following",
+    "qae": true,
+    "total_positions": 188
+  }
+}
